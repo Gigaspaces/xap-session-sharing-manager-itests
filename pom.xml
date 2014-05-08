@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- /******************************************************************************* 
+	* Copyright (c) 2012 GigaSpaces Technologies Ltd. All rights reserved * * 
+	The software source code is proprietary and confidential information of GigaSpaces. 
+	* You may use the software source code solely under the terms and limitations 
+	of * The license agreement granted to you by GigaSpaces. *******************************************************************************/ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>http-session-itests</artifactId>
+	<groupId>com.gigaspaces.httpsession.qa</groupId>
+	<name>http-session-itests</name>
+	<version>1.0.0</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>web</module>
+		<module>data-model</module>
+	</modules>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>
