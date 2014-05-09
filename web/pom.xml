@@ -95,7 +95,6 @@
 			<groupId>com.gigaspaces.httpsession</groupId>
 			<artifactId>gs-session-manager</artifactId>
 			<version>1.0.0</version>
-			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>shiro-all</artifactId>
