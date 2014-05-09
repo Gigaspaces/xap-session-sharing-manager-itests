@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.utils;
+package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.File;
 import java.io.IOException;

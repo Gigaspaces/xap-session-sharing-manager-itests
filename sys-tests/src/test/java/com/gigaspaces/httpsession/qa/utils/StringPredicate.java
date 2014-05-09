@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.utils;
+package com.gigaspaces.httpsession.qa.utils;
 
 public abstract class StringPredicate implements Function<String> {
 

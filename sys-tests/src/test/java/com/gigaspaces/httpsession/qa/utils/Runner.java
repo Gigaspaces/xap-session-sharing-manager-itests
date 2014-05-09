@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.utils;
+package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

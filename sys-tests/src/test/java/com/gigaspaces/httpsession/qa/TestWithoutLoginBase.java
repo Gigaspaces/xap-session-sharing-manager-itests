@@ -3,7 +3,7 @@ package com.gigaspaces.httpsession.qa;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gigaspaces.httpsession.utils.JmeterTask;
+import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 
 public class TestWithoutLoginBase extends SystemTestCase {
 

@@ -7,6 +7,8 @@ connector.url = jini://*/*/sessionSpace
 # connector.password = gs
 # Default lease is 30 minutes - 30 * 60 * 1000 = 1800000
 connector.sessionLease = 1800000
+# Default read timeout is 5 minutes = 5 * 60 * 1000 = 300000
+connector.readTimeout = 300000
 
 #sessionManager = org.apache.shiro.web.session.mgt.StandardWebSessionManager
 #sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
@@ -23,12 +25,12 @@ securityManager.sessionManager = $sessionManager
 # whatever your CacheManager implementation is, for example:
 cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 
-# Compression service
-#compressor = com.gigaspaces.httpsession.serialize.DefaultCompressor
-#cacheManager.compressor = $compressor
 # Model Manager service
-modelManager = com.gigaspaces.httpsession.sessions.FullModelManager
+modelManager = com.gigaspaces.httpsession.sessions.DeltaModeManager
 modelManager.connector = $connector
+modelManager.policyType = com.gigaspaces.httpsession.policies.FailFastChangePolicy
+listener1 = com.gigaspaces.httpsession.policies.TraceListener
+modelManager.listener = $listener1
 
 cacheManager.modelManager = $modelManager
 # Serialization Service
@@ -45,14 +47,6 @@ policy.modelManager = $modelManager
 cacheManager.policy = $policy
 # space proxy setter
 cacheManager.connector= $connector
-# When using Externalizable classes with customized serialization and want to stick to serialization based on Reflection enable this option
-# Default value is false
-cacheManager.registerReflectionConverter = true
-
-# List of XStream converters that application would like to register 
-# (Expecting that these are part of classpath or WEB-INF/lib)
-# Pass them comma separated
-cacheManager.converterNameList = com.gigaspaces.xtreme.converter.XmlCalendarConverter
 
 # This will use GigaSpaces for _all_ of Shiro's caching needs (realms, etc), # not just for Session storage.
 securityManager.cacheManager = $cacheManager

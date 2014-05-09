@@ -15,21 +15,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.gigaspaces.httpsession.models.DataUnit;
 import com.gigaspaces.httpsession.models.SpaceSessionBase;
 import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
+import com.gigaspaces.httpsession.qa.utils.Config;
+import com.gigaspaces.httpsession.qa.utils.DataGenerator;
+import com.gigaspaces.httpsession.qa.utils.JbossController;
+import com.gigaspaces.httpsession.qa.utils.JettyController;
+import com.gigaspaces.httpsession.qa.utils.JmeterTask;
+import com.gigaspaces.httpsession.qa.utils.ServerController;
+import com.gigaspaces.httpsession.qa.utils.SpaceController;
+import com.gigaspaces.httpsession.qa.utils.TomcatController;
 import com.gigaspaces.httpsession.serialize.CompressUtils;
 import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
 import com.gigaspaces.httpsession.serialize.NonCompressCompressor;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
-import com.gigaspaces.httpsession.utils.Config;
-import com.gigaspaces.httpsession.utils.DataGenerator;
-import com.gigaspaces.httpsession.utils.JbossController;
-import com.gigaspaces.httpsession.utils.JettyController;
-import com.gigaspaces.httpsession.utils.JmeterTask;
-import com.gigaspaces.httpsession.utils.ServerController;
-import com.gigaspaces.httpsession.utils.SpaceController;
-import com.gigaspaces.httpsession.utils.TomcatController;
 import com.j_spaces.core.client.SQLQuery;
 
 public abstract class SystemTestCase {

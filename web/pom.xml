@@ -28,6 +28,15 @@
 	<build>
 		<finalName>sample-webapp-1.0.0</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+				<version>2.3.2</version>
+			</plugin>
 			<!-- <plugin> <artifactId>maven-surefire-plugin</artifactId> <configuration> 
 				<forkMode>never</forkMode> </configuration> </plugin> -->
 			<!-- <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>maven-jetty-plugin</artifactId> 
@@ -53,27 +62,12 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> 
-			</dependency> -->
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
-			<scope>runtime</scope> </dependency> -->
-		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
-			<scope>runtime</scope> </dependency> --><!-- <dependency> <groupId>net.sourceforge.htmlunit</groupId> <artifactId>htmlunit</artifactId> 
-			<version>2.6</version> <scope>test</scope> </dependency> -->
-		<!-- <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-all</artifactId> 
-			<scope>runtime</scope> </dependency> -->
-		<!-- <dependency> <groupId>org.mortbay.jetty</groupId> <artifactId>jetty</artifactId> 
-			<version>${jetty.version}</version> <scope>test</scope> </dependency> -->
-		<!-- <dependency> <groupId>org.mortbay.jetty</groupId> <artifactId>jsp-2.1-jetty</artifactId> 
-			<version>${jetty.version}</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
-			<scope>test</scope>
+			<!-- <scope>test</scope> -->
 		</dependency>
-		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> 
-			<scope>runtime</scope> </dependency> -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -85,77 +79,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- <dependency> <groupId>aopalliance</groupId> <artifactId>aopalliance</artifactId> 
-			<version>1.0</version> <scope>runtime</scope> </dependency> -->
-		<!-- <dependency> <groupId>commons-collections</groupId> <artifactId>commons-collections</artifactId> 
-			<version>3.2.1</version> <scope>runtime</scope> </dependency> -->
-		<!-- <dependency> <groupId>com.gigaspaces</groupId> <artifactId>gs-runtime</artifactId> 
-			<version>${gs.version}</version> <scope>runtime</scope> </dependency> -->
-		<dependency>
-			<groupId>com.gigaspaces.httpsession</groupId>
-			<artifactId>gs-session-manager</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>shiro-all</artifactId>
-					<groupId>org.apache.shiro</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>gs-runtime</artifactId>
-					<groupId>com.gigaspaces</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>kryo</artifactId>
-					<groupId>com.esotericsoftware.kryo</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xstream</artifactId>
-					<groupId>com.thoughtworks.xstream</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xmlpull</artifactId>
-					<groupId>xmlpull</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xpp3_min</artifactId>
-					<groupId>xpp3</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xmlbeans</artifactId>
-					<groupId>org.apache.xmlbeans</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>stax</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
 			<version>1.7</version>
 		</dependency>
-
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>${commons.codec.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.ajax4jsf</groupId> <artifactId>ajax4jsf</artifactId> 
-			</dependency> <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
-			<version>16.0.1</version> </dependency> -->
 		<dependency>
 			<groupId>com.gigaspaces.httpsession.qa</groupId>
 			<artifactId>data-model</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.gigaspaces.httpsession</groupId>
+			<artifactId>gs-session-manager</artifactId>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
-
-
 </project>

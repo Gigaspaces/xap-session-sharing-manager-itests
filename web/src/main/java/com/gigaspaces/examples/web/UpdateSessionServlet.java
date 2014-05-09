@@ -12,8 +12,6 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
 
-//import com.gigaspaces.httpsession.serialize.SerializeUtils;
-
 /**
  * A servlet which updates the session with the content of the request
  * parameters and forwards to the SessionContents.jsp which displays the

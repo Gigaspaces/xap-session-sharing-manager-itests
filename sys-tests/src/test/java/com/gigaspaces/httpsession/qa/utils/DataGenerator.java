@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.utils;
+package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,44 +10,44 @@ import java.util.Random;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
-import com.gigaspaces.httpsession.models.DataUnit;
-import com.gigaspaces.httpsession.models.Node;
+import com.gigaspaces.httpsession.qa.DataUnit;
+import com.gigaspaces.httpsession.qa.User;
 //import com.gigaspaces.httpsession.qa.User;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
 
 public class DataGenerator {
 
 	private static final String USER_KEY = "user";
-
-	public static Node genetateCircularReferences() {
-
-		Node parent = new Node("parent", null);
-
-		Node level1 = new Node("level1", parent);
-		level1.add(level1);
-		level1.add(parent);
-
-		Node level2 = new Node("level2", level1);
-		level2.add(parent);
-		level2.add(level1);
-
-		level1.add(level2);
-
-		parent.add(level1);
-		return parent;
-	}
-
-//	public static User generateUser(int index) {
-//		Random randomGenerator = new Random();
 //
-//		User user = new User();
-//		user.setName(USER_KEY + index);
-//		user.setId(randomGenerator.nextLong());
-//		user.setAge(randomGenerator.nextInt(70));
-//		user.setBithday(new Date());
+//	public static Node genetateCircularReferences() {
 //
-//		return user;
+//		Node parent = new Node("parent", null);
+//
+//		Node level1 = new Node("level1", parent);
+//		level1.add(level1);
+//		level1.add(parent);
+//
+//		Node level2 = new Node("level2", level1);
+//		level2.add(parent);
+//		level2.add(level1);
+//
+//		level1.add(level2);
+//
+//		parent.add(level1);
+//		return parent;
 //	}
+
+	public static User generateUser(int index) {
+		Random randomGenerator = new Random();
+
+		User user = new User();
+		user.setName(USER_KEY + index);
+		user.setId(randomGenerator.nextLong());
+		user.setAge(randomGenerator.nextInt(70));
+		user.setBithday(new Date());
+
+		return user;
+	}
 
 	public static Map<String, DataUnit> generateDataFile(String path) throws IOException {
 
@@ -55,7 +55,7 @@ public class DataGenerator {
 		
 		Map<String, DataUnit> expected = new HashMap<String, DataUnit>();
 
-		//appendData(USER_KEY, generateUser(10), "B", builder, expected);
+		appendData(USER_KEY, generateUser(10), "B", builder, expected);
 		
 		FileUtils.writeStringToFile(new File(path), builder.toString());
 		

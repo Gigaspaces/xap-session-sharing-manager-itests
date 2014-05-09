@@ -35,7 +35,7 @@ cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 #cacheManager.compressor = $compressor
 # Model Manager service
 #changePolicy = com.gigaspaces.httpsession.policies.LastWriteWinsPolicy
-modelManager = com.gigaspaces.httpsession.models.SimpleDeltaModeManager
+modelManager = com.gigaspaces.httpsession.sessions.DeltaModeManager
 modelManager.connector = $connector
 #modelManager.changePolicy = $changePolicy
 
