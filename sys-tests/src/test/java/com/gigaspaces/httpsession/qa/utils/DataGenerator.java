@@ -12,30 +12,11 @@ import org.apache.commons.io.FileUtils;
 
 import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.qa.User;
-//import com.gigaspaces.httpsession.qa.User;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
 
 public class DataGenerator {
 
 	private static final String USER_KEY = "user";
-//
-//	public static Node genetateCircularReferences() {
-//
-//		Node parent = new Node("parent", null);
-//
-//		Node level1 = new Node("level1", parent);
-//		level1.add(level1);
-//		level1.add(parent);
-//
-//		Node level2 = new Node("level2", level1);
-//		level2.add(parent);
-//		level2.add(level1);
-//
-//		level1.add(level2);
-//
-//		parent.add(level1);
-//		return parent;
-//	}
 
 	public static User generateUser(int index) {
 		Random randomGenerator = new Random();

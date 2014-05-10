@@ -58,7 +58,7 @@ public class UpdateSessionServlet extends HttpServlet {
 				byte[] buff = Base64.decodeBase64(dataValue);
 
 				Object data = SerializeUtils.deserialize(buff);
-
+				
 				session.setAttribute(dataName, data);
 			} else
 				session.setAttribute(dataName, dataValue);

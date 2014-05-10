@@ -93,10 +93,10 @@ public class JbossController extends ServerController {
 
 	@Override
 	public void undeploy(String appName) throws IOException {
-		File file=new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
-				appName + ".war.deploy"));
-		
-		FileUtils.forceDelete(file);
+//		File file=new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
+//				appName + ".war.deploy"));
+//		
+//		FileUtils.forceDelete(file);
 		
 	}
 }

@@ -1,7 +1,12 @@
 package com.gigaspaces.httpsession.qa;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 
@@ -15,7 +20,6 @@ public class TestWithLoginBase extends SystemTestCase {
 		return "src/test/resources/jmeter/withLogin.jmx";
 	}
 
-	
 	@Override
 	public String getFile() {
 		return "src/test/resources/config/shiro.ini.withlogin";
@@ -25,15 +29,36 @@ public class TestWithLoginBase extends SystemTestCase {
 	public Map<String, String> getConfiguration() {
 
 		Map<String, String> properties = new HashMap<String, String>();
-		
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < USERS_VALUE; i++) {
+			int num = i + 1;
+			properties.put("users/user" + num, "user" + num + ",admin");
+			sb.append("user" + num);
+			sb.append(",");
+			sb.append("user" + num);
+			sb.append("\n");
+		}
+
+		String path = FilenameUtils.concat(DATA_BASE, "users.csv");
+
+		try {
+			FileUtils.writeStringToFile(new File(path), sb.toString());
+		} catch (IOException e) {
+			new Error("can not create user.csv file", e);
+		}
+
 		return properties;
 	}
 
 	@Override
 	protected void setJmeterParameters(JmeterTask jmeter) {
 
+		super.setJmeterParameters(jmeter);
+
 		jmeter.addParam(USERS_NAME, "" + USERS_VALUE);
-		jmeter.addParam(LOOP_COUNT_NAME, "" + LOOP_COUNT_VALUE);
+		// jmeter.addParam(LOOP_COUNT_NAME, "" + LOOP_COUNT_VALUE);
 
 	}
 }

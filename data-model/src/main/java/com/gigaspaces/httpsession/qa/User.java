@@ -10,6 +10,7 @@ public class User {
 	private String name;
 	private int age;
 	private Date bithday;
+//	private Contract contract;
 
 	public long getId() {
 		return id;
@@ -43,6 +44,14 @@ public class User {
 		this.bithday = bithday;
 	}
 
+//	public Contract getContract() {
+//		return contract;
+//	}
+//
+//	public void setContract(Contract contract) {
+//		this.contract = contract;
+//	}
+
 	@Override
 	public boolean equals(Object arg0) {
 		if(!(arg0 instanceof User)){
@@ -52,9 +61,9 @@ public class User {
 		User other = (User) arg0;
 		
 		if(other.id != id) return false;
-		if(other.name.equals(name)) return false;
+		if(!other.name.equals(name)) return false;
 		if(other.age != age) return false;
-		if(other.bithday.equals(bithday)) return false;
+		if(!other.bithday.equals(bithday)) return false;
 		
 		return true;
 	}

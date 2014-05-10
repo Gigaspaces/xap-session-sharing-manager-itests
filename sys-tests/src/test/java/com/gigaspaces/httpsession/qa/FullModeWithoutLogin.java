@@ -8,6 +8,12 @@ import com.gigaspaces.httpsession.sessions.FullModelManager;
 
 public class FullModeWithoutLogin extends TestWithoutLoginBase {
 
+	@Override
+	protected String getDataFileName() {
+
+		return "data.full.withoutlogin.csv";
+	}
+
 	@Test
 	public void testJboss() {
 

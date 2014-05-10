@@ -12,11 +12,19 @@ public class SpaceController extends ServerController {
 
 	private static final String SESSION_SPACE = "/./sessionSpace";
 	private ISpaceProxy space;
+	private String spaceUrl = SESSION_SPACE;
+
+	public SpaceController() {
+	}
+
+	public SpaceController(String spaceUrl) {
+		this.spaceUrl = spaceUrl;
+	}
 
 	@Override
 	public void start() {
 		try {
-			space = (ISpaceProxy) SpaceFinder.find(SESSION_SPACE);
+			space = (ISpaceProxy) SpaceFinder.find(spaceUrl);
 		} catch (FinderException e) {
 			Log.error("", e, AssertionError.class);
 		}
@@ -62,7 +70,7 @@ public class SpaceController extends ServerController {
 
 	@Override
 	public void undeploy(String appName) throws IOException {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 	}
 
 }

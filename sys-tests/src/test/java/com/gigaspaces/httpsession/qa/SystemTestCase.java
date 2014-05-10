@@ -33,7 +33,7 @@ import com.j_spaces.core.client.SQLQuery;
 
 public abstract class SystemTestCase {
 
-	private static final String DATA_BASE = "src/test/resources/jmeter/data";
+	public static final String DATA_BASE = "src/test/resources/jmeter/data";
 
 	public static final String APP_NAME = "app";
 
@@ -134,7 +134,7 @@ public abstract class SystemTestCase {
 
 	protected void setJmeterParameters(JmeterTask jmeter) {
 		jmeter.addParam(DATAFILE_NAME,
-				FilenameUtils.concat(DATA_BASE, getDataFileName()));
+				FilenameUtils.concat("data", getDataFileName()));
 	}
 
 	protected String getDataFileName() {
@@ -174,19 +174,19 @@ public abstract class SystemTestCase {
 
 	public final void runTomcatTest() {
 		server = new TomcatController(Config.getHost(), 9090);
-		
+
 		runTest();
 	}
 
 	public final void runJettyTest() {
 		server = new JettyController(Config.getHost(), 7070);
-		
+
 		runTest();
 	}
 
 	private void runTest() {
 		config(getFile(), getConfiguration());
-		
+
 		server.start();
 
 		generateTestData();
@@ -207,11 +207,11 @@ public abstract class SystemTestCase {
 
 	@After
 	public final void teardown() throws IOException {
-	
+
 		server.stop();
 
 		server.undeploy(APP_NAME);
-		
+
 		space.stop();
 	}
 
