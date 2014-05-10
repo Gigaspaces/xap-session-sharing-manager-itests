@@ -19,7 +19,7 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 
 		runJbossTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Test
@@ -27,7 +27,7 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 
 		runTomcatTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 
 		runJettyTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Override

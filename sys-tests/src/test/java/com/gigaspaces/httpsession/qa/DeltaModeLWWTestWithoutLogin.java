@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.gigaspaces.httpsession.policies.LWWChangePolicy;
 import com.gigaspaces.httpsession.sessions.DeltaModeManager;
 
-public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
+public class DeltaModeLWWTestWithoutLogin extends TestWithoutLoginBase {
 
 	@Test
 	public void testJboss() {
@@ -35,7 +35,7 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
 	@Override
 	protected String getDataFileName() {
-		return "data.delta.LWW.withlogin.csv";
+		return "data.delta.LWW.withoutlogin.csv";
 	}
 
 	@Override

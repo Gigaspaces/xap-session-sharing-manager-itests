@@ -10,6 +10,7 @@ import java.util.Random;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 
+import com.gigaspaces.httpsession.qa.Contract;
 import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.qa.User;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
@@ -17,6 +18,13 @@ import com.gigaspaces.httpsession.serialize.SerializeUtils;
 public class DataGenerator {
 
 	private static final String USER_KEY = "user";
+
+	public static Contract createContract() {
+
+		Contract contract = new Contract();
+		
+		return contract;
+	}
 
 	public static User generateUser(int index) {
 		Random randomGenerator = new Random();
@@ -30,16 +38,17 @@ public class DataGenerator {
 		return user;
 	}
 
-	public static Map<String, DataUnit> generateDataFile(String path) throws IOException {
+	public static Map<String, DataUnit> generateDataFile(String path)
+			throws IOException {
 
 		StringBuilder builder = new StringBuilder();
-		
+
 		Map<String, DataUnit> expected = new HashMap<String, DataUnit>();
 
 		appendData(USER_KEY, generateUser(10), "B", builder, expected);
-		
+
 		FileUtils.writeStringToFile(new File(path), builder.toString());
-		
+
 		return expected;
 	}
 

@@ -18,7 +18,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runJbossTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Test
@@ -26,7 +26,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runTomcatTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runJettyTest();
 
-		assertSpace(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE);
 	}
 
 	@Override

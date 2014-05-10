@@ -4,10 +4,10 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.policies.LWWChangePolicy;
+import com.gigaspaces.httpsession.policies.FailFastChangePolicy;
 import com.gigaspaces.httpsession.sessions.DeltaModeManager;
 
-public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
+public class DeltaModeFastFailTestWithoutLogin extends TestWithoutLoginBase {
 
 	@Test
 	public void testJboss() {
@@ -35,7 +35,7 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
 	@Override
 	protected String getDataFileName() {
-		return "data.delta.LWW.withlogin.csv";
+		return "data.delta.fast.withoutlogin.csv";
 	}
 
 	@Override
@@ -45,8 +45,9 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
 		properties.put("main/modelManager", DeltaModeManager.class.getName());
 		properties.put("main/modelManager.policyType",
-				LWWChangePolicy.class.getName());
+				FailFastChangePolicy.class.getName());
 
 		return properties;
 	}
+
 }

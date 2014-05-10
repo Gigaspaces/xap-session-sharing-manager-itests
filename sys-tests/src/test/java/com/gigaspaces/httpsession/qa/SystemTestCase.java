@@ -15,6 +15,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import com.gigaspaces.httpsession.models.AttributeData;
+import com.gigaspaces.httpsession.models.SpaceSessionAttributes;
 import com.gigaspaces.httpsession.models.SpaceSessionBase;
 import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
 import com.gigaspaces.httpsession.qa.utils.Config;
@@ -215,8 +217,33 @@ public abstract class SystemTestCase {
 		space.stop();
 	}
 
+	@SuppressWarnings({})
+	protected void assertSpaceDeltaMode(int count) {
+
+		SpaceSessionAttributes[] data = readSpaceData(SpaceSessionAttributes.class);
+
+		Assert.assertEquals("invalid length result:", count, data.length);
+
+		for (SpaceSessionAttributes buff : data) {
+
+			Map<String, AttributeData> actual = buff.getAttributes();
+
+			Iterator<String> keyIterator = expected.keySet().iterator();
+
+			while (keyIterator.hasNext()) {
+				String key = keyIterator.next();
+
+				Object expectedValue = expected.get(key).getDatavalue();
+				Object actualValue = SerializeUtils.deserialize(actual.get(key)
+						.getValue());
+
+				Assert.assertEquals(expectedValue, actualValue);
+			}
+		}
+	}
+
 	@SuppressWarnings({ "unchecked" })
-	protected void assertSpace(int count) {
+	protected void assertSpaceFullMode(int count) {
 
 		SpaceSessionByteArray[] data = readSpaceData(SpaceSessionByteArray.class);
 
@@ -224,7 +251,7 @@ public abstract class SystemTestCase {
 
 		for (SpaceSessionByteArray buff : data) {
 
-			Map<Object, Object> result = (Map<Object, Object>) SerializeUtils
+			Map<Object, Object> actual = (Map<Object, Object>) SerializeUtils
 					.deserialize(buff.getAttributes());
 
 			Iterator<String> keyIterator = expected.keySet().iterator();
@@ -233,7 +260,7 @@ public abstract class SystemTestCase {
 				String key = keyIterator.next();
 
 				Object expectedValue = expected.get(key).getDatavalue();
-				Object actualValue = result.get(key);
+				Object actualValue = actual.get(key);
 
 				Assert.assertEquals(expectedValue, actualValue);
 			}
