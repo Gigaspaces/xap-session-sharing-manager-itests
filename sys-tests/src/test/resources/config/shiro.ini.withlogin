@@ -30,13 +30,13 @@ cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 #cacheManager.compressor = $compressor
 
 # Model Manager service
-modelManager = com.gigaspaces.httpsession.sessions.FullModelManager
-modelManager.connector = $connector
-#modelManager.policyType = com.gigaspaces.httpsession.policies.FailFastChangePolicy
+storeMode = com.gigaspaces.httpsession.sessions.FullStoreMode
+storeMode.connector = $connector
+#storeMode.policyType = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
 #listener1 = com.gigaspaces.httpsession.policies.TraceListener
-#modelManager.listener = $listener1
+#storeMode.listener = $listener1
 
-cacheManager.modelManager = $modelManager
+cacheManager.storeMode = $storeMode
 # Serialization Service
 serializer = com.gigaspaces.httpsession.serialize.KryoSerializerImpl
 #serializer.classes = com.gigaspaces.httpsession.sessions.NestSerial , com.gigaspaces.httpsession.sessions.NestNonSerial
@@ -44,7 +44,7 @@ cacheManager.serializer = $serializer
 # Session Policy Service
 policy = com.gigaspaces.httpsession.policies.SessionPolicyWithLogin
 policy.connector = $connector
-policy.modelManager = $modelManager
+policy.storeMode = $storeMode
 
 cacheManager.policy = $policy
 # space proxy setter

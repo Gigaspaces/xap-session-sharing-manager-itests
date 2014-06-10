@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.policies.PartialChangePolicy;
-import com.gigaspaces.httpsession.sessions.DeltaModeManager;
+import com.gigaspaces.httpsession.policies.PartialChangeStrategy;
+import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
 
 public class DeltaModePartialTestWithoutLogin extends TestWithoutLoginBase {
 
@@ -44,9 +44,9 @@ public class DeltaModePartialTestWithoutLogin extends TestWithoutLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", DeltaModeManager.class.getName());
+		properties.put("main/modelManager", DeltaStoreMode.class.getName());
 		properties.put("main/modelManager.policyType",
-				PartialChangePolicy.class.getName());
+				PartialChangeStrategy.class.getName());
 
 		return properties;
 	}

@@ -90,7 +90,5 @@ public class JettyController extends ServerController {
 
 	@Override
 	public void undeploy(String appName) throws IOException {
-	}
-
-	
+	}	
 }

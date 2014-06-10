@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.policies.FailFastChangePolicy;
-import com.gigaspaces.httpsession.sessions.DeltaModeManager;
+import com.gigaspaces.httpsession.policies.FailFastChangeStrategy;
+import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
 
 public class DeltaModeFastFailTestWithLogin extends TestWithLoginBase {
 
@@ -43,9 +43,9 @@ public class DeltaModeFastFailTestWithLogin extends TestWithLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", DeltaModeManager.class.getName());
+		properties.put("main/modelManager", DeltaStoreMode.class.getName());
 		properties.put("main/modelManager.policyType",
-				FailFastChangePolicy.class.getName());
+				FailFastChangeStrategy.class.getName());
 
 		return properties;
 	}

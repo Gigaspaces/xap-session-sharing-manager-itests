@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.policies.LWWChangePolicy;
-import com.gigaspaces.httpsession.sessions.DeltaModeManager;
+import com.gigaspaces.httpsession.policies.LWWChangeStrategy;
+import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
 
 public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
@@ -43,9 +43,9 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", DeltaModeManager.class.getName());
+		properties.put("main/modelManager", DeltaStoreMode.class.getName());
 		properties.put("main/modelManager.policyType",
-				LWWChangePolicy.class.getName());
+				LWWChangeStrategy.class.getName());
 
 		return properties;
 	}

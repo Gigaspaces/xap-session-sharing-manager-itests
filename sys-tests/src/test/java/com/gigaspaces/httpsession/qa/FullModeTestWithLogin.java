@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.sessions.FullModelManager;
+import com.gigaspaces.httpsession.sessions.FullStoreMode;
 
 public class FullModeTestWithLogin extends TestWithLoginBase {
 
@@ -42,7 +42,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", FullModelManager.class.getName());
+		properties.put("main/modelManager", FullStoreMode.class.getName());
 
 		return properties;
 	}
