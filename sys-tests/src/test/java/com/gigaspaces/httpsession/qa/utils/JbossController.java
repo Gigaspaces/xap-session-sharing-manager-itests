@@ -25,7 +25,7 @@ public class JbossController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		Runner starter = new Runner();
+		Runner starter = new Runner(Config.getJbossHome());
 
 		String path = getExecutionPath(Config.getJbossHome(), BIN_STANDALONE);
 
@@ -47,7 +47,7 @@ public class JbossController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-		Runner stopper = new Runner();
+		Runner stopper = new Runner(Config.getJbossHome());
 
 		String path = getExecutionPath(Config.getJbossHome(), BIN_JBOSS_CLI);
 
@@ -73,7 +73,7 @@ public class JbossController extends ServerController {
 	public void deploy(String appName) throws IOException {
 
 		
-		FileUtils.copyDirectory(new File(WEB_APP_SOURCE), new File(
+		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
 				FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war")));
 
 		FileUtils.touch(new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,

@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class Config {
 	private static final String HOST = "HOST";
 	private static final String JBOSS_HOME = "JBOSS_HOME";
@@ -29,6 +31,7 @@ public class Config {
 		try {
 			properties.load(new FileInputStream(
 					TEST_RESOURCES_CONFIG_PROPERTIES));
+			
 		} catch (FileNotFoundException e) {
 			Log.error("File not found:" + TEST_RESOURCES_CONFIG_PROPERTIES, e,
 					AssertionError.class);
@@ -36,6 +39,16 @@ public class Config {
 			Log.error("Error occurs while loading properites", e,
 					AssertionError.class);
 		}
+	}
+
+	public static String getAbrolutePath(String relativePath){
+		
+		return FilenameUtils.concat(getBasePath(), relativePath);
+	}
+	
+	private static String getBasePath() {
+		
+		return properties.getProperty("project.basedir");
 	}
 
 	public static String getJbossHome() {

@@ -1,6 +1,7 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -23,15 +24,16 @@ public class Runner extends Thread {
 	protected BufferedReader stdInput;
 	private int timeout = 60000;
 
-	public Runner() {
+	public Runner(String wc) {
 		setDaemon(true);
-		this.builder = new ProcessBuilder(commands);
 
+		this.builder = new ProcessBuilder(commands);
+		this.builder.directory(new File(wc));
 		builder.redirectErrorStream(true);
 	}
 
-	public Runner(int timeout) {
-		this();
+	public Runner(String wc, int timeout) {
+		this(wc);
 		this.timeout = timeout;
 	}
 
@@ -65,7 +67,7 @@ public class Runner extends Thread {
 			} finally {
 				stdInput.close();
 			}
-			
+
 			refresh();
 		} catch (IOException e) {
 			throw new AssertionError();

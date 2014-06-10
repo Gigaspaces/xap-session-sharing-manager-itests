@@ -210,6 +210,9 @@ public abstract class SystemTestCase {
 	@After
 	public final void teardown() throws IOException {
 
+		if (server == null)
+			return;
+
 		server.stop();
 
 		server.undeploy(APP_NAME);

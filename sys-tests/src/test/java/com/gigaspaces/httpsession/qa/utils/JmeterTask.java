@@ -8,6 +8,7 @@ public class JmeterTask extends Runner {
 	private static final String HOST="host";
 	
 	public JmeterTask(String script) {
+		super(Config.getJmeterHome());
 		builder = new ProcessBuilder(commands);
 
 		commands.add(Config.getJmeterHome() + "/bin/jmeter");

@@ -100,5 +100,6 @@
 			<artifactId>gs-session-manager</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
 	</dependencies>
 </project>

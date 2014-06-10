@@ -9,7 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 
 public class TomcatController extends ServerController {
 
-	private static final String SERVER_CONFIG = "/Users/shadim/src/http-session/gs-session-manager/src/test/resources/config/server.xml";
+	private static final String SERVER_CONFIG = "src/test/resources/config/server.xml";
 	private static final String STARTED_COMPLETED = "org.apache.catalina.startup.Catalina start";
 	private static final String DESTROYING_COMPLETED = "Destroying ProtocolHandler [\"ajp-bio-9009\"]";
 	private static final String BIN_CATALINA = "bin/catalina";
@@ -27,7 +27,7 @@ public class TomcatController extends ServerController {
 	@Override
 	public Runner createStarter() {
 
-		Runner starter = new Runner();
+		Runner starter = new Runner(Config.getTomcatHome());
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -38,7 +38,7 @@ public class TomcatController extends ServerController {
 		commands.add(path);
 		commands.add("run");
 		commands.add("-config");
-		commands.add(SERVER_CONFIG);
+		commands.add(Config.getAbrolutePath(SERVER_CONFIG));
 
 		starter.or(new StringPredicate(STARTED_COMPLETED) {
 			@Override
@@ -55,7 +55,7 @@ public class TomcatController extends ServerController {
 	@Override
 	public Runner createStopper() {
 
-		Runner stopper = new Runner();
+		Runner stopper = new Runner(Config.getTomcatHome());
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -66,7 +66,7 @@ public class TomcatController extends ServerController {
 		commands.add(path);
 		commands.add("stop");
 		commands.add("-config");
-		commands.add(SERVER_CONFIG);
+		commands.add(Config.getAbrolutePath(SERVER_CONFIG));
 
 		stopper.or(new StringPredicate(DESTROYING_COMPLETED) {
 			@Override
@@ -82,7 +82,7 @@ public class TomcatController extends ServerController {
 
 	@Override
 	public void deploy(String appName) throws IOException {
-		FileUtils.copyDirectory(new File(WEB_APP_SOURCE), new File(
+		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
 				FilenameUtils.concat(TOMCAT_WEB_APPS, appName)));
 	}
 

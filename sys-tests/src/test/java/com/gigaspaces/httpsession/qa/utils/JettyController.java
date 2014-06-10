@@ -23,7 +23,7 @@ public class JettyController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		Runner starter = new Runner(10000);
+		Runner starter = new Runner(Config.getJettyHome(),10000);
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
@@ -53,7 +53,7 @@ public class JettyController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-		Runner stopper = new Runner();
+		Runner stopper = new Runner(Config.getJettyHome());
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
@@ -74,7 +74,7 @@ public class JettyController extends ServerController {
 
 	@Override
 	public void deploy(String appName) throws IOException {
-		FileUtils.copyDirectory(new File(WEB_APP_SOURCE), new File(
+		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
 				FilenameUtils.concat(JETTY_WEB_APPS, appName)));
 	}
 

@@ -24,6 +24,7 @@
 		<kryo.version>2.22</kryo.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
+		<gs.version>9.7.0-10496-RELEASE</gs.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -36,10 +37,6 @@
 					<exclusion>
 						<artifactId>shiro-all</artifactId>
 						<groupId>org.apache.shiro</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>gs-runtime</artifactId>
-						<groupId>com.gigaspaces</groupId>
 					</exclusion>
 					<exclusion>
 						<artifactId>kryo</artifactId>
@@ -58,6 +55,17 @@
 						<groupId>org.slf4j</groupId>
 					</exclusion>
 				</exclusions>
+
+				<!-- TODO: remove this section -->
+				<!-- <exclusion> <artifactId>gs-runtime</artifactId> <groupId>com.gigaspaces</groupId> 
+					</exclusion> -->
+			</dependency>
+
+			<dependency>
+				<groupId>com.gigaspaces</groupId>
+				<artifactId>gs-runtime</artifactId>
+				<version>${gs.version}</version>
+				<optional>true</optional>
 			</dependency>
 
 			<dependency>
