@@ -42,7 +42,7 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 	public Map<String, String> getConfiguration() {
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", FullStoreMode.class.getName());
+		properties.put("main/storeMode", FullStoreMode.class.getName());
 
 		return properties;
 	}

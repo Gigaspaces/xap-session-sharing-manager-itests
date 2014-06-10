@@ -42,7 +42,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", FullStoreMode.class.getName());
+		properties.put("main/storeMode", FullStoreMode.class.getName());
 
 		return properties;
 	}

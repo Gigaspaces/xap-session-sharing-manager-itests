@@ -44,8 +44,8 @@ public class DeltaModePartialTestWithoutLogin extends TestWithoutLoginBase {
 
 		Map<String, String> properties = super.getConfiguration();
 
-		properties.put("main/modelManager", DeltaStoreMode.class.getName());
-		properties.put("main/modelManager.policyType",
+		properties.put("main/storeMode", DeltaStoreMode.class.getName());
+		properties.put("main/storeMode.policyType",
 				PartialChangeStrategy.class.getName());
 
 		return properties;

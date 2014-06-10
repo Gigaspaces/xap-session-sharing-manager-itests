@@ -33,7 +33,7 @@
 				<artifactId>gs-session-manager</artifactId>
 				<version>1.0.0</version>
 				<scope>import</scope>
-				<exclusions>
+				<!-- <exclusions>
 					<exclusion>
 						<artifactId>shiro-all</artifactId>
 						<groupId>org.apache.shiro</groupId>
@@ -54,7 +54,7 @@
 						<artifactId>slf4j-api</artifactId>
 						<groupId>org.slf4j</groupId>
 					</exclusion>
-				</exclusions>
+				</exclusions> -->
 			</dependency>
 
 			<dependency>
