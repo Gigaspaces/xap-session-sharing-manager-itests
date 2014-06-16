@@ -26,7 +26,7 @@ securityManager.sessionManager = $sessionManager
 cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 
 # Compression service
-#compressor = com.gigaspaces.httpsession.serialize.DefaultCompressor
+#compressor = com.gigaspaces.httpsession.serialize.CompressorImpl
 #cacheManager.compressor = $compressor
 
 # Model Manager service
