@@ -70,6 +70,7 @@ public class Runner extends Thread {
 
 			refresh();
 		} catch (IOException e) {
+            e.printStackTrace();
 			throw new AssertionError();
 		}
 	}

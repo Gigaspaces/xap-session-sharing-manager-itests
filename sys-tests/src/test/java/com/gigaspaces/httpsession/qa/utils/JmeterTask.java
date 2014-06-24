@@ -7,15 +7,11 @@ public class JmeterTask extends Runner {
 	private static final String PORT = "port";
 	private static final String HOST="host";
 	
-	public JmeterTask(String script) {
-		super(Config.getJmeterHome());
-		builder = new ProcessBuilder(commands);
-
+	public JmeterTask() {
+		super(Config.getJmeterHome()+"/bin");
+        builder = new ProcessBuilder(commands);
 		commands.add(Config.getJmeterHome() + "/bin/jmeter");
 		commands.add("-n");
-		commands.add("-t");
-		commands.add(script);
-
 		or(new StringPredicate(JMETER_SCRIPT_COMPLETE) {
 
 			@Override
@@ -24,6 +20,11 @@ public class JmeterTask extends Runner {
 			}
 		});
 	}
+
+    public void setScript(String script){
+        commands.add("-t");
+        commands.add(script);
+    }
 
 	public void setHost(String host){
 		addParam(HOST, host);

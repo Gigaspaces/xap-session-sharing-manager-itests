@@ -136,7 +136,7 @@ public abstract class SystemTestCase {
 
 	protected void setJmeterParameters(JmeterTask jmeter) {
 		jmeter.addParam(DATAFILE_NAME,
-				FilenameUtils.concat("data", getDataFileName()));
+				FilenameUtils.concat(System.getProperty("user.dir")+"/src/test/resources/jmeter/data", getDataFileName()));
 	}
 
 	protected String getDataFileName() {
@@ -146,15 +146,15 @@ public abstract class SystemTestCase {
 	protected abstract String getScript();
 
 	protected final void runJmeterScript(String host, int port) {
-		JmeterTask jmeter = new JmeterTask(getScript());
-
-		jmeter.setHost(host);
+		JmeterTask jmeter = new JmeterTask();
+        jmeter.setHost(host);
 		jmeter.setPort("" + port);
 		jmeter.setAppName("/" + APP_NAME);
 
 		setJmeterParameters(jmeter);
-
-		jmeter.startAndWait();
+        jmeter.setScript(System.getProperty("user.dir") + "/" + getScript());
+        System.out.println("commands are: " + jmeter.getCommands());
+        jmeter.startAndWait();
 
 	}
 
@@ -191,10 +191,18 @@ public abstract class SystemTestCase {
 
 		server.start();
 
-		generateTestData();
+        // TODO change the sleep - wait for the end of the server's bootstrap and continue
+        try {
+            Thread.sleep(1000 * 20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        generateTestData();
 
 		runJmeterScript(server.getHost(), server.getPort());
-	}
+
+    }
 
 	protected void generateTestData() {
 
