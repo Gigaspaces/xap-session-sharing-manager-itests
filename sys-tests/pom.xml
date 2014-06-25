@@ -27,6 +27,10 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.gigaspaces</groupId>
+			<artifactId>gs-openspaces</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.gigaspaces.httpsession</groupId>
 			<artifactId>gs-session-manager</artifactId>
 		</dependency>
@@ -46,6 +50,7 @@
 			<artifactId>data-model</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>

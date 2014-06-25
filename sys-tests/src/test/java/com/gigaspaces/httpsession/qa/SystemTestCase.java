@@ -25,7 +25,7 @@ import com.gigaspaces.httpsession.qa.utils.JbossController;
 import com.gigaspaces.httpsession.qa.utils.JettyController;
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 import com.gigaspaces.httpsession.qa.utils.ServerController;
-import com.gigaspaces.httpsession.qa.utils.SpaceController;
+import com.gigaspaces.httpsession.qa.utils.EmbeddedSpaceController;
 import com.gigaspaces.httpsession.qa.utils.TomcatController;
 import com.gigaspaces.httpsession.serialize.CompressUtils;
 import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
@@ -50,7 +50,7 @@ public abstract class SystemTestCase {
 	protected static final int TOMCAT_SERVER_KEY = 2;
 	protected static final int JETTY_SERVER_KEY = 3;
 
-	protected SpaceController space = new SpaceController();
+	protected EmbeddedSpaceController space = new EmbeddedSpaceController();
 
 	private Map<String, DataUnit> expected;
 

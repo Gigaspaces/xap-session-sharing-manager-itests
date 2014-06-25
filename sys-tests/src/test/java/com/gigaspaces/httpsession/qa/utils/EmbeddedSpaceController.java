@@ -8,16 +8,16 @@ import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import com.j_spaces.core.client.FinderException;
 import com.j_spaces.core.client.SpaceFinder;
 
-public class SpaceController extends ServerController {
+public class EmbeddedSpaceController extends ServerController {
 
 	private static final String SESSION_SPACE = "/./sessionSpace";
 	private ISpaceProxy space;
 	private String spaceUrl = SESSION_SPACE;
 
-	public SpaceController() {
+	public EmbeddedSpaceController() {
 	}
 
-	public SpaceController(String spaceUrl) {
+	public EmbeddedSpaceController(String spaceUrl) {
 		this.spaceUrl = spaceUrl;
 	}
 

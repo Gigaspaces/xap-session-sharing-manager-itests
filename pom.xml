@@ -26,6 +26,23 @@
 		<slf4j.version>1.6.4</slf4j.version>
 		<gs.version>9.7.0-10496-RELEASE</gs.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>org.openspaces</id>
+			<name>OpenSpaces</name>
+			<url>http://maven-repository.openspaces.org</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -33,28 +50,12 @@
 				<artifactId>gs-session-manager</artifactId>
 				<version>1.0.0</version>
 				<scope>import</scope>
-				<!-- <exclusions>
-					<exclusion>
-						<artifactId>shiro-all</artifactId>
-						<groupId>org.apache.shiro</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>kryo</artifactId>
-						<groupId>com.esotericsoftware.kryo</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>xstream</artifactId>
-						<groupId>com.thoughtworks.xstream</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>xmlbeans</artifactId>
-						<groupId>org.apache.xmlbeans</groupId>
-					</exclusion>
-					<exclusion>
-						<artifactId>slf4j-api</artifactId>
-						<groupId>org.slf4j</groupId>
-					</exclusion>
-				</exclusions> -->
+				<!-- <exclusions> <exclusion> <artifactId>shiro-all</artifactId> <groupId>org.apache.shiro</groupId> 
+					</exclusion> <exclusion> <artifactId>kryo</artifactId> <groupId>com.esotericsoftware.kryo</groupId> 
+					</exclusion> <exclusion> <artifactId>xstream</artifactId> <groupId>com.thoughtworks.xstream</groupId> 
+					</exclusion> <exclusion> <artifactId>xmlbeans</artifactId> <groupId>org.apache.xmlbeans</groupId> 
+					</exclusion> <exclusion> <artifactId>slf4j-api</artifactId> <groupId>org.slf4j</groupId> 
+					</exclusion> </exclusions> -->
 			</dependency>
 
 			<dependency>
@@ -62,6 +63,13 @@
 				<artifactId>gs-runtime</artifactId>
 				<version>${gs.version}</version>
 				<optional>true</optional>
+			</dependency>
+
+			<dependency>
+				<groupId>com.gigaspaces</groupId>
+				<artifactId>gs-openspaces</artifactId>
+				<version>${gs.version}</version>
+				<scope>test</scope>
 			</dependency>
 
 			<dependency>

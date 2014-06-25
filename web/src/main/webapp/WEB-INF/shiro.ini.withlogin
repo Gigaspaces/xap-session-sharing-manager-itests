@@ -33,7 +33,7 @@ cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 # Model Manager service
 storeMode = com.gigaspaces.httpsession.sessions.DeltaStoreMode
 storeMode.connector = $connector
-#storeMode.policyType = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
+#storeMode.changeStrategy = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
 listener1 = com.gigaspaces.httpsession.policies.TraceListener
 storeMode.listener = $listener1
 

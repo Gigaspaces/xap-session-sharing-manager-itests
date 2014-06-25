@@ -16,7 +16,7 @@ sessionManager = com.gigaspaces.httpsession.GigaSpacesWebSessionManager
 sessionDAO = org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO
 sessionManager.sessionDAO = $sessionDAO
 
-sessionDAO.activeSessionsCacheName = jini://*/*/sessionSpace
+#sessionDAO.activeSessionsCacheName = jini://*/*/sessionSpace
 # ensure the securityManager uses our native SessionManager:
 securityManager.sessionManager = $sessionManager
 
@@ -26,7 +26,7 @@ cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 # Model Manager service
 storeMode = com.gigaspaces.httpsession.sessions.DeltaStoreMode
 storeMode.connector = $connector
-#storeMode.policyType = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
+#storeMode.changeStrategy = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
 #listener1 = com.gigaspaces.httpsession.policies.TraceListener
 #storeMode.listener = $listener1
 
@@ -50,14 +50,10 @@ cacheManager.connector= $connector
 securityManager.cacheManager = $cacheManager
 
 # Session validation
-sessionValidationScheduler = org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler
-
+#sessionValidationScheduler = org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler
 # Session timeout  
-securityManager.sessionManager.defaultSessionTimeout = 1800000
-
+#securityManager.sessionManager.defaultSessionTimeout = 1800000
 # Default is 3,600,000 millis = 1 hour:
-sessionValidationScheduler.interval = 1800000
-
-sessionValidationScheduler.sessionManager = $sessionManager
-
-securityManager.sessionManager.sessionValidationScheduler = $sessionValidationScheduler
+#sessionValidationScheduler.interval = 1800000
+#sessionValidationScheduler.sessionManager = $sessionManager
+#securityManager.sessionManager.sessionValidationScheduler = $sessionValidationScheduler
