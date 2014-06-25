@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.gigaspaces.httpsession.qa</groupId>
 		<artifactId>http-session-itests</artifactId>
-		<version>1.0.0</version>
+		<version>${gs.version}</version>
 	</parent>
 
 	<artifactId>sys-tests</artifactId>
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>com.gigaspaces.httpsession.qa</groupId>
 			<artifactId>data-model</artifactId>
-			<version>1.0.0</version>
+			<version>${gs.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -11,7 +11,7 @@
 	<artifactId>http-session-itests</artifactId>
 	<groupId>com.gigaspaces.httpsession.qa</groupId>
 	<name>http-session-itests</name>
-	<version>1.0.0</version>
+	<version>${gs.version}</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -48,7 +48,7 @@
 			<dependency>
 				<groupId>com.gigaspaces.httpsession</groupId>
 				<artifactId>gs-session-manager</artifactId>
-				<version>1.0.0</version>
+				<version>${gs.version}</version>
 				<scope>import</scope>
 				<!-- <exclusions> <exclusion> <artifactId>shiro-all</artifactId> <groupId>org.apache.shiro</groupId> 
 					</exclusion> <exclusion> <artifactId>kryo</artifactId> <groupId>com.esotericsoftware.kryo</groupId> 
