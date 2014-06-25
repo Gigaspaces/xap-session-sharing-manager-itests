@@ -24,8 +24,8 @@ import com.gigaspaces.httpsession.qa.utils.DataGenerator;
 import com.gigaspaces.httpsession.qa.utils.JbossController;
 import com.gigaspaces.httpsession.qa.utils.JettyController;
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
+import com.gigaspaces.httpsession.qa.utils.RemoteSpaceController;
 import com.gigaspaces.httpsession.qa.utils.ServerController;
-import com.gigaspaces.httpsession.qa.utils.EmbeddedSpaceController;
 import com.gigaspaces.httpsession.qa.utils.TomcatController;
 import com.gigaspaces.httpsession.serialize.CompressUtils;
 import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
@@ -34,6 +34,8 @@ import com.gigaspaces.httpsession.serialize.SerializeUtils;
 import com.j_spaces.core.client.SQLQuery;
 
 public abstract class SystemTestCase {
+
+	private static final String SESSION_SPACE = "sessionSpace";
 
 	public static final String DATA_BASE = "src/test/resources/jmeter/data";
 
@@ -50,7 +52,8 @@ public abstract class SystemTestCase {
 	protected static final int TOMCAT_SERVER_KEY = 2;
 	protected static final int JETTY_SERVER_KEY = 3;
 
-	protected EmbeddedSpaceController space = new EmbeddedSpaceController();
+	protected RemoteSpaceController space = new RemoteSpaceController(
+			SESSION_SPACE, 2, 1);
 
 	private Map<String, DataUnit> expected;
 
@@ -69,6 +72,8 @@ public abstract class SystemTestCase {
 	 *            - properties to be replaced [section]/[propertyName] = [value]
 	 */
 	public final void config(String file, Map<String, String> properties) {
+
+		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE);
 
 		try {
 			server.deploy(APP_NAME);
@@ -135,8 +140,10 @@ public abstract class SystemTestCase {
 	}
 
 	protected void setJmeterParameters(JmeterTask jmeter) {
-		jmeter.addParam(DATAFILE_NAME,
-				FilenameUtils.concat(System.getProperty("user.dir")+"/src/test/resources/jmeter/data", getDataFileName()));
+		jmeter.addParam(
+				DATAFILE_NAME,
+				FilenameUtils.concat(System.getProperty("user.dir")
+						+ "/src/test/resources/jmeter/data", getDataFileName()));
 	}
 
 	protected String getDataFileName() {
@@ -147,14 +154,14 @@ public abstract class SystemTestCase {
 
 	protected final void runJmeterScript(String host, int port) {
 		JmeterTask jmeter = new JmeterTask();
-        jmeter.setHost(host);
+		jmeter.setHost(host);
 		jmeter.setPort("" + port);
 		jmeter.setAppName("/" + APP_NAME);
 
 		setJmeterParameters(jmeter);
-        jmeter.setScript(System.getProperty("user.dir") + "/" + getScript());
-        System.out.println("commands are: " + jmeter.getCommands());
-        jmeter.startAndWait();
+		jmeter.setScript(System.getProperty("user.dir") + "/" + getScript());
+		System.out.println("commands are: " + jmeter.getCommands());
+		jmeter.startAndWait();
 
 	}
 
@@ -164,8 +171,14 @@ public abstract class SystemTestCase {
 
 	@Before
 	public final void startup() {
-
+		
 		space.start();
+		
+		try {
+			space.deploy(SESSION_SPACE);
+		} catch (IOException e) {
+			throw new AssertionError(e);
+		}
 	}
 
 	public final void runJbossTest() {
@@ -191,18 +204,19 @@ public abstract class SystemTestCase {
 
 		server.start();
 
-        // TODO change the sleep - wait for the end of the server's bootstrap and continue
-        try {
-            Thread.sleep(1000 * 20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+		// TODO change the sleep - wait for the end of the server's bootstrap
+		// and continue
+		try {
+			Thread.sleep(1000 * 20);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-        generateTestData();
+		generateTestData();
 
 		runJmeterScript(server.getHost(), server.getPort());
 
-    }
+	}
 
 	protected void generateTestData() {
 
@@ -225,6 +239,8 @@ public abstract class SystemTestCase {
 
 		server.undeploy(APP_NAME);
 
+		space.undeploy(SESSION_SPACE);
+		
 		space.stop();
 	}
 

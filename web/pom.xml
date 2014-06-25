@@ -13,7 +13,7 @@
 		<groupId>com.gigaspaces.httpsession.qa</groupId>
 		<artifactId>http-session-itests</artifactId>
 		<relativePath>../pom.xml</relativePath>
-		<version>${gs.version}</version>
+		<version>9.7.0-10496-RELEASE</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -37,15 +37,6 @@
 				</configuration>
 				<version>2.3.2</version>
 			</plugin>
-			<!-- <plugin> <artifactId>maven-surefire-plugin</artifactId> <configuration> 
-				<forkMode>never</forkMode> </configuration> </plugin> -->
-			<!-- <plugin> <groupId>org.mortbay.jetty</groupId> <artifactId>maven-jetty-plugin</artifactId> 
-				<version>${jetty.version}</version> <configuration> <contextPath>/</contextPath> 
-				<connectors> <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector"> 
-				<port>9080</port> <maxIdleTime>60000</maxIdleTime> </connector> </connectors> 
-				<requestLog implementation="org.mortbay.jetty.NCSARequestLog"> <filename>./target/yyyy_mm_dd.request.log</filename> 
-				<retainDays>90</retainDays> <append>true</append> <extended>false</extended> 
-				<logTimeZone>GMT</logTimeZone> </requestLog> </configuration> </plugin> -->
 		</plugins>
 	</build>
 
@@ -101,5 +92,9 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.gigaspaces</groupId>
+			<artifactId>gs-runtime</artifactId>
+		</dependency>
 	</dependencies>
 </project>

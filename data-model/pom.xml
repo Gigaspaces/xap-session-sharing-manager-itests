@@ -4,7 +4,7 @@
 		<groupId>com.gigaspaces.httpsession.qa</groupId>
 		<artifactId>http-session-itests</artifactId>
 		<relativePath>../pom.xml</relativePath>
-		<version>${gs.version}</version>
+		<version>9.7.0-10496-RELEASE</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>

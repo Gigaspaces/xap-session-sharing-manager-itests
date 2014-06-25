@@ -11,7 +11,7 @@
 	<artifactId>http-session-itests</artifactId>
 	<groupId>com.gigaspaces.httpsession.qa</groupId>
 	<name>http-session-itests</name>
-	<version>${gs.version}</version>
+	<version>9.7.0-10496-RELEASE</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -19,6 +19,7 @@
 		<module>web</module>
 		<module>sys-tests</module>
 	</modules>
+
 	<properties>
 		<slf4j.version>1.6.4</slf4j.version>
 		<kryo.version>2.22</kryo.version>
@@ -50,19 +51,35 @@
 				<artifactId>gs-session-manager</artifactId>
 				<version>${gs.version}</version>
 				<scope>import</scope>
-				<!-- <exclusions> <exclusion> <artifactId>shiro-all</artifactId> <groupId>org.apache.shiro</groupId> 
-					</exclusion> <exclusion> <artifactId>kryo</artifactId> <groupId>com.esotericsoftware.kryo</groupId> 
-					</exclusion> <exclusion> <artifactId>xstream</artifactId> <groupId>com.thoughtworks.xstream</groupId> 
-					</exclusion> <exclusion> <artifactId>xmlbeans</artifactId> <groupId>org.apache.xmlbeans</groupId> 
-					</exclusion> <exclusion> <artifactId>slf4j-api</artifactId> <groupId>org.slf4j</groupId> 
-					</exclusion> </exclusions> -->
+				<exclusions>
+					<exclusion>
+						<artifactId>shiro-all</artifactId>
+						<groupId>org.apache.shiro</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>kryo</artifactId>
+						<groupId>com.esotericsoftware.kryo</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>xstream</artifactId>
+						<groupId>com.thoughtworks.xstream</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>xmlbeans</artifactId>
+						<groupId>org.apache.xmlbeans</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>slf4j-api</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
 				<groupId>com.gigaspaces</groupId>
 				<artifactId>gs-runtime</artifactId>
 				<version>${gs.version}</version>
-				<optional>true</optional>
+				<!-- <optional>true</optional> -->
 			</dependency>
 
 			<dependency>

@@ -1,13 +1,36 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FilenameUtils;
+import org.openspaces.admin.Admin;
+import org.openspaces.admin.AdminFactory;
+import org.openspaces.admin.gsa.GridServiceAgent;
+import org.openspaces.admin.pu.ProcessingUnit;
+import org.openspaces.admin.space.SpaceDeployment;
+
+import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 
 public class RemoteSpaceController extends ServerController {
 
 	private String spaceName = "sessionSpace";
 	private int instances = 2;
 	private int backs = 1;
+	// private static final String GS_HOME = "GS_HOME";
+	// private static final String QA_GROUP = "qa_group";
+	// private static final String LOOKUPGROUPS = "LOOKUPGROUPS";
+
+	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
+			: "gs-agent.sh";
+
+	private Admin admin = new AdminFactory().createAdmin();
+
+	private Runner starter;
+	private ProcessingUnit pu;
+	private ISpaceProxy space;
 
 	public RemoteSpaceController() {
 	}
@@ -26,33 +49,74 @@ public class RemoteSpaceController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		// TODO Auto-generated method stub
-		return null;
+		starter = new Runner(Config.getGSHome(), 10000);
+
+		String path = FilenameUtils.concat(Config.getGSHome(), "bin/"
+				+ GS_AGENT);
+
+		starter.getCommands().add(path);
+
+		return starter;
 	}
 
 	@Override
 	public Runner createStopper() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return starter;
+	}
+
+	@Override
+	public void start() {
+
+		super.start();
+
+		admin.getGridServiceManagers().waitForAtLeastOne();
+	}
+
+	@Override
+	public void stop() {
+
+		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
+			gsa.shutdown();
+		}
+
+		admin.close();
+
+		admin = null;
+
+		super.stop();
 	}
 
 	@Override
 	public void deploy(String appName) throws IOException {
-		// TODO Auto-generated method stub
 
+		SpaceDeployment sd = new SpaceDeployment(spaceName);
+		sd.numberOfInstances(instances);
+		sd.numberOfBackups(backs);
+
+		pu = admin.getGridServiceManagers().deploy(sd);
+
+		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+
+		space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
 	}
 
 	@Override
 	public void undeploy(String appName) throws IOException {
-		// TODO Auto-generated method stub
 
+		pu.undeploy();
+
+		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
 	}
 
 	@Override
 	public void saveShiroFile(String appName, List<String> lines)
 			throws IOException {
-		// TODO Auto-generated method stub
 
+	}
+
+	public ISpaceProxy getSpace() {
+		return space;
 	}
 
 }
