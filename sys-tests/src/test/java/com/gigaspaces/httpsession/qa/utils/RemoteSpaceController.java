@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Assert;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminFactory;
 import org.openspaces.admin.gsa.GridServiceAgent;
 import org.openspaces.admin.pu.ProcessingUnit;
+import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
 
 import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
@@ -19,14 +21,11 @@ public class RemoteSpaceController extends ServerController {
 	private String spaceName = "sessionSpace";
 	private int instances = 2;
 	private int backs = 1;
-	// private static final String GS_HOME = "GS_HOME";
-	// private static final String QA_GROUP = "qa_group";
-	// private static final String LOOKUPGROUPS = "LOOKUPGROUPS";
 
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
 
-	private Admin admin = new AdminFactory().createAdmin();
+	private Admin admin = new AdminFactory().addGroup(System.getProperty("group")).createAdmin();
 
 	private Runner starter;
 	private ProcessingUnit pu;
@@ -97,6 +96,9 @@ public class RemoteSpaceController extends ServerController {
 		pu = admin.getGridServiceManagers().deploy(sd);
 
 		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+        Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+        if(space1 == null)
+            Assert.fail("Failed to find deployed space");
 
 		space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
 	}

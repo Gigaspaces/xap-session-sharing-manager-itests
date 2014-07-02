@@ -15,6 +15,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.2</junit.version>
+        <group>httpsessiontest</group>
 	</properties>
 
 	<dependencies>
@@ -81,6 +82,9 @@
 					<additionalClasspathElements>
 						<additionalClasspathElement>src/test/resources</additionalClasspathElement>
 					</additionalClasspathElements>
+                    <systemProperties>
+                        <lookupgroup>${group}</lookupgroup>
+                    </systemProperties>
 				</configuration>
 			</plugin>
             <plugin>
