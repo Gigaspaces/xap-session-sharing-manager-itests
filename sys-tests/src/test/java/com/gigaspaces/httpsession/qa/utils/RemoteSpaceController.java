@@ -55,9 +55,8 @@ public class RemoteSpaceController extends ServerController {
 
  		starter = new Runner(Config.getGSHome(), 10000, envs);
 
-		String path = FilenameUtils.concat("export LOOKUPGROUPS=httpsession; " + Config.getGSHome(), "bin/"
+		String path = FilenameUtils.concat(Config.getGSHome(), "bin/"
 				+ GS_AGENT);
-        starter.getCommands().add("export LOOKUPGROUPS=httpsession");
 		starter.getCommands().add(path);
 
 		return starter;
