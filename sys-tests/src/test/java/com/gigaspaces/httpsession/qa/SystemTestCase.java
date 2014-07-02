@@ -73,7 +73,7 @@ public abstract class SystemTestCase {
 	 */
 	public final void config(String file, Map<String, String> properties) {
 
-		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "groups="+System.getProperty("group"));
+		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group"));
 
 		try {
 			server.deploy(APP_NAME);
