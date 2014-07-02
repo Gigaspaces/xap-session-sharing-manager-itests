@@ -22,21 +22,21 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 		assertSpaceFullMode(USERS_VALUE);
 	}
 
-//	@Test
-//	public void testTomcat() {
-//
-//		runTomcatTest();
-//
-//		assertSpaceFullMode(USERS_VALUE);
-//	}
+	@Test
+	public void testTomcat() {
 
-//	@Test
-//	public void testJetty() {
-//
-//		runJettyTest();
-//
-//		assertSpaceFullMode(USERS_VALUE);
-//	}
+		runTomcatTest();
+
+		assertSpaceFullMode(USERS_VALUE);
+	}
+
+	@Test
+	public void testJetty() {
+
+		runJettyTest();
+
+		assertSpaceFullMode(USERS_VALUE);
+	}
 
 	@Override
 	public Map<String, String> getConfiguration() {
