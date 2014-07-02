@@ -14,21 +14,21 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 		return "data.full.withoutlogin.csv";
 	}
 
-	@Test
-	public void testJboss() {
-
-		runJbossTest();
-
-		assertSpaceFullMode(USERS_VALUE);
-	}
-
 //	@Test
-//	public void testTomcat() {
+//	public void testJboss() {
 //
-//		runTomcatTest();
+//		runJbossTest();
 //
 //		assertSpaceFullMode(USERS_VALUE);
 //	}
+
+	@Test
+	public void testTomcat() {
+
+		runTomcatTest();
+
+		assertSpaceFullMode(USERS_VALUE);
+	}
 //
 //	@Test
 //	public void testJetty() {
