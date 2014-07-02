@@ -25,7 +25,7 @@ public class JbossController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		Runner starter = new Runner(Config.getJbossHome());
+		Runner starter = new Runner(Config.getJbossHome(), null);
 
 		String path = getExecutionPath(Config.getJbossHome(), BIN_RUN);
 
@@ -47,7 +47,7 @@ public class JbossController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-		Runner stopper = new Runner(Config.getJbossHome());
+		Runner stopper = new Runner(Config.getJbossHome(), null);
 
 		String path = getExecutionPath(Config.getJbossHome(), BIN_SHUTDOWN);
 

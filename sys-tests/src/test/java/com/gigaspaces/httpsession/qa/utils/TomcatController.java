@@ -27,7 +27,7 @@ public class TomcatController extends ServerController {
 	@Override
 	public Runner createStarter() {
 
-		Runner starter = new Runner(Config.getTomcatHome());
+		Runner starter = new Runner(Config.getTomcatHome(), null);
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -55,7 +55,7 @@ public class TomcatController extends ServerController {
 	@Override
 	public Runner createStopper() {
 
-		Runner stopper = new Runner(Config.getTomcatHome());
+		Runner stopper = new Runner(Config.getTomcatHome(), null);
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 

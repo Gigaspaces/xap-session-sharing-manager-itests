@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +25,19 @@ public class Runner extends Thread {
 	protected BufferedReader stdInput;
 	private int timeout = 60000;
 
-	public Runner(String wc) {
+	public Runner(String wc, Map<String, String> envs) {
 		setDaemon(true);
 
 		this.builder = new ProcessBuilder(commands);
+        Map<String, String> env = builder.environment();
+        if(envs != null)
+            env.putAll(envs);
 		this.builder.directory(new File(wc));
 		builder.redirectErrorStream(true);
 	}
 
-	public Runner(String wc, int timeout) {
-		this(wc);
+	public Runner(String wc, int timeout, Map<String, String> envs) {
+		this(wc, envs);
 		this.timeout = timeout;
 	}
 

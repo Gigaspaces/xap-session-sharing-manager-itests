@@ -2,7 +2,9 @@ package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FilenameUtils;
@@ -48,11 +50,14 @@ public class RemoteSpaceController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		starter = new Runner(Config.getGSHome(), 10000);
+        Map<String, String> envs = new HashMap<String, String>();
+        envs.put("LOOKUPGROUPS", System.getProperty("group"));
 
-		String path = FilenameUtils.concat(Config.getGSHome(), "bin/"
+ 		starter = new Runner(Config.getGSHome(), 10000, envs);
+
+		String path = FilenameUtils.concat("export LOOKUPGROUPS=httpsession; " + Config.getGSHome(), "bin/"
 				+ GS_AGENT);
-
+        starter.getCommands().add("export LOOKUPGROUPS=httpsession");
 		starter.getCommands().add(path);
 
 		return starter;
