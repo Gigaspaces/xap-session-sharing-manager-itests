@@ -14,13 +14,13 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 		return "data.full.withoutlogin.csv";
 	}
 
-//	@Test
-//	public void testJboss() {
-//
-//		runJbossTest();
-//
-//		assertSpaceFullMode(USERS_VALUE);
-//	}
+	@Test
+	public void testJboss() {
+
+		runJbossTest();
+
+		assertSpaceFullMode(USERS_VALUE);
+	}
 
 //	@Test
 //	public void testTomcat() {
@@ -30,13 +30,13 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 //		assertSpaceFullMode(USERS_VALUE);
 //	}
 
-	@Test
-	public void testJetty() {
-
-		runJettyTest();
-
-		assertSpaceFullMode(USERS_VALUE);
-	}
+//	@Test
+//	public void testJetty() {
+//
+//		runJettyTest();
+//
+//		assertSpaceFullMode(USERS_VALUE);
+//	}
 
 	@Override
 	public Map<String, String> getConfiguration() {
