@@ -9,8 +9,8 @@ import org.apache.commons.io.FilenameUtils;
 
 public class JbossController extends ServerController {
 
-	private static final String BIN_SHUTDOWN = "bin/shutdown";
-	private static final String BIN_RUN = "bin/run";
+	private static final String BIN_JBOSS_CLI = "bin/jboss-cli";
+	private static final String BIN_STANDALONE = "bin/standalone";
 	private static final String STARTED_COMPLETED = "Deployed \"app.war\"";
 	public static final String JBOSS_DEPLOYMENTS = FilenameUtils.concat(
 			Config.getJbossHome(), "standalone/deployments");
@@ -27,7 +27,7 @@ public class JbossController extends ServerController {
 	public Runner createStarter() {
 		Runner starter = new Runner(Config.getJbossHome(), null);
 
-		String path = getExecutionPath(Config.getJbossHome(), BIN_RUN);
+		String path = getExecutionPath(Config.getJbossHome(), BIN_STANDALONE);
 
 		LOGGER.debug("JBOSS start script:" + path);
 
@@ -49,7 +49,7 @@ public class JbossController extends ServerController {
 	public Runner createStopper() {
 		Runner stopper = new Runner(Config.getJbossHome(), null);
 
-		String path = getExecutionPath(Config.getJbossHome(), BIN_SHUTDOWN);
+		String path = getExecutionPath(Config.getJbossHome(), BIN_JBOSS_CLI);
 
 		LOGGER.debug("JBOSS shutdown script:" + path);
 
