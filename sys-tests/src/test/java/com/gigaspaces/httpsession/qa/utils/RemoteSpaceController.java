@@ -24,8 +24,8 @@ public class RemoteSpaceController extends ServerController {
 	private int instances = 2;
 	private int backs = 1;
 
-	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat gsa.global.lus 0 gsa.global.gsm 0 gsa.lus 1 gsa.gsm 1"
-			: "gs-agent.sh gsa.global.lus=0 gsa.global.gsm=0 gsa.lus=1 gsa.gsm=1";
+	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
+			: "gs-agent.sh";
 
 	private Admin admin = new AdminFactory().addGroup(System.getProperty("group")).createAdmin();
 
