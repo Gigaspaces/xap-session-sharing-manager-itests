@@ -5,12 +5,12 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ FullModeWithoutLogin.class/*, FullModeTestWithLogin.class,
+@SuiteClasses({ FullModeWithoutLogin.class, FullModeTestWithLogin.class,
 		DeltaModeLWWTestWithLogin.class, DeltaModeFastFailTestWithLogin.class,
 		DeltaModePartialTestWithLogin.class,
 		DeltaModeLWWTestWithoutLogin.class,
 		DeltaModeFastFailTestWithoutLogin.class,
-		DeltaModePartialTestWithoutLogin.class*/ })
+		DeltaModePartialTestWithoutLogin.class})
 public class SystemTestSuite {
 
 }

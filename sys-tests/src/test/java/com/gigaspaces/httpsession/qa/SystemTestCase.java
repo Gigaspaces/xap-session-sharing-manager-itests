@@ -21,6 +21,7 @@ import com.gigaspaces.httpsession.models.SpaceSessionBase;
 import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
 import com.gigaspaces.httpsession.qa.utils.Config;
 import com.gigaspaces.httpsession.qa.utils.DataGenerator;
+import com.gigaspaces.httpsession.qa.utils.EmbeddedSpaceController;
 import com.gigaspaces.httpsession.qa.utils.JbossController;
 import com.gigaspaces.httpsession.qa.utils.JettyController;
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
@@ -55,6 +56,8 @@ public abstract class SystemTestCase {
 	protected RemoteSpaceController space = new RemoteSpaceController(
 			SESSION_SPACE, 2, 1);
 
+	//protected EmbeddedSpaceController  space = new EmbeddedSpaceController(); 
+	
 	private Map<String, DataUnit> expected;
 
 	@BeforeClass

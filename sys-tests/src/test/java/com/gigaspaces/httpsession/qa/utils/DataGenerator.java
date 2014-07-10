@@ -19,10 +19,10 @@ public class DataGenerator {
 
 	private static final String USER_KEY = "user";
 
-	public static Contract createContract() {
+	public static Contract generateContract(int index) {
 
 		Contract contract = new Contract();
-		
+
 		return contract;
 	}
 
@@ -38,16 +38,30 @@ public class DataGenerator {
 		return user;
 	}
 
+	public static User generateUserWithContract(int index) {
+
+		User user = generateUser(index);
+
+//		user.setContract(generateContract(index));
+
+		return user;
+	}
+
 	public static Map<String, DataUnit> generateDataFile(String path)
 			throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 
 		Map<String, DataUnit> expected = new HashMap<String, DataUnit>();
+		
+		for (int i = 0; i < 1; i++) {
 
-		appendData(USER_KEY, generateUser(10), "B", builder, expected);
+			User user = generateUser(i);
 
-		FileUtils.writeStringToFile(new File(path), builder.toString());
+			appendData(USER_KEY + i, user, "B", builder, expected);
+		}
+
+ 		FileUtils.writeStringToFile(new File(path), builder.toString());
 
 		return expected;
 	}

@@ -9,13 +9,13 @@ import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
 
 public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 
-	@Test
-	public void testJboss() {
-
-		runJbossTest();
-
-		assertSpaceDeltaMode(USERS_VALUE);
-	}
+//	@Test
+//	public void testJboss() {
+//
+//		runJbossTest();
+//
+//		assertSpaceDeltaMode(USERS_VALUE);
+//	}
 
 	@Test
 	public void testTomcat() {
@@ -25,13 +25,13 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 		assertSpaceDeltaMode(USERS_VALUE);
 	}
 
-	@Test
-	public void testJetty() {
-
-		runJettyTest();
-
-		assertSpaceDeltaMode(USERS_VALUE);
-	}
+//	@Test
+//	public void testJetty() {
+//
+//		runJettyTest();
+//
+//		assertSpaceDeltaMode(USERS_VALUE);
+//	}
 
 	@Override
 	protected String getDataFileName() {
@@ -44,7 +44,7 @@ public class DeltaModeLWWTestWithLogin extends TestWithLoginBase {
 		Map<String, String> properties = super.getConfiguration();
 
 		properties.put("main/storeMode", DeltaStoreMode.class.getName());
-		properties.put("main/storeMode.policyType",
+		properties.put("main/storeMode.changeStrategy",
 				LWWChangeStrategy.class.getName());
 
 		return properties;

@@ -8,12 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class Contract {
-	// private final static
+	//private final static Logger logger
+	
 	private User[] contributes = new User[0];
 	private Set<String> sections = new HashSet<String>();
-	private Map<String, String> index = new HashMap<String, String>();
-	private List<String> lines = new ArrayList<String>();
-
+	private Map<String, User> index = new HashMap<String, User>();
+	private List<Person> lines = new ArrayList<Person>();
+	
 	public User[] getContributes() {
 		return contributes;
 	}
@@ -30,19 +31,19 @@ public class Contract {
 		this.sections = sections;
 	}
 
-	public Map<String, String> getIndex() {
+	public Map<String, User> getIndex() {
 		return index;
 	}
 
-	public void setIndex(Map<String, String> index) {
+	public void setIndex(Map<String, User> index) {
 		this.index = index;
 	}
 
-	public List<String> getLines() {
+	public List<Person> getLines() {
 		return lines;
 	}
 
-	public void setLines(List<String> lines) {
+	public void setLines(List<Person> lines) {
 		this.lines = lines;
 	}
 

@@ -7,7 +7,7 @@ public class User extends Person {
 	private long id;
 	private String name;
 	private Date bithday;
-	// private Contract contract;
+//	private Contract contract;
 	private int age;
 
 	public long getId() {
@@ -34,13 +34,13 @@ public class User extends Person {
 		this.bithday = bithday;
 	}
 
-	// public Contract getContract() {
-	// return contract;
-	// }
-	//
-	// public void setContract(Contract contract) {
-	// this.contract = contract;
-	// }
+//	public Contract getContract() {
+//		return contract;
+//	}
+//
+//	public void setContract(Contract contract) {
+//		this.contract = contract;
+//	}
 
 	@Override
 	public boolean equals(Object arg0) {

@@ -44,7 +44,7 @@ public class DeltaModeLWWTestWithoutLogin extends TestWithoutLoginBase {
 		Map<String, String> properties = super.getConfiguration();
 
 		properties.put("main/storeMode", DeltaStoreMode.class.getName());
-		properties.put("main/storeMode.policyType",
+		properties.put("main/storeMode.changeStrategy",
 				LWWChangeStrategy.class.getName());
 
 		return properties;
