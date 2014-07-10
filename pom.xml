@@ -11,7 +11,7 @@
 	<artifactId>http-session-itests</artifactId>
 	<groupId>com.gigaspaces.httpsession.qa</groupId>
 	<name>http-session-itests</name>
-	<version>9.7.0-10496-RELEASE</version>
+	<version>10.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -25,7 +25,7 @@
 		<kryo.version>2.22</kryo.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<gs.version>9.7.0-10496-RELEASE</gs.version>
+		<gs.version>10.0.0-SNAPSHOT</gs.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -110,6 +110,15 @@
 					<skip>true</skip>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+                <version>2.3.2</version>
+            </plugin>
 		</plugins>
 	</reporting>
 </project>

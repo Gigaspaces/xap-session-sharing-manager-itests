@@ -23,7 +23,7 @@ public class JettyController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		Runner starter = new Runner(Config.getJettyHome(),10000);
+		Runner starter = new Runner(Config.getJettyHome(),10000, null);
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
@@ -53,7 +53,7 @@ public class JettyController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-		Runner stopper = new Runner(Config.getJettyHome());
+		Runner stopper = new Runner(Config.getJettyHome(), null);
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
