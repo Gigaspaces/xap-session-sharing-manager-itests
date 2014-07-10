@@ -8,7 +8,7 @@ import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 public class TestWithoutLoginBase extends SystemTestCase {
 
 	protected static final int USERS_VALUE = 1;
-	protected static final int LOOP_COUNT_VALUE = 2;
+	protected static final int LOOP_COUNT_VALUE = 3;
 
 	@Override
 	protected String getScript() {

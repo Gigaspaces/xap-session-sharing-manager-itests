@@ -13,4 +13,4 @@ import org.junit.runners.Suite.SuiteClasses;
 		DeltaModePartialTestWithoutLogin.class})
 public class SystemTestSuite {
 
-}
+} 
