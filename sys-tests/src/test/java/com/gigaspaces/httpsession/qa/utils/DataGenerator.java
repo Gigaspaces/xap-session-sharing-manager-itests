@@ -58,7 +58,7 @@ public class DataGenerator {
 
 			User user = generateUser(i);
 
-			appendData(USER_KEY + i, user, "B", builder, expected);
+			appendData(USER_KEY + (i+1), user, "B", builder, expected);
 		}
 
  		FileUtils.writeStringToFile(new File(path), builder.toString());
