@@ -235,16 +235,16 @@ public abstract class SystemTestCase {
 	@After
 	public final void teardown() throws IOException {
 
+		space.undeploy(SESSION_SPACE);
+		
+		space.stop();
+		
 		if (server == null)
 			return;
 
 		server.stop();
 
 		server.undeploy(APP_NAME);
-
-		space.undeploy(SESSION_SPACE);
-		
-		space.stop();
 	}
 
 	@SuppressWarnings({})

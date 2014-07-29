@@ -80,10 +80,12 @@ public class RemoteSpaceController extends ServerController {
 	public void stop() {
 
         admin.getGridServiceAgents().waitForAtLeastOne();
+        
 		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
 			gsa.shutdown();
 		}
-
+		
+		
 		admin.close();
 
 		admin = null;
