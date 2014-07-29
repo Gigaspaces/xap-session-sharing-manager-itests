@@ -10,7 +10,7 @@ import java.util.Set;
 public class Contract {
 	//private final static Logger logger
 	
-	private User[] contributes = new User[0];
+	private User[] contributes;
 	private Set<String> sections = new HashSet<String>();
 	private Map<String, User> index = new HashMap<String, User>();
 	private List<Person> lines = new ArrayList<Person>();
