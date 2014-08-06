@@ -91,7 +91,7 @@ public class RemoteSpaceController extends ServerController {
 
 		space.close();
 		
-		super.stop();
+//		super.stop();
 	}
 
 	@Override
