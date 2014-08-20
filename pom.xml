@@ -11,7 +11,7 @@
 	<artifactId>http-session-itests</artifactId>
 	<groupId>com.gigaspaces.httpsession.qa</groupId>
 	<name>http-session-itests</name>
-	<version>10.0.0-SNAPSHOT</version>
+	<version>10.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -25,7 +25,7 @@
 		<kryo.version>2.22</kryo.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<gs.version>10.0.0-SNAPSHOT</gs.version>
+		<gs.version>10.1.0-SNAPSHOT</gs.version>
 	</properties>
 	<repositories>
 		<repository>

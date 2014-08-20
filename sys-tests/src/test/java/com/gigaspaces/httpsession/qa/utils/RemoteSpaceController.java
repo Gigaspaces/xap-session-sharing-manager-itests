@@ -79,7 +79,9 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public void stop() {
 
-        admin.getGridServiceAgents().waitForAtLeastOne();
+		space.close();
+		
+		admin.getGridServiceAgents().waitForAtLeastOne();
         
 		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
 			gsa.shutdown();
@@ -89,7 +91,7 @@ public class RemoteSpaceController extends ServerController {
 
 		admin = null;
 
-		space.close();
+		
 		
 //		super.stop();
 	}
