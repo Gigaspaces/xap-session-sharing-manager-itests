@@ -33,7 +33,6 @@ storeMode.connector = $connector
 cacheManager.storeMode = $storeMode
 # Serialization Service
 serializer = com.gigaspaces.httpsession.serialize.KryoSerializerImpl
-serializer.logLevel = 1
 #### classes registation: class1, class2, ...,classN
 #serializer.classes = com.gigaspaces.httpsession.sessions.NestSerial , com.gigaspaces.httpsession.sessions.NestNonSerial
 cacheManager.serializer = $serializer
