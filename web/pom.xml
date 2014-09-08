@@ -10,7 +10,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>com.gigaspaces.httpsession.qa</groupId>
+		<groupId>com.gigaspaces.http-session.qa</groupId>
 		<artifactId>http-session-itests</artifactId>
 		<relativePath>../pom.xml</relativePath>
 		<version>10.1.0-SNAPSHOT</version>
@@ -26,7 +26,7 @@
 	</properties>
 
 	<build>
-		<finalName>sample-webapp-1.0.0</finalName>
+		<finalName>demo-app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -81,13 +81,13 @@
 			<artifactId>commons-codec</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.gigaspaces.httpsession.qa</groupId>
+			<groupId>com.gigaspaces.http-session.qa</groupId>
 			<artifactId>data-model</artifactId>
 			<version>${gs.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.gigaspaces.httpsession</groupId>
+			<groupId>com.gigaspaces.http-session</groupId>
 			<artifactId>gs-session-manager</artifactId>
 			<scope>compile</scope>
 		</dependency>

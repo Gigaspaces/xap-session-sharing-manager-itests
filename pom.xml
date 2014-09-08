@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>http-session-itests</artifactId>
-	<groupId>com.gigaspaces.httpsession.qa</groupId>
+	<groupId>com.gigaspaces.http-session.qa</groupId>
 	<name>http-session-itests</name>
 	<version>10.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -47,10 +47,10 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.gigaspaces.httpsession</groupId>
+				<groupId>com.gigaspaces.http-session</groupId>
 				<artifactId>gs-session-manager</artifactId>
 				<version>${gs.version}</version>
-				<scope>import</scope>
+				<!--<scope>import</scope>-->
 				<exclusions>
 					<exclusion>
 						<artifactId>shiro-all</artifactId>
