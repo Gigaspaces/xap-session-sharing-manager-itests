@@ -250,7 +250,7 @@ public abstract class SystemTestCase {
 
 	protected void assertSpaceDeltaMode(int count, boolean isSecured) {
 		if(isSecured)
-			assertSpaceDeltaMode(count - 1);//we registered javax.security.auth.Subject
+			assertSpaceDeltaMode(count + 1);//we registered javax.security.auth.Subject
 		else
 			assertSpaceDeltaMode(count);
 	}
@@ -282,7 +282,7 @@ public abstract class SystemTestCase {
 
 	protected void assertSpaceFullMode(int count, boolean isSecured) {
 		if(isSecured)
-			assertSpaceFullMode(count-1);//we registered javax.security.auth.Subject
+			assertSpaceFullMode(count + 1);//we registered javax.security.auth.Subject
 		else
 			assertSpaceFullMode(count);
 	}
