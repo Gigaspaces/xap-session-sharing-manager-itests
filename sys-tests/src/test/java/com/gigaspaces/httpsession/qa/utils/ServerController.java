@@ -1,13 +1,13 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class ServerController {
 
@@ -24,6 +24,7 @@ public abstract class ServerController {
 	private AtomicBoolean running = new AtomicBoolean(false);
 	protected String host = "127.0.0.1";
 	protected int port = 8080;
+	protected boolean secured;
 
 	public ServerController() {
 		init();
@@ -45,12 +46,23 @@ public abstract class ServerController {
 		init();
 	}
 
+	public ServerController(String host, int port, boolean secured) {
+		this.host = host;
+		this.port = port;
+		this.secured = secured;
+		init();
+	}
+
 	public String getHost() {
 		return host;
 	}
 
 	public int getPort() {
 		return port;
+	}
+
+	public boolean isSecured() {
+		return secured;
 	}
 
 	public abstract Runner createStarter();

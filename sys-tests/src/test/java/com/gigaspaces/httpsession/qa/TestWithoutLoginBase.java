@@ -1,9 +1,9 @@
 package com.gigaspaces.httpsession.qa;
 
+import com.gigaspaces.httpsession.qa.utils.JmeterTask;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 
 public class TestWithoutLoginBase extends SystemTestCase {
 
@@ -16,8 +16,12 @@ public class TestWithoutLoginBase extends SystemTestCase {
 	}
 
 	@Override
-	public String getFile() {
-		return "src/test/resources/config/shiro.ini.withoutlogin";
+	public String getFile(boolean isSecured) {
+		if(isSecured)
+			return "src/test/resources/config/shiro.ini.securedwithoutlogin";
+
+		else
+			return "src/test/resources/config/shiro.ini.withoutlogin";
 	}
 
 	@Override

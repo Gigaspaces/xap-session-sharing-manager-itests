@@ -1,10 +1,9 @@
 package com.gigaspaces.httpsession.qa;
 
-import java.util.Map;
-
+import com.gigaspaces.httpsession.sessions.FullStoreMode;
 import org.junit.Test;
 
-import com.gigaspaces.httpsession.sessions.FullStoreMode;
+import java.util.Map;
 
 public class FullModeWithoutLogin extends TestWithoutLoginBase {
 	
@@ -30,7 +29,15 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 		runTomcatTest();
 
 		assertSpaceFullMode(USERS_VALUE);
-	} 
+	}
+
+	@Test
+	public void testTomcatWithSecurity() {
+
+		runSecuredTomcatTest();
+
+		assertSpaceFullMode(USERS_VALUE, true);
+	}
 
 
 	@Test

@@ -1,12 +1,6 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
+import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
@@ -16,7 +10,12 @@ import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
 
-import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class RemoteSpaceController extends ServerController {
 

@@ -1,11 +1,10 @@
 package com.gigaspaces.httpsession.qa;
 
-import java.util.Map;
-
-import org.junit.Test;
-
 import com.gigaspaces.httpsession.policies.FailFastChangeStrategy;
 import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
+import org.junit.Test;
+
+import java.util.Map;
 
 public class DeltaModeFastFailTestWithoutLogin extends TestWithoutLoginBase {
 
@@ -23,6 +22,14 @@ public class DeltaModeFastFailTestWithoutLogin extends TestWithoutLoginBase {
 		runTomcatTest();
 
 		assertSpaceDeltaMode(USERS_VALUE);
+	}
+
+	@Test
+	public void testTomcatWithSecurity() {
+
+		runSecuredTomcatTest();
+
+		assertSpaceDeltaMode(USERS_VALUE, true);
 	}
 
 	@Test

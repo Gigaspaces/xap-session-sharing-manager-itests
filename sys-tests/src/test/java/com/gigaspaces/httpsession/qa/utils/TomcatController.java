@@ -1,11 +1,11 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
 public class TomcatController extends ServerController {
 
@@ -16,8 +16,12 @@ public class TomcatController extends ServerController {
 	public static final String TOMCAT_WEB_APPS = FilenameUtils.concat(
 			Config.getTomcatHome(), WEB_APPS);
 
+	public TomcatController(String host, int port, boolean isSecured) {
+		super(host, port, isSecured);
+	}
+
 	public TomcatController(String host, int port) {
-		super(host, port);
+		this(host, port, false);
 	}
 
 	public TomcatController(int port) {
@@ -37,6 +41,8 @@ public class TomcatController extends ServerController {
 
 		commands.add(path);
 		commands.add("run");
+		if(isSecured())
+			commands.add("-security");
 		commands.add("-config");
 		commands.add(Config.getAbrolutePath(SERVER_CONFIG));
 

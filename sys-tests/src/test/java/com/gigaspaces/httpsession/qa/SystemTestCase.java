@@ -1,12 +1,15 @@
 package com.gigaspaces.httpsession.qa;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.gigaspaces.httpsession.models.AttributeData;
+import com.gigaspaces.httpsession.models.SpaceSessionAttributes;
+import com.gigaspaces.httpsession.models.SpaceSessionBase;
+import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
+import com.gigaspaces.httpsession.qa.utils.*;
+import com.gigaspaces.httpsession.serialize.CompressUtils;
+import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
+import com.gigaspaces.httpsession.serialize.NonCompressCompressor;
+import com.gigaspaces.httpsession.serialize.SerializeUtils;
+import com.j_spaces.core.client.SQLQuery;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.Ini.Section;
@@ -15,24 +18,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.gigaspaces.httpsession.models.AttributeData;
-import com.gigaspaces.httpsession.models.SpaceSessionAttributes;
-import com.gigaspaces.httpsession.models.SpaceSessionBase;
-import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
-import com.gigaspaces.httpsession.qa.utils.Config;
-import com.gigaspaces.httpsession.qa.utils.DataGenerator;
-import com.gigaspaces.httpsession.qa.utils.EmbeddedSpaceController;
-import com.gigaspaces.httpsession.qa.utils.JbossController;
-import com.gigaspaces.httpsession.qa.utils.JettyController;
-import com.gigaspaces.httpsession.qa.utils.JmeterTask;
-import com.gigaspaces.httpsession.qa.utils.RemoteSpaceController;
-import com.gigaspaces.httpsession.qa.utils.ServerController;
-import com.gigaspaces.httpsession.qa.utils.TomcatController;
-import com.gigaspaces.httpsession.serialize.CompressUtils;
-import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
-import com.gigaspaces.httpsession.serialize.NonCompressCompressor;
-import com.gigaspaces.httpsession.serialize.SerializeUtils;
-import com.j_spaces.core.client.SQLQuery;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public abstract class SystemTestCase {
 
@@ -168,7 +159,7 @@ public abstract class SystemTestCase {
 
 	}
 
-	public abstract String getFile();
+	public abstract String getFile(boolean isSecured);
 
 	public abstract Map<String, String> getConfiguration();
 
@@ -196,6 +187,12 @@ public abstract class SystemTestCase {
 		runTest();
 	}
 
+	public final void runSecuredTomcatTest() {
+		server = new TomcatController(Config.getHost(), 9090, true);
+
+		runTest(true);
+	}
+
 	public final void runJettyTest() {
 		server = new JettyController(Config.getHost(), 7070);
 
@@ -203,7 +200,11 @@ public abstract class SystemTestCase {
 	}
 
 	private void runTest() {
-		config(getFile(), getConfiguration());
+		runTest(false);
+	}
+
+	private void runTest(boolean isSecured) {
+		config(getFile(isSecured), getConfiguration());
 
 		server.start();
 
@@ -247,6 +248,13 @@ public abstract class SystemTestCase {
 		server.undeploy(APP_NAME);
 	}
 
+	protected void assertSpaceDeltaMode(int count, boolean isSecured) {
+		if(isSecured)
+			assertSpaceDeltaMode(count - 1);//we registered javax.security.auth.Subject
+		else
+			assertSpaceDeltaMode(count);
+	}
+
 	@SuppressWarnings({})
 	protected void assertSpaceDeltaMode(int count) {
 
@@ -270,6 +278,13 @@ public abstract class SystemTestCase {
 				Assert.assertEquals(expectedValue, actualValue);
 			}
 		}
+	}
+
+	protected void assertSpaceFullMode(int count, boolean isSecured) {
+		if(isSecured)
+			assertSpaceFullMode(count-1);//we registered javax.security.auth.Subject
+		else
+			assertSpaceFullMode(count);
 	}
 
 	@SuppressWarnings({ "unchecked" })

@@ -1,14 +1,13 @@
 package com.gigaspaces.httpsession.qa;
 
+import com.gigaspaces.httpsession.qa.utils.JmeterTask;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-
-import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 
 public class TestWithLoginBase extends SystemTestCase {
 
@@ -21,7 +20,8 @@ public class TestWithLoginBase extends SystemTestCase {
 	}
 
 	@Override
-	public String getFile() {
+	public String getFile(boolean isSecured) {
+		//TODO:add test with security and login
 		return "src/test/resources/config/shiro.ini.withlogin";
 	}
 
