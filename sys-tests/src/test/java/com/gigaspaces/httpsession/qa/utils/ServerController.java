@@ -14,7 +14,7 @@ public abstract class ServerController {
 	protected static final Logger LOGGER = LoggerFactory
 			.getLogger(ServerController.class);
 
-	protected static final String WEB_APP_SOURCE = "web/target/sample-webapp-1.0.0";
+	protected static final String WEB_APP_SOURCE = "web/target/demo-app";
 	protected static final String WEB_APPS = "webapps/";
 
 	protected static final long TIMEOUT = 5000L;
