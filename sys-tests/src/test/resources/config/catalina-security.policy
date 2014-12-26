@@ -1,0 +1,266 @@
+// ============================================================================
+// catalina.policy - Security Policy Permissions for Tomcat 7
+//
+// * Read access to the web application's document root directory
+// * Read, write and delete access to the web application's working directory
+// ============================================================================
+
+
+// ========== SYSTEM CODE PERMISSIONS =========================================
+
+
+// These permissions apply to javac
+grant codeBase "file:${java.home}/lib/-" {
+        permission java.security.AllPermission;
+};
+
+// These permissions apply to all shared system extensions
+grant codeBase "file:${java.home}/jre/lib/ext/-" {
+        permission java.security.AllPermission;
+};
+
+// These permissions apply to javac when ${java.home] points at $JAVA_HOME/jre
+grant codeBase "file:${java.home}/../lib/-" {
+        permission java.security.AllPermission;
+};
+
+// These permissions apply to all shared system extensions when
+// ${java.home} points at $JAVA_HOME/jre
+grant codeBase "file:${java.home}/lib/ext/-" {
+        permission java.security.AllPermission;
+};
+
+
+// ========== CATALINA CODE PERMISSIONS =======================================
+
+
+// These permissions apply to the daemon code
+grant codeBase "file:${catalina.home}/bin/commons-daemon.jar" {
+        permission java.security.AllPermission;
+};
+
+// These permissions apply to the logging API
+grant codeBase "file:${catalina.home}/bin/tomcat-juli.jar" {
+        permission java.io.FilePermission "${java.home}${file.separator}lib${file.separator}logging.properties", "read";
+        permission java.io.FilePermission "${catalina.home}${file.separator}conf${file.separator}logging.properties", "read";
+        permission java.io.FilePermission "${catalina.base}${file.separator}conf${file.separator}logging.properties", "read";
+
+        permission java.io.FilePermission "${catalina.base}${file.separator}logs", "read, write";
+        permission java.io.FilePermission "${catalina.base}${file.separator}logs${file.separator}*", "read, write";
+
+        permission java.lang.RuntimePermission "shutdownHooks";
+        permission java.lang.RuntimePermission "getClassLoader";
+        permission java.lang.RuntimePermission "setContextClassLoader";
+
+        permission java.util.logging.LoggingPermission "control";
+
+        permission java.util.PropertyPermission "java.util.logging.config.class", "read";
+        permission java.util.PropertyPermission "java.util.logging.config.file", "read";
+        permission java.util.PropertyPermission "org.apache.juli.ClassLoaderLogManager.debug", "read";
+        permission java.util.PropertyPermission "catalina.base", "read";
+        permission java.util.PropertyPermission "catalina.home", "read";
+        permission java.util.PropertyPermission "user.dir", "read";
+
+        permission java.util.PropertyPermission "org.apache.juli.logging.diagnostics.dest", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.LogFactory.HashtableImpl", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.LogFactory", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.Log.allowFlawedContext", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.Log.allowFlawedDiscovery", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.Log.allowFlawedHierarchy", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.log", "read";
+        permission java.util.PropertyPermission "org.apache.juli.logging.Log", "read";
+};
+
+// These permissions apply to the server startup code
+grant codeBase "file:${catalina.home}/bin/bootstrap.jar" {
+        permission java.security.AllPermission;
+};
+
+// These permissions apply to the servlet API classes
+// and those that are shared across all class loaders
+// located in the "lib" directory
+grant codeBase "file:${catalina.home}/lib/-" {
+        permission java.security.AllPermission;
+};
+
+// ========== WEB APPLICATION PERMISSIONS =====================================
+
+// These permissions are granted by default to all web applications
+// In addition, a web application will be given a read FilePermission
+// and JndiPermission for all files and directories in its document root.
+grant {
+    // Required for JNDI lookup of named JDBC DataSource's and
+    // javamail named MimePart DataSource used to send mail
+    permission java.util.PropertyPermission "java.home", "read";
+    permission java.util.PropertyPermission "java.naming.*", "read";
+    permission java.util.PropertyPermission "javax.sql.*", "read";
+
+    // OS Specific properties to allow read access
+    permission java.util.PropertyPermission "os.name", "read";
+    permission java.util.PropertyPermission "os.version", "read";
+    permission java.util.PropertyPermission "os.arch", "read";
+    permission java.util.PropertyPermission "file.separator", "read";
+    permission java.util.PropertyPermission "path.separator", "read";
+    permission java.util.PropertyPermission "line.separator", "read";
+
+    // JVM properties to allow read access
+    permission java.util.PropertyPermission "java.version", "read";
+    permission java.util.PropertyPermission "java.vendor", "read";
+    permission java.util.PropertyPermission "java.vendor.url", "read";
+    permission java.util.PropertyPermission "java.class.version", "read";
+    permission java.util.PropertyPermission "java.specification.version", "read";
+    permission java.util.PropertyPermission "java.specification.vendor", "read";
+    permission java.util.PropertyPermission "java.specification.name", "read";
+
+    permission java.util.PropertyPermission "java.vm.specification.version", "read";
+    permission java.util.PropertyPermission "java.vm.specification.vendor", "read";
+    permission java.util.PropertyPermission "java.vm.specification.name", "read";
+    permission java.util.PropertyPermission "java.vm.version", "read";
+    permission java.util.PropertyPermission "java.vm.vendor", "read";
+    permission java.util.PropertyPermission "java.vm.name", "read";
+
+    // Required for OpenJMX
+    permission java.lang.RuntimePermission "getAttribute";
+
+    // Allow read of JAXP compliant XML parser debug
+    permission java.util.PropertyPermission "jaxp.debug", "read";
+
+    // All JSPs need to be able to read this package
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat";
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.jni";
+
+    // Precompiled JSPs need access to these packages.
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.jasper.el";
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.jasper.runtime";
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.jasper.runtime.*";
+
+    // Precompiled JSPs need access to these system properties.
+    permission java.util.PropertyPermission "org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER", "read";
+    permission java.util.PropertyPermission "org.apache.el.parser.COERCE_TO_ZERO", "read";
+
+    // The cookie code needs these.
+    permission java.util.PropertyPermission "org.apache.catalina.STRICT_SERVLET_COMPLIANCE", "read";
+    permission java.util.PropertyPermission "org.apache.tomcat.util.http.ServerCookie.STRICT_NAMING", "read";
+    permission java.util.PropertyPermission "org.apache.tomcat.util.http.ServerCookie.FWD_SLASH_IS_SEPARATOR", "read";
+
+    // Applications using Comet need to be able to access this package
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.catalina.comet";
+
+    // Applications using the legacy WebSocket implementation need to be able to access this package
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.catalina.websocket";
+
+    // Applications using the JSR-356 WebSocket implementation need to be able to access these packages
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.websocket";
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.websocket.server";
+
+    // Applications using the Tomcat JDBC connection pool need to be able to access this package
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.jdbc.pool";
+};
+
+// BIW Additions
+grant {
+    // These are the system properties we set.
+    permission java.util.PropertyPermission "bi.tomcat.instanceName", "read";
+    permission java.util.PropertyPermission "com.sun.aas.instanceName", "read";
+    permission java.util.PropertyPermission "bi.appGrpNum", "read";
+    permission java.util.PropertyPermission "bi.jvm.heap.min", "read";
+    permission java.util.PropertyPermission "bi.jvm.heap.max", "read";
+    permission java.util.PropertyPermission "bi.jvm.perm.max", "read";
+    permission java.util.PropertyPermission "bi.http.proxyHost", "read";
+    permission java.util.PropertyPermission "bi.http.proxyPort", "read";
+    permission java.util.PropertyPermission "bi.http.nonProxyHosts", "read";
+    permission java.util.PropertyPermission "environment.name", "read";
+    permission java.util.PropertyPermission "appdatadir", "read";
+    permission java.util.PropertyPermission "applogdir", "read";
+
+    // These are java.net properties.
+    permission java.util.PropertyPermission "http.proxyHost", "read";
+    permission java.util.PropertyPermission "http.proxyPort", "read";
+    permission java.util.PropertyPermission "http.nonProxyHosts", "read";
+    permission java.util.PropertyPermission "https.proxyHost", "read";
+    permission java.util.PropertyPermission "https.proxyPort", "read";
+    permission java.util.PropertyPermission "https.nonProxyHosts", "read";
+
+    // Allow applications to write to ${applogdir} and ${appdatadir}
+    permission java.io.FilePermission "${applogdir}${file.separator}-", "read,write,delete";
+    permission java.io.FilePermission "${applogdir}", "read,write,delete";
+    permission java.io.FilePermission "${appdatadir}${file.separator}-", "read,write,delete";
+    permission java.io.FilePermission "${appdatadir}", "read,write,delete";
+
+    // Allow applications to access files under the dataexchange directory
+    permission java.io.FilePermission "${bi.dx.dir}${file.separator}${bi.env}${file.separator}-", "read,write,delete";
+    permission java.io.FilePermission "${bi.dx.dir}${file.separator}${bi.env}", "read";
+
+    permission java.lang.RuntimePermission    "modifyThread";
+    permission java.lang.RuntimePermission    "modifyThreadGroup";
+
+    // Cybersource keys.
+    permission java.util.PropertyPermission "cybersourcekeydir", "read";
+    permission java.io.FilePermission "${cybersourcekeydir}", "read";
+    permission java.io.FilePermission "${cybersourcekeydir}${file.separator}-", "read";
+
+    // Allow all permissions in ${java.io.tmpdir} which is unique per instance.
+    permission java.io.FilePermission "${java.io.tmpdir}", "read,write,delete";
+    permission java.io.FilePermission "${java.io.tmpdir}${file.separator}-", "read,write,delete";
+
+    // Allow the application to connect or accept any connections.
+    // IP Tables will restrict what connects in or out.
+    permission java.net.SocketPermission "*", "connect,accept,resolve";
+
+    // Quiet log4j
+    permission java.util.PropertyPermission "log4j.defaultInitOverride", "read";
+
+    // Required for Spring
+    permission java.lang.RuntimePermission "getenv.*";
+    permission java.lang.RuntimePermission "createClassLoader";
+    permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+
+    // For Quartz
+    // See org.quartz.impl.StdSchedulerFactory
+    // StdSchedulerFactory defines other properties it can use, but those
+    // can be defined inside the file references by org.quartz.properties.
+    permission java.util.PropertyPermission "org.quartz.properties", "read";
+
+    // Grant access to ${java.home} (which is the JRE home location.)
+    // Grant access to tools.jar under the JDK lib dir.
+    permission java.io.FilePermission "${java.home}${file.separator}-", "read";
+    permission java.io.FilePermission "${java.home}${file.separator}..${file.separator}lib${file.separator}tools.jar", "read";
+
+    // jsp
+    permission java.lang.RuntimePermission "defineClassInPackage.java.lang";
+    permission java.lang.RuntimePermission "defineClassInPackage.org.apache.jasper.runtime";
+    permission java.lang.RuntimePermission "defineClassInPackage.org.apache.naming.java";
+
+    // 7/23/2014
+    permission java.util.PropertyPermission "*", "read,write";
+    permission java.lang.RuntimePermission "getClassLoader";
+    permission java.lang.RuntimePermission "setContextClassLoader";
+    permission java.lang.RuntimePermission "getStackTrace";
+
+    // GigaSpaces
+    permission net.jini.discovery.DiscoveryPermission "*";
+    permission java.lang.RuntimePermission "createSecurityManager";
+    permission java.lang.RuntimePermission "getProtectionDomain";
+    permission java.lang.RuntimePermission "enableContextClassLoaderOverride";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.misc";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect";
+    permission java.lang.RuntimePermission "reflectionFactoryAccess";
+    permission java.security.SecurityPermission "getDomainCombiner";
+    permission java.security.SecurityPermission "createAccessControlContext";
+    permission java.net.SocketPermission "localhost:4174", "listen,resolve";
+    permission java.net.SocketPermission "localhost:0", "listen,resolve";
+    permission java.util.logging.LoggingPermission "control";
+    permission java.io.FilePermission "${catalina.base}${file.separator}webapps${file.separator}-", "read";
+};
+
+// Following grant block is only required for Reflection. If Reflection
+// is not in use the recommendation is to remove this section.
+grant {
+    permission java.lang.RuntimePermission "accessDeclaredMembers";
+};
+
+// JMX Remoting
+grant {
+    permission java.lang.management.ManagementPermission "monitor";
+    permission javax.management.MBeanPermission "*", "*";
+};

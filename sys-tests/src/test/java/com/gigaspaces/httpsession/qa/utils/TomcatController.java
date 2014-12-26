@@ -10,6 +10,9 @@ import java.util.List;
 public class TomcatController extends ServerController {
 
 	private static final String SERVER_CONFIG = "sys-tests/src/test/resources/config/server.xml";
+	private static final String TEST_SECURED_POLICY = "sys-tests/src/test/resources/config/catalina-security.policy";
+	private static final String SECURED_POLICY_ORG = "catalina.policy";
+	private static final String SECURED_POLICY = "catalina-security.policy";
 	private static final String STARTED_COMPLETED = "org.apache.catalina.startup.Catalina start";
 	private static final String DESTROYING_COMPLETED = "Destroying ProtocolHandler [\"ajp-bio-9009\"]";
 	private static final String BIN_CATALINA = "bin/catalina";
@@ -32,6 +35,15 @@ public class TomcatController extends ServerController {
 	public Runner createStarter() {
 
 		Runner starter = new Runner(Config.getTomcatHome(), null);
+		if (isSecured()){
+			try {
+				File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
+				securedPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
+				FileUtils.copyFile(new File(TEST_SECURED_POLICY), securedPolicy);
+			}catch (IOException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -62,6 +74,18 @@ public class TomcatController extends ServerController {
 	public Runner createStopper() {
 
 		Runner stopper = new Runner(Config.getTomcatHome(), null);
+
+		if (isSecured()){
+			try {
+				File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
+				FileUtils.forceDelete(securedPolicy);
+
+				File orgSecuredPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org");
+				orgSecuredPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
+			}catch (IOException e){
+				throw new RuntimeException(e);
+			}
+		}
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
