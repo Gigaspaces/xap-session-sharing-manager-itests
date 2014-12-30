@@ -10,7 +10,7 @@ import java.util.List;
 public class TomcatController extends ServerController {
 
 	private static final String SERVER_CONFIG = "sys-tests/src/test/resources/config/server.xml";
-	private static final String TEST_SECURED_POLICY = "config/catalina-security.policy";
+	private static final String TEST_SECURED_POLICY = "src/test/resources/config/catalina-security.policy";
 	private static final String SECURED_POLICY_ORG = "catalina.policy";
 	private static final String STARTED_COMPLETED = "org.apache.catalina.startup.Catalina start";
 	private static final String DESTROYING_COMPLETED = "Destroying ProtocolHandler [\"ajp-bio-9009\"]";
