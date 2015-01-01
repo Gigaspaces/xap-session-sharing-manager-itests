@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-public class FullModeWithoutLogin extends TestWithoutLoginBase {
+public class FullModeWithoutLoginTomcatSecurity extends TestWithoutLoginBase {
 	
 	@Override
 	protected String getDataFileName() {
@@ -14,27 +14,11 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 	}
 
 	@Test
-	public void testJboss() {
+	public void testTomcatWithSecurity() {
 
-		runJbossTest();
+		runSecuredTomcatTest();
 
-		assertSpaceFullMode(USERS_VALUE);
-	}
-
-	@Test
-	public void testTomcat() {
-
-		runTomcatTest();
-
-		assertSpaceFullMode(USERS_VALUE);
-	}
-
-	@Test
-	public void testJetty() {
-
-		runJettyTest();
-
-		assertSpaceFullMode(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE, true);
 	}
 
 	@Override

@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		DeltaModePartialTestWithLogin.class,
 		DeltaModeLWWTestWithoutLogin.class,
 		DeltaModeFastFailTestWithoutLogin.class,
-		DeltaModePartialTestWithoutLogin.class
+		DeltaModePartialTestWithoutLogin.class, DeltaModeFastFailTestWithoutLoginTomcatSecurity.class,
+		FullModeWithoutLoginTomcatSecurity.class
 		})
 public class SystemTestSuite {
 
