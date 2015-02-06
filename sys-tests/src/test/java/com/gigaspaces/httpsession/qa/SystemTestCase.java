@@ -191,7 +191,7 @@ public abstract class SystemTestCase {
 	public final void runTomcatTestWithFO() {
 		server = new TomcatController(Config.getHost(), 9090);
 
-		runTest();
+		runTestWithFO(false);
 	}
 
 	public final void runSecuredTomcatTest() {
@@ -247,7 +247,7 @@ public abstract class SystemTestCase {
 
 		Admin admin = space.getAdmin();
 
-		AdminUtils.restartPrimariesGSCs(admin, SESSION_SPACE);
+		AdminUtils.restartPrimaries(admin, SESSION_SPACE);
 
 		AdminUtils.waitForPrimaries(admin, SESSION_SPACE, 2);
 

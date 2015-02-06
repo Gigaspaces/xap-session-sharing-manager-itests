@@ -16,6 +16,16 @@ public class AdminUtils {
         ProcessingUnitInstance instance = null;
         for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
             if (processingUnitInstance.getSpaceInstance().getMode().equals(SpaceMode.PRIMARY)) {
+                instance.getGridServiceContainer().restart();
+            }
+        }
+    }
+
+    public static void restartPrimaries(Admin admin, String puName){
+        ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
+        ProcessingUnitInstance instance = null;
+        for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
+            if (processingUnitInstance.getSpaceInstance().getMode().equals(SpaceMode.PRIMARY)) {
                 instance.restart();
             }
         }
