@@ -17,6 +17,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.openspaces.admin.Admin;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -187,6 +188,12 @@ public abstract class SystemTestCase {
 		runTest();
 	}
 
+	public final void runTomcatTestWithFO() {
+		server = new TomcatController(Config.getHost(), 9090);
+
+		runTest();
+	}
+
 	public final void runSecuredTomcatTest() {
 		server = new TomcatController(Config.getHost(), 9090, true);
 
@@ -219,6 +226,30 @@ public abstract class SystemTestCase {
 		generateTestData();
 
 		runJmeterScript(server.getHost(), server.getPort());
+	}
+
+	private void runTestWithFO(boolean isSecured) {
+		config(getFile(isSecured), getConfiguration());
+
+		server.start();
+
+		// TODO change the sleep - wait for the end of the server's bootstrap
+		// and continue
+		try {
+			Thread.sleep(1000 * 20);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		generateTestData();
+
+		runJmeterScript(server.getHost(), server.getPort());
+
+		Admin admin = space.getAdmin();
+
+		AdminUtils.restartPrimariesGSCs(admin, SESSION_SPACE);
+
+		AdminUtils.waitForPrimaries(admin, SESSION_SPACE, 2);
 
 	}
 

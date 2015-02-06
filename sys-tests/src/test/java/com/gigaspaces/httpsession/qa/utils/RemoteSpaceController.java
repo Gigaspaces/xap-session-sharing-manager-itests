@@ -130,4 +130,8 @@ public class RemoteSpaceController extends ServerController {
 		return space;
 	}
 
+	public Admin getAdmin(){
+		return admin;
+	}
+
 }

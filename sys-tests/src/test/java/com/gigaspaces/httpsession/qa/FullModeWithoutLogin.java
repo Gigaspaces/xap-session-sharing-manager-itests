@@ -30,6 +30,14 @@ public class FullModeWithoutLogin extends TestWithoutLoginBase {
 	}
 
 	@Test
+	public void testWithFOTomcat() {
+
+		runTomcatTestWithFO();
+
+		assertSpaceFullMode(USERS_VALUE);
+	}
+
+	@Test
 	public void testJetty() {
 
 		runJettyTest();

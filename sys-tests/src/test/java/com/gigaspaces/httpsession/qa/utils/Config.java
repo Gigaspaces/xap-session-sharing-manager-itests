@@ -1,11 +1,11 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
-
-import org.apache.commons.io.FilenameUtils;
 
 public class Config {
 	private static final String HOST = "HOST";

@@ -1,5 +1,8 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -7,9 +10,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Runner extends Thread {
 
@@ -29,9 +29,9 @@ public class Runner extends Thread {
 		setDaemon(true);
 
 		this.builder = new ProcessBuilder(commands);
-        Map<String, String> env = builder.environment();
-        if(envs != null)
-            env.putAll(envs);
+//        Map<String, String> env = builder.environment();
+//        if(envs != null)
+//            env.putAll(envs);
 		this.builder.directory(new File(wc));
 		builder.redirectErrorStream(true);
 	}
