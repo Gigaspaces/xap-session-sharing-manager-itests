@@ -96,5 +96,11 @@
 			<groupId>com.gigaspaces</groupId>
 			<artifactId>gs-runtime</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.9</version>
+		</dependency>
 	</dependencies>
 </project>
