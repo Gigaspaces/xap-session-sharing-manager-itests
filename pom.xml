@@ -48,7 +48,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.gigaspaces.http-session</groupId>
-				<artifactId>gs-session-manager</artifactId>
+				<artifactId>xap-session-sharing-manager</artifactId>
 				<version>${gs.version}</version>
 				<!--<scope>import</scope>-->
 				<exclusions>
