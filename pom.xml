@@ -8,9 +8,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>http-session-itests</artifactId>
+	<artifactId>xap-session-sharing-manager-itests</artifactId>
 	<groupId>com.gigaspaces.http-session.qa</groupId>
-	<name>http-session-itests</name>
+	<name>xap-session-sharing-manager-itests</name>
 	<version>10.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -73,13 +73,6 @@
 						<groupId>org.slf4j</groupId>
 					</exclusion>
 				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>com.gigaspaces</groupId>
-				<artifactId>gs-runtime</artifactId>
-				<version>${gs.version}</version>
-				<!-- <optional>true</optional> -->
 			</dependency>
 
 			<dependency>

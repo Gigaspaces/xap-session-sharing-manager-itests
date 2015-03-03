@@ -18,7 +18,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runJbossTest();
 
-		assertSpaceFullMode(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 	}
 
 	@Test
@@ -26,7 +26,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runTomcatTest();
 
-		assertSpaceFullMode(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class FullModeTestWithLogin extends TestWithLoginBase {
 
 		runJettyTest();
 
-		assertSpaceFullMode(USERS_VALUE);
+		assertSpaceFullMode(USERS_VALUE, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 	}
 
 	@Override

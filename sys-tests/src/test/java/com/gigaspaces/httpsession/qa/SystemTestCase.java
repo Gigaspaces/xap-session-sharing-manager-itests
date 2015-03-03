@@ -1,14 +1,13 @@
 package com.gigaspaces.httpsession.qa;
 
+import com.gigaspaces.document.SpaceDocument;
 import com.gigaspaces.httpsession.models.AttributeData;
-import com.gigaspaces.httpsession.models.SpaceSessionAttributes;
-import com.gigaspaces.httpsession.models.SpaceSessionBase;
-import com.gigaspaces.httpsession.models.SpaceSessionByteArray;
 import com.gigaspaces.httpsession.qa.utils.*;
 import com.gigaspaces.httpsession.serialize.CompressUtils;
 import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
 import com.gigaspaces.httpsession.serialize.NonCompressCompressor;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
+import com.gigaspaces.httpsession.sessions.StoreMode;
 import com.j_spaces.core.client.SQLQuery;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.config.Ini;
@@ -20,7 +19,6 @@ import org.junit.BeforeClass;
 import org.openspaces.admin.Admin;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +42,8 @@ public abstract class SystemTestCase {
 	protected static final int JBOSS_SERVER_KEY = 1;
 	protected static final int TOMCAT_SERVER_KEY = 2;
 	protected static final int JETTY_SERVER_KEY = 3;
+
+	public static final String DEFAULT_SESSION_BASE_NAME = "com.gigaspaces.httpsession.models.DefaultSpaceSessionStoreKobi";
 
 	protected RemoteSpaceController space = new RemoteSpaceController(
 			SESSION_SPACE, 2, 1);
@@ -279,23 +279,96 @@ public abstract class SystemTestCase {
 		server.undeploy(APP_NAME);
 	}
 
-	protected void assertSpaceDeltaMode(int count, boolean isSecured) {
-		if(isSecured)
-			assertSpaceDeltaMode(count + 1);//we registered javax.security.auth.Subject
-		else
-			assertSpaceDeltaMode(count);
-	}
+//	protected void assertSpaceDeltaMode(int count, boolean isSecured) {
+//		if(isSecured)
+//			assertSpaceDeltaMode(count + 1);//we registered javax.security.auth.Subject
+//		else
+//			assertSpaceDeltaMode(count);
+//	}
+
+//	@SuppressWarnings({})
+//	protected void assertSpaceDeltaMode(int count) {
+//
+//		SpaceSessionAttributes[] data = readSpaceData(SpaceSessionAttributes.class);
+//
+//		Assert.assertEquals("invalid length result:", count, data.length);
+//
+//		for (SpaceSessionAttributes buff : data) {
+//
+//			Map<String, AttributeData> actual = buff.getAttributes();
+//
+//			Iterator<String> keyIterator = expected.keySet().iterator();
+//
+//			while (keyIterator.hasNext()) {
+//				String key = keyIterator.next();
+//
+//				Object expectedValue = expected.get(key).getDatavalue();
+//				Object actualValue = SerializeUtils.deserialize(actual.get(key)
+//						.getValue());
+//
+//				Assert.assertEquals(expectedValue, actualValue);
+//			}
+//		}
+//	}
+
+//	protected void assertSpaceFullMode(int count, boolean isSecured) {
+//		if(isSecured)
+//			assertSpaceFullMode(count + 1);//we registered javax.security.auth.Subject
+//		else
+//			assertSpaceFullMode(count);
+//	}
+
+//	@SuppressWarnings({ "unchecked" })
+//	protected void assertSpaceFullMode(int count) {
+//
+//		SpaceSessionByteArray[] data = readSpaceData(SpaceSessionByteArray.class);
+//
+//		Assert.assertEquals("invalid length result:", count, data.length);
+//
+//		for (SpaceSessionByteArray buff : data) {
+//
+//			Map<Object, Object> actual = (Map<Object, Object>) SerializeUtils
+//					.deserialize(buff.getAttributes());
+//
+//			Iterator<String> keyIterator = expected.keySet().iterator();
+//
+//			while (keyIterator.hasNext()) {
+//				String key = keyIterator.next();
+//
+//				Object expectedValue = expected.get(key).getDatavalue();
+//				Object actualValue = actual.get(key);
+//
+//				Assert.assertEquals(expectedValue, actualValue);
+//			}
+//		}
+//	}
+
+//	@SuppressWarnings({ "unchecked", "deprecation" })
+//	private <T extends SpaceSessionBase<?>> T[] readSpaceData(Class<T> clazz) {
+//		SQLQuery<T> sqlQuery = new SQLQuery<T>(clazz, "");
+//
+//		T[] data = (T[]) Array.newInstance(clazz, 0);
+//
+//		try {
+//			data = (T[]) space.getSpace().readMultiple(sqlQuery, null,
+//					Integer.MAX_VALUE);
+//		} catch (Throwable e) {
+//			throw new Error(e);
+//		}
+//
+//		return data;
+//	}
 
 	@SuppressWarnings({})
-	protected void assertSpaceDeltaMode(int count) {
+	protected void assertSpaceDeltaMode(int count, String type) {
 
-		SpaceSessionAttributes[] data = readSpaceData(SpaceSessionAttributes.class);
+		SpaceDocument[] data = readSpaceData(type);
 
 		Assert.assertEquals("invalid length result:", count, data.length);
 
-		for (SpaceSessionAttributes buff : data) {
+		for (SpaceDocument buff : data) {
 
-			Map<String, AttributeData> actual = buff.getAttributes();
+			Map<String, AttributeData> actual =  buff.getProperty(StoreMode.PROPERTY_ATTRIBUTES);
 
 			Iterator<String> keyIterator = expected.keySet().iterator();
 
@@ -311,24 +384,24 @@ public abstract class SystemTestCase {
 		}
 	}
 
-	protected void assertSpaceFullMode(int count, boolean isSecured) {
+	protected void assertSpaceFullMode(int count, String type, boolean isSecured) {
 		if(isSecured)
-			assertSpaceFullMode(count + 1);//we registered javax.security.auth.Subject
+			assertSpaceFullMode(count + 1, type);//we registered javax.security.auth.Subject
 		else
-			assertSpaceFullMode(count);
+			assertSpaceFullMode(count, type);
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	protected void assertSpaceFullMode(int count) {
+	protected void assertSpaceFullMode(int count, String type) {
 
-		SpaceSessionByteArray[] data = readSpaceData(SpaceSessionByteArray.class);
+		SpaceDocument[] data = readSpaceData(type);
 
 		Assert.assertEquals("invalid length result:", count, data.length);
 
-		for (SpaceSessionByteArray buff : data) {
+		for (SpaceDocument buff : data) {
 
 			Map<Object, Object> actual = (Map<Object, Object>) SerializeUtils
-					.deserialize(buff.getAttributes());
+					.deserialize((byte[]) buff.getProperty(StoreMode.PROPERTY_ATTRIBUTES));
 
 			Iterator<String> keyIterator = expected.keySet().iterator();
 
@@ -343,15 +416,11 @@ public abstract class SystemTestCase {
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	private <T extends SpaceSessionBase<?>> T[] readSpaceData(Class<T> clazz) {
-		SQLQuery<T> sqlQuery = new SQLQuery<T>(clazz, "");
-
-		T[] data = (T[]) Array.newInstance(clazz, 0);
-
+	private SpaceDocument[]  readSpaceData(String type) {
+		SQLQuery<SpaceDocument> sqlQuery = new SQLQuery<SpaceDocument>(type, "");
+		SpaceDocument[] data;
 		try {
-			data = (T[]) space.getSpace().readMultiple(sqlQuery, null,
-					Integer.MAX_VALUE);
+			data = (SpaceDocument[]) space.getSpace().readMultiple(sqlQuery, null, Integer.MAX_VALUE);
 		} catch (Throwable e) {
 			throw new Error(e);
 		}

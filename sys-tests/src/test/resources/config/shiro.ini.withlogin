@@ -4,13 +4,13 @@ authc.loginUrl = /login.jsp
 # space proxy wraper
 connector = com.gigaspaces.httpsession.SpaceConnector
 connector.url = jini://*/*/sessionSpace
-# When using secured GigaSpace cluster, pass the credentials here
-# connector.username = gs
-# connector.password = gs
+
 # Default lease is 30 minutes - 30 * 60 * 1000 = 1800000
 connector.sessionLease = 1800000
 # Default read timeout is 5 minutes = 5 * 60 * 1000 = 300000
 connector.readTimeout = 300000
+
+connector.sessionBaseName=com.gigaspaces.httpsession.models.DefaultSpaceSessionStore
 
 sessionManager = com.gigaspaces.httpsession.GigaSpacesWebSessionManager
 
@@ -18,28 +18,21 @@ sessionManager = com.gigaspaces.httpsession.GigaSpacesWebSessionManager
 sessionDAO = org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO
 sessionManager.sessionDAO = $sessionDAO
 
-sessionDAO.activeSessionsCacheName = jini://*/*/sessionSpace
 # ensure the securityManager uses our native SessionManager:
 securityManager.sessionManager = $sessionManager
 
 # whatever your CacheManager implementation is, for example:
 cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
 
-# Compression service
-#compressor = com.gigaspaces.httpsession.serialize.CompressorImpl
-#cacheManager.compressor = $compressor
-
 # Model Manager service
 storeMode = com.gigaspaces.httpsession.sessions.FullStoreMode
 storeMode.connector = $connector
-#storeMode.changeStrategy = com.gigaspaces.httpsession.policies.FailFastChangeStrategy
-#listener1 = com.gigaspaces.httpsession.policies.TraceListener
-#storeMode.listener = $listener1
-
+sessionManager.storeMode=$storeMode
 cacheManager.storeMode = $storeMode
+
 # Serialization Service
 serializer = com.gigaspaces.httpsession.serialize.KryoSerializerImpl
-#serializer.classes = com.gigaspaces.httpsession.sessions.NestSerial , com.gigaspaces.httpsession.sessions.NestNonSerial
+
 cacheManager.serializer = $serializer
 # Session Policy Service
 policy = com.gigaspaces.httpsession.policies.SessionPolicyWithLogin
