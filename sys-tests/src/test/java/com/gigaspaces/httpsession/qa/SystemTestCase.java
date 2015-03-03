@@ -43,7 +43,7 @@ public abstract class SystemTestCase {
 	protected static final int TOMCAT_SERVER_KEY = 2;
 	protected static final int JETTY_SERVER_KEY = 3;
 
-	public static final String DEFAULT_SESSION_BASE_NAME = "com.gigaspaces.httpsession.models.DefaultSpaceSessionStoreKobi";
+	public static final String DEFAULT_SESSION_BASE_NAME = "com.gigaspaces.httpsession.models.DefaultSpaceSessionStore";
 
 	protected RemoteSpaceController space = new RemoteSpaceController(
 			SESSION_SPACE, 2, 1);
