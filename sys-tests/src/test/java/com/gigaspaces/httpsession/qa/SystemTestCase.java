@@ -384,12 +384,6 @@ public abstract class SystemTestCase {
 		}
 	}
 
-	protected void assertSpaceFullMode(int count, String type, boolean isSecured) {
-		if(isSecured)
-			assertSpaceFullMode(count + 1, type);//we registered javax.security.auth.Subject
-		else
-			assertSpaceFullMode(count, type);
-	}
 
 	@SuppressWarnings({ "unchecked" })
 	protected void assertSpaceFullMode(int count, String type) {

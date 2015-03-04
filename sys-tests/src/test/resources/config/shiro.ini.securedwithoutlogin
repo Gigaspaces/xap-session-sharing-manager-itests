@@ -29,9 +29,9 @@ sessionManager.storeMode=$storeMode
 cacheManager.storeMode = $storeMode
 # Serialization Service
 
-javaSerialization=com.esotericsoftware.kryo.serializers.JavaSerializer
+#javaSerialization=com.esotericsoftware.kryo.serializers.JavaSerializer
 serializer=com.gigaspaces.httpsession.serialize.KryoSerializerImpl
-serializer.classSerializers=javax.security.auth.Subject:$javaSerialization
+#serializer.classSerializers=javax.security.auth.Subject:$javaSerialization
 
 cacheManager.serializer = $serializer
 # Session Policy Service

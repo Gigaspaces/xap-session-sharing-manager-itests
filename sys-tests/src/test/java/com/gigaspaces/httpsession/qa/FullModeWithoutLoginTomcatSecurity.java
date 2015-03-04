@@ -18,7 +18,7 @@ public class FullModeWithoutLoginTomcatSecurity extends TestWithoutLoginBase {
 
 		runSecuredTomcatTest();
 
-		assertSpaceFullMode(USERS_VALUE, SystemTestCase.DEFAULT_SESSION_BASE_NAME, true);
+		assertSpaceFullMode(USERS_VALUE, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 	}
 
 	@Override
