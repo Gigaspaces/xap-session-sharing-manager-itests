@@ -34,6 +34,7 @@
 		<dependency>
 			<groupId>com.gigaspaces.http-session</groupId>
 			<artifactId>gs-session-manager</artifactId>
+			<version>${gs.version}</version>
 		</dependency>
 
 		<dependency>

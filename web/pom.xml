@@ -90,6 +90,7 @@
 			<groupId>com.gigaspaces.http-session</groupId>
 			<artifactId>gs-session-manager</artifactId>
 			<scope>compile</scope>
+			<version>${gs.version}</version>
 		</dependency>
 
 		<dependency>
