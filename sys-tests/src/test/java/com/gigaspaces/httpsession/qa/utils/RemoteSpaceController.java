@@ -26,7 +26,7 @@ public class RemoteSpaceController extends ServerController {
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
 
-	private Admin admin = new AdminFactory().addGroup(System.getProperty("group")).createAdmin();
+	private Admin admin = new AdminFactory().addGroup(System.getProperty("group", "httpsession")).createAdmin();
 
 	private Runner starter;
 	private ProcessingUnit pu;
@@ -50,7 +50,7 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public Runner createStarter() {
         Map<String, String> envs = new HashMap<String, String>();
-        envs.put("LOOKUPGROUPS", System.getProperty("group"));
+        envs.put("LOOKUPGROUPS", System.getProperty("group", "httpsession"));
 
  		starter = new Runner(Config.getGSHome(), 10000, envs);
 
