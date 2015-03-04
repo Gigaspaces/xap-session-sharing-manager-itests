@@ -29,9 +29,9 @@ public class Runner extends Thread {
 		setDaemon(true);
 
 		this.builder = new ProcessBuilder(commands);
-//        Map<String, String> env = builder.environment();
-//        if(envs != null)
-//            env.putAll(envs);
+        Map<String, String> env = builder.environment();
+        if(envs != null)
+            env.putAll(envs);
 		this.builder.directory(new File(wc));
 		builder.redirectErrorStream(true);
 	}
