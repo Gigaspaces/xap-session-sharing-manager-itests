@@ -10,6 +10,21 @@
     <servlet-name>UpdateSessionServlet</servlet-name>
     <servlet-class>com.gigaspaces.examples.web.UpdateSessionServlet</servlet-class>
   </servlet>
+
+  <!--For JBoss Only-->
+  <context-param>
+    <param-name>resteasy.scan</param-name>
+    <param-value>false</param-value>
+  </context-param>
+  <context-param>
+    <param-name>resteasy.scan.providers</param-name>
+    <param-value>false</param-value>
+  </context-param>
+  <context-param>
+    <param-name>resteasy.scan.resources</param-name>
+    <param-value>false</param-value>
+  </context-param>
+
   <servlet-mapping>
     <servlet-name>UpdateSessionServlet</servlet-name>
     <url-pattern>/UpdateSessionServlet</url-pattern>
