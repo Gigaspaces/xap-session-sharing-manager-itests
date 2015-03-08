@@ -13,20 +13,18 @@ public class AdminUtils {
 
     public static void restartPrimariesGSCs(Admin admin, String puName){
         ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
-        ProcessingUnitInstance instance = null;
         for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
             if (processingUnitInstance.getSpaceInstance().getMode().equals(SpaceMode.PRIMARY)) {
-                instance.getGridServiceContainer().restart();
+                processingUnitInstance.getGridServiceContainer().restart();
             }
         }
     }
 
     public static void restartPrimaries(Admin admin, String puName){
         ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
-        ProcessingUnitInstance instance = null;
         for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
             if (processingUnitInstance.getSpaceInstance().getMode().equals(SpaceMode.PRIMARY)) {
-                instance.restart();
+                processingUnitInstance.restart();
             }
         }
     }
