@@ -38,7 +38,7 @@ public class TomcatController extends ServerController {
 			try {
 				File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
 				securedPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
-				FileUtils.copyFile(new File(TEST_SECURED_POLICY), securedPolicy);
+				FileUtils.copyFile(new File(TEST_SECURED_POLICY), new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
 			}catch (IOException e){
 				throw new RuntimeException(e);
 			}
