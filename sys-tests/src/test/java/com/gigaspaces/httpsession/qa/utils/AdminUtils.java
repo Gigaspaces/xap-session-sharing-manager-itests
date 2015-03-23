@@ -6,6 +6,8 @@ import org.openspaces.admin.Admin;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.pu.ProcessingUnitInstance;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by kobi on 2/6/15.
  */
@@ -30,6 +32,11 @@ public class AdminUtils {
     }
 
     public static void waitForPrimaries(Admin admin, String puName, int numberOfPrimaries){
+        boolean allMembersAlive = admin.getProcessingUnits().getProcessingUnit(puName).waitFor(
+                admin.getProcessingUnits().getProcessingUnit(puName).getPlannedNumberOfInstances(), 30, TimeUnit.SECONDS);
+        if(!allMembersAlive)
+            Assert.fail("Not all pu instances alive");
+
         ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
         int counter = 0;
         for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
