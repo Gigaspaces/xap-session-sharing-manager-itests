@@ -38,12 +38,22 @@ public class AdminUtils {
             Assert.fail("Not all pu instances alive");
 
         ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
-        int counter = 0;
-        for (ProcessingUnitInstance processingUnitInstance : pu.getInstances()) {
-            if (processingUnitInstance.getSpaceInstance().getMode().equals(SpaceMode.PRIMARY)) {
-                counter++;
-            }
-        }
-        Assert.assertEquals("wrong number of primaries", numberOfPrimaries, counter);
+        boolean arePrimaries = pu.getSpace().waitFor(numberOfPrimaries, SpaceMode.PRIMARY, 60, TimeUnit.SECONDS);
+        if(!arePrimaries)
+            Assert.fail("wrong number of primaries");
+
+    }
+
+    public static void waitForBackups(Admin admin, String puName, int numberOfBackups){
+        boolean allMembersAlive = admin.getProcessingUnits().getProcessingUnit(puName).waitFor(
+                admin.getProcessingUnits().getProcessingUnit(puName).getPlannedNumberOfInstances(), 30, TimeUnit.SECONDS);
+        if(!allMembersAlive)
+            Assert.fail("Not all pu instances alive");
+
+        ProcessingUnit pu = admin.getProcessingUnits().getProcessingUnit(puName);
+        boolean areBackups = pu.getSpace().waitFor(numberOfBackups, SpaceMode.BACKUP, 60, TimeUnit.SECONDS);
+        if(!areBackups)
+            Assert.fail("wrong number of backups");
+
     }
 }

@@ -250,6 +250,7 @@ public abstract class SystemTestCase {
 		AdminUtils.restartPrimaries(admin, SESSION_SPACE);
 
 		AdminUtils.waitForPrimaries(admin, SESSION_SPACE, 2);
+		AdminUtils.waitForBackups(admin, SESSION_SPACE, 2);
 
 	}
 
