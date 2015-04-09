@@ -19,7 +19,18 @@
 	</properties>
 
 	<dependencies>
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.2.1</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -68,7 +79,8 @@
 	</dependencies>
 
 	<build>
-		<plugins>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -83,9 +95,12 @@
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
 					<argLine>-Xmx256m -Xms256m</argLine>
-					<includes>
+					<!--<includes>
 						<include>**/SystemTestSuite.java</include>
-					</includes>
+					</includes>-->
+                    <includes>
+                        <include>**/newtests/**</include>
+                    </includes>
 					<excludes>
 						<exclude>**/*SystemTestCase*</exclude>
 						<exclude>**/*Abstract*</exclude>
@@ -96,7 +111,7 @@
 						<additionalClasspathElement>src/test/resources</additionalClasspathElement>
 					</additionalClasspathElements>
                     <systemProperties>
-                        <lookupgroup>${group}</lookupgroup>
+                        <group>${group}</group>
                     </systemProperties>
                     <testFailureIgnore>true</testFailureIgnore>
 				</configuration>

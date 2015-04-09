@@ -1,12 +1,16 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.shiro.config.Ini;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class ServerController {
@@ -17,9 +21,11 @@ public abstract class ServerController {
 	protected static final String WEB_APP_SOURCE = "web/target/demo-app";
 	protected static final String WEB_APPS = "webapps/";
 
-	protected static final long TIMEOUT = 5000L;
+	protected static final long TIMEOUT = 10000L;
+    protected static final String SESSION_SPACE = "sessionSpace";
+    protected static final String APP_NAME = "demo-app";
 
-	private Runner starter;
+    private Runner starter;
 	private Runner stopper;
 	private AtomicBoolean running = new AtomicBoolean(false);
 	protected String host = "127.0.0.1";
@@ -30,7 +36,7 @@ public abstract class ServerController {
 		init();
 	}
 
-	private void init() {
+	protected void init() {
 		starter = createStarter();
 		stopper = createStopper();
 	}
@@ -93,6 +99,7 @@ public abstract class ServerController {
 
 			running.compareAndSet(true, false);
 		} catch (Throwable e) {
+            throw new RuntimeException(e);
 		}
 	}
 
@@ -112,4 +119,75 @@ public abstract class ServerController {
 		LOGGER.error(msg, e);
 		throw new AssertionError();
 	}
+
+    public void startAll(String file, Map<String, String> properties){
+        throw new RuntimeException("WHY YOU NO OVERRIDE ME HUMAN?");
+    }
+    public void stopAll(boolean undeployOnce) throws IOException {
+        throw new RuntimeException("WHY YOU NO OVERRIDE ME HUMAN?");
+    }
+
+    public void stopAll() throws IOException {
+        stopAll(false);
+    }
+
+    public void config(String file, Map<String, String> properties) {
+
+        properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group", "httpsession"));
+
+        Ini ini = new Ini();
+
+        ini.loadFromPath(file);
+
+        Iterator<String> keyIterator = properties.keySet().iterator();
+
+        while (keyIterator.hasNext()) {
+
+            String key = keyIterator.next();
+            String[] pv = key.split("/");
+
+            if (pv != null && pv.length == 2) {
+                String sectionName = pv[0];
+                String propertyName = pv[1];
+                String propertyValue = properties.get(key);
+
+                ini.setSectionProperty(sectionName, propertyName, propertyValue);
+            }
+        }
+
+
+        List<String> lines = new ArrayList<String>();
+
+        Iterator<String> sections = ini.getSectionNames().iterator();
+
+        while (sections.hasNext()) {
+            String sectionName = sections.next();
+
+            System.out.println("[" + sectionName + "]");
+
+            lines.add("[" + sectionName + "]");
+
+            Ini.Section sec = ini.getSection(sectionName);
+
+            Iterator<String> keys = sec.keySet().iterator();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+
+                System.out.println(key + "=" + sec.get(key));
+
+                lines.add(key + "=" + sec.get(key));
+            }
+        }
+
+        try {
+            saveShiroFile(APP_NAME, lines);
+        } catch (IOException e) {
+            throw new Error("can not save shiro.ini", e);
+        }
+    }
+
+    public void reset() {
+
+    }
 }

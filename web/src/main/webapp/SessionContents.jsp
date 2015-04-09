@@ -34,6 +34,7 @@
 		Date created = new Date(session.getCreationTime());
 		Date accessed = new Date(session.getLastAccessedTime());
 		String hostName = request.getServerName();
+        int port = request.getServerPort();
 		String sessionId = session.getId();
 	%>
 	<br />
@@ -48,7 +49,7 @@
 		</tr>
 		<tr>
 			<td>Servlet container host name:</td>
-			<td><%=hostName%></td>
+			<td><%=hostName%>:<%=port%></td>
 		</tr>
 		<tr>
 			<td>Session id:</td>

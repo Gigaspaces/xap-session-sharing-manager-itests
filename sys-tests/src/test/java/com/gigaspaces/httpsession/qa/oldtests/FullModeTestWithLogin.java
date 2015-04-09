@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import java.util.Map;
 

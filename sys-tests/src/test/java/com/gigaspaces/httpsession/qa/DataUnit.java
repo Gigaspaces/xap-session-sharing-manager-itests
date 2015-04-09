@@ -5,12 +5,14 @@ public class DataUnit {
 	private String dataname;
 	private String dataaction;
 	private Object datavalue;
+    private boolean isSerialized;
 
-	public DataUnit(String dataname, Object datavalue, String dataaction) {
-		this.dataname = dataname;
-		this.dataaction = dataaction;
-		this.datavalue = datavalue;
-	}
+    public DataUnit(String dataname, Object datavalue, String dataaction, boolean isSerialized) {
+        this.dataname = dataname;
+        this.dataaction = dataaction;
+        this.datavalue = datavalue;
+        this.isSerialized = isSerialized;
+    }
 
 	public String getDataname() {
 		return dataname;
@@ -36,4 +38,7 @@ public class DataUnit {
 		this.datavalue = datavalue;
 	}
 
+    public boolean isSerialized() {
+        return isSerialized;
+    }
 }

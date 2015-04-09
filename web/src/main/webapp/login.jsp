@@ -87,6 +87,8 @@
     <br/><br/>
 </shiro:guest>
 
+<span>The server's port is: <%= request.getServerPort() %></span>
+<br/>
 <form name="loginform" action="" method="post">
     <table align="left" border="0" cellspacing="0" cellpadding="3">
         <tr>

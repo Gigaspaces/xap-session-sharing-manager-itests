@@ -1,11 +1,13 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 ;
 import com.gigaspaces.httpsession.sessions.DeltaStoreMode;
 
+@Ignore
 public class DeltaModeTestWithoutLogin extends TestWithoutLoginBase {
 
 	@Test

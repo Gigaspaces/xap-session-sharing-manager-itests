@@ -1,17 +1,21 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
+import net.jini.core.entry.UnusableEntryException;
+import net.jini.core.transaction.TransactionException;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminFactory;
 import org.openspaces.admin.gsa.GridServiceAgent;
+import org.openspaces.admin.gsm.GridServiceManager;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
 
 import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,10 +74,30 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public void start() {
 
-		super.start();
+		//super.start();
+        System.out.println(admin.getGroups()[0]);
+        GridServiceManager gsm = admin.getGridServiceManagers().waitForAtLeastOne();
+        pu = gsm.deploy(new SpaceDeployment(spaceName), 10, TimeUnit.SECONDS);
+        Assert.assertNotNull("Failed to deploy space", pu);
+        //pu = admin.getProcessingUnits().waitFor(spaceName,30, TimeUnit.SECONDS);
 
-		admin.getGridServiceManagers().waitForAtLeastOne();
-	}
+        //pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+        Assert.assertTrue("Failed to find space [" + spaceName + "]", pu.waitFor(1, 10, TimeUnit.SECONDS));
+        Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+        if(space1 == null)
+            Assert.fail("Failed to find deployed space");
+
+        space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+        /*try {
+            space.clear(null, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        } catch (UnusableEntryException e) {
+            e.printStackTrace();
+        }*/
+    }
 
 	@Override
 	public void stop() {
@@ -81,10 +105,13 @@ public class RemoteSpaceController extends ServerController {
 		space.close();
 		
 		admin.getGridServiceAgents().waitForAtLeastOne();
-        
-		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
+
+        GridServiceManager gsm = admin.getGridServiceManagers().waitForAtLeastOne();
+        gsm.undeploy(spaceName);
+
+	/*	for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
 			gsa.shutdown();
-		}
+		}*/
 
 		admin.close();
 

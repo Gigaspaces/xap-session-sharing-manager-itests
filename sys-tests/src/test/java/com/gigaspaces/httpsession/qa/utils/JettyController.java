@@ -3,7 +3,9 @@ package com.gigaspaces.httpsession.qa.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -12,8 +14,11 @@ public class JettyController extends ServerController {
 	private static final String BIN_START_JAR = "start.jar";
 	public static final String JETTY_WEB_APPS = FilenameUtils.concat(
 			Config.getJettyHome(), WEB_APPS);
+    private static boolean isDeployed;
+    private static boolean isUndeployed;
 
-	public JettyController(String host, int port) {
+
+    public JettyController(String host, int port) {
 		super(host, port);
 	}
 
@@ -37,16 +42,25 @@ public class JettyController extends ServerController {
 		commands.add("-DSTOP.KEY=secret");
 		commands.add("-Djetty.port=" + port);
 		commands.add("-Djetty.home=" + Config.getJettyHome());
-
+/*
 		starter.or(new StringPredicate("oejs.Server:main: Started") {
 
 			@Override
 			public boolean customTest(String input) {
 				return input.contains(match);
 			}
-		});
+		});*/
+        starter.or(new StringPredicate("demo-app/,AVAILABLE}{/demo-app}") {
 
-		starter.or(new TimeoutPredicate(TIMEOUT));
+            @Override
+            public boolean customTest(String input) {
+                return input.contains(match);
+            }
+        });
+
+
+
+    starter.or(new TimeoutPredicate(TIMEOUT));
 
 		return starter;
 	}
@@ -74,8 +88,9 @@ public class JettyController extends ServerController {
 
 	@Override
 	public void deploy(String appName) throws IOException {
-		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
-				FilenameUtils.concat(JETTY_WEB_APPS, appName)));
+        File target = new File(FilenameUtils.concat(JETTY_WEB_APPS, appName));
+        FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), target);
+
 	}
 
 	@Override
@@ -88,7 +103,44 @@ public class JettyController extends ServerController {
 		FileUtils.writeLines(new File(path), lines);
 	}
 
-	@Override
+    @Override
+    public void startAll(String file, Map<String, String> properties) {
+        if (!isDeployed) {
+            isDeployed = true;
+            try {
+                deploy(APP_NAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            config(file, properties);
+        }
+        start();
+    }
+
+    @Override
+    public void stopAll(boolean undeployOnce) throws IOException {
+        stop();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (!isUndeployed || !undeployOnce) {
+            isUndeployed = true;
+            undeploy(APP_NAME);
+        }
+    }
+
+    @Override
+    public void reset() {
+        isDeployed = false;
+        isUndeployed = false;
+    }
+
+    @Override
 	public void undeploy(String appName) throws IOException {
+        File serverDir = new File(FilenameUtils.concat(JETTY_WEB_APPS, appName));
+        Assert.assertTrue("Failed to find server's directory [" + appName + "]", serverDir.exists());
+        FileUtils.forceDelete(serverDir);
 	}	
 }

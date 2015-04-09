@@ -1,14 +1,16 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.junit.Ignore;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Ignore
 public class TestWithLoginBase extends SystemTestCase {
 
 	protected static final int USERS_VALUE = 10;

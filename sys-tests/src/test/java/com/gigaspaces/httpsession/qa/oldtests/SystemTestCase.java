@@ -1,7 +1,8 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import com.gigaspaces.document.SpaceDocument;
 import com.gigaspaces.httpsession.models.AttributeData;
+import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.qa.utils.*;
 import com.gigaspaces.httpsession.serialize.CompressUtils;
 import com.gigaspaces.httpsession.serialize.KryoSerializerImpl;
@@ -26,11 +27,11 @@ import java.util.Map;
 
 public abstract class SystemTestCase {
 
-	private static final String SESSION_SPACE = "sessionSpace";
+	protected static final String SESSION_SPACE = "sessionSpace";
 
 	public static final String DATA_BASE = "src/test/resources/jmeter/data";
 
-	public static final String APP_NAME = "app";
+	public static final String APP_NAME = "demo-app";
 
 	// Jmeter constants
 	public static final String LOOP_COUNT_NAME = "loop_count";
@@ -50,7 +51,7 @@ public abstract class SystemTestCase {
 
 	//protected EmbeddedSpaceController  space = new EmbeddedSpaceController(); 
 	
-	private Map<String, DataUnit> expected;
+	protected Map<String, DataUnit> expected;
 
 	@BeforeClass
 	public static void init() {
@@ -66,7 +67,7 @@ public abstract class SystemTestCase {
 	 * @param properties
 	 *            - properties to be replaced [section]/[propertyName] = [value]
 	 */
-	public final void config(String file, Map<String, String> properties) {
+	public void config(String file, Map<String, String> properties) {
 
 		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group", "httpsession"));
 
@@ -164,16 +165,17 @@ public abstract class SystemTestCase {
 
 	public abstract Map<String, String> getConfiguration();
 
-	@Before
+	//@Before
+    @Before
 	public final void startup() {
 		
 		space.start();
 		
-		try {
+	/*	try {
 			space.deploy(SESSION_SPACE);
 		} catch (IOException e) {
 			throw new AssertionError(e);
-		}
+		}*/
 	}
 
 	public final void runJbossTest() {
@@ -265,7 +267,7 @@ public abstract class SystemTestCase {
 		}
 	}
 
-	@After
+//	@After
 	public final void teardown() throws IOException {
 
 		space.undeploy(SESSION_SPACE);
@@ -377,6 +379,9 @@ public abstract class SystemTestCase {
 				String key = keyIterator.next();
 
 				Object expectedValue = expected.get(key).getDatavalue();
+                if (!actual.containsKey(key)) {
+                    Assert.fail("session does not have the key ["+key+"]");
+                }
 				Object actualValue = SerializeUtils.deserialize(actual.get(key)
 						.getValue());
 

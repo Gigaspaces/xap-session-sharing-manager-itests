@@ -15,6 +15,8 @@ public class Config {
 	private static final String GS_HOME = "GS_HOME";
 	private static final String JMETER_HOME = "JMETER_HOME";
 	private static final String TEST_RESOURCES_CONFIG_PROPERTIES = "src/test/resources/config/config.properties";
+    private static final String APACHE_HOME = "APACHE_HOME";
+    private static final String WEBSPHERE_HOME = "WEBSPHERE_HOME";
 
 	private static Properties properties = new Properties();
 
@@ -78,5 +80,13 @@ public class Config {
 	public static String getHost() {
 		return getProperty(HOST);
 	}
+
+    public static String getApacheHome() {
+        return getProperty(APACHE_HOME);
+    }
+
+    public static String getWebsphereHome() {
+        return getProperty(WEBSPHERE_HOME);
+    }
 
 }

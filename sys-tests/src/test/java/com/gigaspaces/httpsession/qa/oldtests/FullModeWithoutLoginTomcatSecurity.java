@@ -1,10 +1,12 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import com.gigaspaces.httpsession.sessions.FullStoreMode;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
 
+@Ignore
 public class FullModeWithoutLoginTomcatSecurity extends TestWithoutLoginBase {
 	
 	@Override

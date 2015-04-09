@@ -3,6 +3,7 @@ package com.gigaspaces.httpsession.qa.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -73,8 +74,9 @@ public class JbossController extends ServerController {
 	public void deploy(String appName) throws IOException {
 
 		
-		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
-				FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war")));
+		FileUtils.copyDirectory(
+                new File(Config.getAbrolutePath(WEB_APP_SOURCE)),
+                new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war")));
 
 		FileUtils.touch(new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
 				appName + ".war.dodeploy")));
@@ -91,7 +93,32 @@ public class JbossController extends ServerController {
 
 	}
 
-	@Override
+    @Override
+    public void startAll(String file, Map<String, String> properties) {
+     //   if (!isInitialized) {
+            try {
+                deploy(APP_NAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            config(file, properties);
+           // isInitialized = true;
+        //}
+        start();
+    }
+
+    @Override
+    public void stopAll(boolean undeployOnce) throws IOException {
+        stop();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        undeploy(APP_NAME);
+    }
+
+    @Override
 	public void undeploy(String appName) throws IOException {
 //		File file=new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
 //				appName + ".war.deploy"));

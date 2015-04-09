@@ -1,10 +1,12 @@
-package com.gigaspaces.httpsession.qa;
+package com.gigaspaces.httpsession.qa.oldtests;
 
 import com.gigaspaces.httpsession.qa.utils.JmeterTask;
+import org.junit.Ignore;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Ignore
 public class TestWithoutLoginBase extends SystemTestCase {
 
 	protected static final int USERS_VALUE = 10;
