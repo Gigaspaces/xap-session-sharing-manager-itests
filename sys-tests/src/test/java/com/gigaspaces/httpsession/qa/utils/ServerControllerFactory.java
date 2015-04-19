@@ -16,6 +16,8 @@ public class ServerControllerFactory {
                 return new TomcatController(port);
             case JBOSS7:
                 return new JbossController(port);
+            case JBOSS8:
+                return new JBoss8Controller(port);
             case WEBSPHERE:
                 return new WebsphereController(port);
             default:

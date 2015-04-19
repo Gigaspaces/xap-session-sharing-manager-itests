@@ -14,14 +14,18 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 
 public class JbossController extends ServerController {
-	private static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/standalone.xml";
-	private static final String BIN_JBOSS_CLI = "bin/jboss-cli";
-	private static final String BIN_STANDALONE = "bin/standalone";
-	private static final String STARTED_COMPLETED = "Deployed \"app.war\"";
+	protected static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/jboss7-standalone.xml";
+	protected static final String BIN_JBOSS_CLI = "bin/jboss-cli";
+	protected static final String BIN_STANDALONE = "bin/standalone";
+	protected static final String STARTED_COMPLETED = "Deployed \"app.war\"";
 	public static final String JBOSS_DEPLOYMENTS = FilenameUtils.concat(
 			Config.getJbossHome(), "standalone/deployments");
-	private static AtomicInteger instancesCount = new AtomicInteger(0);
-	private File serverConfig;
+	protected static AtomicInteger instancesCount = new AtomicInteger(0);
+	protected File serverConfig;
+	protected static boolean isDeployed;
+	protected static boolean isUndeployed;
+	protected int defaultJbossCliAdminPort;
+	protected int actualJbossCliAdminPort;
 
 	public JbossController(String host, int port) {
 		super(host, port);
@@ -29,6 +33,12 @@ public class JbossController extends ServerController {
 
 	public JbossController(int port) {
 		super(port);
+	}
+
+	@Override
+	protected void init() {
+		defaultJbossCliAdminPort = 9999;
+		super.init();
 	}
 
 	@Override
@@ -41,7 +51,8 @@ public class JbossController extends ServerController {
 			content = content.replaceAll("8080", "" + port);
 			content = content.replaceAll("4447", "" + (4447 + currentInstance));
 			content = content.replaceAll("8009", "" + (8009 + currentInstance));
-			content = content.replaceAll("9999", "" + (9999 + currentInstance));
+			actualJbossCliAdminPort = defaultJbossCliAdminPort + currentInstance;
+			content = content.replaceAll(String.valueOf(defaultJbossCliAdminPort), "" + (defaultJbossCliAdminPort + currentInstance));
 			content = content.replaceAll("9990", "" + (9990 + currentInstance));
 			IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
 		}catch (IOException e) {
@@ -81,6 +92,7 @@ public class JbossController extends ServerController {
 
 		stopper.getCommands().add(path);
 		stopper.getCommands().add("--connect");
+		stopper.getCommands().add("controller=localhost:" + actualJbossCliAdminPort);
 		stopper.getCommands().add("--command=:shutdown");
 
 		stopper.or(new StringPredicate("{\"outcome\" => \"success\"}") {

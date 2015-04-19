@@ -10,6 +10,7 @@ import java.util.Properties;
 public class Config {
 	private static final String HOST = "HOST";
 	private static final String JBOSS_HOME = "JBOSS_HOME";
+	private static final String JBOSS8_HOME = "JBOSS8_HOME";
 	private static final String TOMCAT_HOME = "TOMCAT_HOME";
 	private static final String JETTY_HOME = "JETTY_HOME";
 	private static final String GS_HOME = "GS_HOME";
@@ -56,6 +57,11 @@ public class Config {
 	public static String getJbossHome() {
 
 		return getProperty(JBOSS_HOME);
+	}
+
+	public static String getJboss8Home() {
+
+		return getProperty(JBOSS8_HOME);
 	}
 
 	public static String getTomcatHome() {
