@@ -10,6 +10,10 @@
     <servlet-name>UpdateSessionServlet</servlet-name>
     <servlet-class>com.gigaspaces.examples.web.UpdateSessionServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateSessionServlet</servlet-name>
+    <url-pattern>/UpdateSessionServlet</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>Jersey REST Web Service</servlet-name>
@@ -39,10 +43,7 @@
     <param-value>false</param-value>
   </context-param>
 
-  <servlet-mapping>
-    <servlet-name>UpdateSessionServlet</servlet-name>
-    <url-pattern>/UpdateSessionServlet</url-pattern>
-  </servlet-mapping>
+
   <listener>
     <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
   </listener>

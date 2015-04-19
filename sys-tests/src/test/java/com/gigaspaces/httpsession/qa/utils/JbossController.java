@@ -1,20 +1,27 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import com.vladium.util.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 public class JbossController extends ServerController {
-
+	private static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/standalone.xml";
 	private static final String BIN_JBOSS_CLI = "bin/jboss-cli";
 	private static final String BIN_STANDALONE = "bin/standalone";
 	private static final String STARTED_COMPLETED = "Deployed \"app.war\"";
 	public static final String JBOSS_DEPLOYMENTS = FilenameUtils.concat(
 			Config.getJbossHome(), "standalone/deployments");
+	private static AtomicInteger instancesCount = new AtomicInteger(0);
+	private File serverConfig;
 
 	public JbossController(String host, int port) {
 		super(host, port);
@@ -26,13 +33,31 @@ public class JbossController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
+		try {
+			int currentInstance = instancesCount.getAndIncrement();
+			//TODO put these files in the tests directory
+			serverConfig = Files.createTempFile(new File(Config.getJbossHome() + File.separator + "standalone" + File.separator + "configuration"), "jboss-server" + currentInstance, ".xml");
+			String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+			content = content.replaceAll("8080", "" + port);
+			content = content.replaceAll("4447", "" + (4447 + currentInstance));
+			content = content.replaceAll("8009", "" + (8009 + currentInstance));
+			content = content.replaceAll("9999", "" + (9999 + currentInstance));
+			content = content.replaceAll("9990", "" + (9990 + currentInstance));
+			IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+		}catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 		Runner starter = new Runner(Config.getJbossHome(), null);
 
 		String path = getExecutionPath(Config.getJbossHome(), BIN_STANDALONE);
 
 		LOGGER.debug("JBOSS start script:" + path);
 
-		starter.getCommands().add(path);
+		List<String> commands = starter.getCommands();
+		commands.add(path);
+		commands.add("-c");
+		commands.add(serverConfig.getName());
 
 		starter.or(new StringPredicate(STARTED_COMPLETED) {
 
