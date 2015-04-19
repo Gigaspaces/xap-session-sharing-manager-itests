@@ -18,6 +18,14 @@
         <group>httpsessiontest</group>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>soapui</id>
+			<url>http://www.soapui.org/repository/maven2</url>
+		</repository>
+	</repositories>
+
+
 	<dependencies>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -74,6 +82,12 @@
 			<groupId>com.esotericsoftware.kryo</groupId>
 			<artifactId>kryo</artifactId>
 			<version>${kryo.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smartbear.soapui</groupId>
+			<artifactId>soapui</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 
 	</dependencies>

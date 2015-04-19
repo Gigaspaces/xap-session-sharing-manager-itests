@@ -1,5 +1,6 @@
 package com.gigaspaces.httpsession.qa.newtests;
 
+import com.eviware.soapui.tools.SoapUITestCaseRunner;
 import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.qa.oldtests.SystemTestCase;
 import com.gigaspaces.httpsession.qa.utils.*;
@@ -73,6 +74,12 @@ public abstract class TestBase {
 
     protected String getWebAppAddress() {
         return webAppAddress;
+    }
+
+    public void soapUITest() throws Exception{
+        SoapUITestCaseRunner runner = new SoapUITestCaseRunner();
+        runner.setProjectFile( "../soupui/REST-test-project.xml" );
+        runner.run();
     }
 
     public void test() throws IOException {

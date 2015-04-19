@@ -35,7 +35,7 @@ public class ApacheLoadBalancerController extends ServerController {
         this.stickySession = stickySession;
         this.serverControllers = new ArrayList<ServerController>();
         for (int i=0; i<serversPorts.length; i++) {
-            System.out.println("Will start jetty with port "+serversPorts[i]);
+            System.out.println("Will start tomcat with port "+serversPorts[i]);
             this.serverControllers.add(ServerControllerFactory.getServerController(serverControllerFactory, serversPorts[i]));
         }
     }
