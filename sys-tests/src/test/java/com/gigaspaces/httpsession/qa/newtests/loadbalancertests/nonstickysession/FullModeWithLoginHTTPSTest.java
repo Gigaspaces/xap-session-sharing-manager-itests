@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.stickysession;
+package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysession;
 
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * @since 10.1
  */
 @Ignore
-public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
+public class FullModeWithLoginHTTPSTest extends AbstractLoadBalancerTest {
 
     @Override
     @Before
@@ -26,17 +26,17 @@ public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
     }
 
     @Test
-    public void testJettyLoadBalancer() throws IOException {
-        super.testJettyLoadBalancer();
+    public void testJettyLoadBalancerHTTPS() throws IOException {
+        super.testJettyLoadBalancerHTTPS();
     }
 
     @Test
-    public void testTomcatLoadBalancer() throws IOException {
-        super.testTomcatLoadBalancer();
+    public void testTomcatLoadBalancerHTTPS() throws IOException {
+        super.testTomcatLoadBalancerHTTPS();
     }
 
     @Test
-    public void testWebSphereLoadBalancer() throws IOException {
-        super.testWebSphereLoadBalancer();
+    public void testWebSphereLoadBalancerHTTPS() throws IOException {
+        super.testWebSphereLoadBalancerHTTPS();
     }
 }

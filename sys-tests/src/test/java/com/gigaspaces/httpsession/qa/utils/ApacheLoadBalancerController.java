@@ -19,7 +19,7 @@ public class ApacheLoadBalancerController extends ServerController {
     protected static final Logger LOGGER = LoggerFactory
             .getLogger(ApacheLoadBalancerController.class);
     private static String APACHE_HOME = Config.getApacheHome();
-    private final ArrayList<ServerController> serverControllers;
+    private final HashMap<Integer, ServerController> serverControllers;
 
     private String appname;
     private List<String> addresses;
@@ -33,10 +33,10 @@ public class ApacheLoadBalancerController extends ServerController {
         this.appname = appname;
         this.addresses = addresses;
         this.stickySession = stickySession;
-        this.serverControllers = new ArrayList<ServerController>();
+        this.serverControllers = new HashMap<Integer, ServerController>();
         for (int i=0; i<serversPorts.length; i++) {
-            System.out.println("Will start tomcat with port "+serversPorts[i]);
-            this.serverControllers.add(ServerControllerFactory.getServerController(serverControllerFactory, serversPorts[i]));
+            System.out.println("Will start "+serverControllerFactory+" with port "+serversPorts[i]);
+            this.serverControllers.put(serversPorts[i], ServerControllerFactory.getServerController(serverControllerFactory, serversPorts[i]));
         }
     }
 
@@ -75,8 +75,10 @@ public class ApacheLoadBalancerController extends ServerController {
 
     @Override
     public void startAll(String file, Map<String, String> properties) {
-        serverControllers.get(0).reset();
-        for (ServerController serverController : serverControllers) {
+        for (ServerController serverController : serverControllers.values()) {
+            serverController.reset();
+        }
+        for (ServerController serverController : serverControllers.values()) {
             serverController.startAll(file, properties);
         }
         try {
@@ -94,18 +96,22 @@ public class ApacheLoadBalancerController extends ServerController {
     }
 
     @Override
-    public void stopAll() throws IOException {
-        for (ServerController serverController : serverControllers) {
-            serverController.stopAll(true);
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
+        for (ServerController serverController : serverControllers.values()) {
+            serverController.stopAll(undeploy, true);
         }
         stop();
     }
 
     @Override
     public void reset() {
-        for (ServerController serverController : serverControllers) {
+        for (ServerController serverController : serverControllers.values()) {
             serverController.reset();
         }
+    }
+
+    public void stopOneWebServerWithPort(int port) {
+        serverControllers.get(port).stop();
     }
 
     public static void updateLoadBalancerConfig(String appname, List<String> addresses) throws IOException {
@@ -119,6 +125,8 @@ public class ApacheLoadBalancerController extends ServerController {
             lines.add("BalancerMember " + address);
         }
         lines.add("</Proxy>");
+        lines.add("SSLProxyEngine on");
+        lines.add("SSLProxyVerify none");
         lines.add("ProxyPass /" + appname + " balancer://mycluster" + (stickySession != null ? " stickysession=" + stickySession : ""));
         lines.add("ProxyPassReverse /" + appname + " balancer://mycluster" + (stickySession != null ? " stickysession=" + stickySession : ""));
 

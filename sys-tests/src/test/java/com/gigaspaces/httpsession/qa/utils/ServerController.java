@@ -1,5 +1,6 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import junit.framework.Assert;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.config.Ini;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class ServerController {
@@ -32,7 +34,10 @@ public abstract class ServerController {
 	protected int port = 8080;
 	protected boolean secured;
 
-	public ServerController() {
+    final static ExecutorService service = Executors.newCachedThreadPool();
+
+
+    public ServerController() {
 		init();
 	}
 
@@ -82,25 +87,40 @@ public abstract class ServerController {
 	public abstract void saveShiroFile(String appName, List<String> lines)
 			throws IOException;
 
-	public void start() {
-		try {
+	public void startStarterRunner() {
+        try {
+            service.submit(starter).get(40, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Failed to run server starter. " + e.getMessage());
+        }
+/*		try {
 
 			starter.startAndWait();
 
 			running.compareAndSet(false, true);
 		} catch (Throwable e) {
-		}
+		}*/
 	}
 
+    public void start() {
+        startStarterRunner();
+    }
+
 	public void stop() {
-		try {
+        try {
+            service.submit(stopper).get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		/*try {
 			// stopper.start();
 			stopper.startAndWait();
 
 			running.compareAndSet(true, false);
 		} catch (Throwable e) {
             throw new RuntimeException(e);
-		}
+		}*/
 	}
 
 	protected String getExecutionPath(String basePath, String filePath) {
@@ -123,12 +143,8 @@ public abstract class ServerController {
     public void startAll(String file, Map<String, String> properties){
         throw new RuntimeException("WHY YOU NO OVERRIDE ME HUMAN?");
     }
-    public void stopAll(boolean undeployOnce) throws IOException {
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         throw new RuntimeException("WHY YOU NO OVERRIDE ME HUMAN?");
-    }
-
-    public void stopAll() throws IOException {
-        stopAll(false);
     }
 
     public void config(String file, Map<String, String> properties) {
@@ -189,5 +205,9 @@ public abstract class ServerController {
 
     public void reset() {
 
+    }
+
+    public void stopOneWebServerWithPort(int port) {
+        throw new RuntimeException("This method can only be called to a load balancer controller");
     }
 }

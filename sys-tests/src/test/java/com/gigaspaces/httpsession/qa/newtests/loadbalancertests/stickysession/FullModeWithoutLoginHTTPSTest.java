@@ -2,9 +2,8 @@ package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.stickysession;
 
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
-import com.gigaspaces.httpsession.qa.newtests.bases.WithLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,30 +12,29 @@ import java.io.IOException;
  * @author Yohana Khoury
  * @since 10.1
  */
-@Ignore
-public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
+public class FullModeWithoutLoginHTTPSTest extends AbstractLoadBalancerTest {
 
     @Override
     @Before
     public void before() {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
-        this.shiroSecurityConfiguration = new WithLoginShiroSecurityConfiguration();
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
         this.webAppAddress = "http://localhost:7777/demo-app";
     }
 
     @Test
-    public void testJettyLoadBalancer() throws IOException {
-        super.testJettyLoadBalancer();
+    public void testJettyLoadBalancerHTTPS() throws IOException {
+        super.testJettyLoadBalancerHTTPS();
     }
 
     @Test
-    public void testTomcatLoadBalancer() throws IOException {
-        super.testTomcatLoadBalancer();
+    public void testTomcatLoadBalancerHTTPS() throws IOException {
+        super.testTomcatLoadBalancerHTTPS();
     }
 
     @Test
-    public void testWebSphereLoadBalancer() throws IOException {
-        super.testWebSphereLoadBalancer();
+    public void testWebSphereLoadBalancerHTTPS() throws IOException {
+        super.testWebSphereLoadBalancerHTTPS();
     }
 }

@@ -5,7 +5,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminFactory;
-import org.openspaces.admin.gsa.GridServiceAgent;
+import org.openspaces.admin.gsm.GridServiceManager;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class RemoteSpaceController extends ServerController {
+public class NewRemoteSpaceController extends ServerController {
 
 	private String spaceName = "sessionSpace";
 	private int instances = 2;
@@ -32,10 +32,10 @@ public class RemoteSpaceController extends ServerController {
 	private ProcessingUnit pu;
 	private ISpaceProxy space;
 
-	public RemoteSpaceController() {
+	public NewRemoteSpaceController() {
 	}
 
-	public RemoteSpaceController(String spaceName, int instances, int backups) {
+	public NewRemoteSpaceController(String spaceName, int instances, int backups) {
 
 		if (spaceName != null && spaceName.isEmpty())
 			this.spaceName = spaceName;
@@ -58,15 +58,6 @@ public class RemoteSpaceController extends ServerController {
 				+ GS_AGENT);
 		starter.getCommands().add(path);
 
-
-        starter.or(new StringPredicate("GSM started successfully") {
-
-            @Override
-            public boolean customTest(String input) {
-                return input.contains(match);
-            }
-        });
-
 		return starter;
 	}
 
@@ -79,21 +70,44 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public void start() {
 
-		super.start();
+		//super.start();
+        System.out.println(admin.getGroups()[0]);
+        GridServiceManager gsm = admin.getGridServiceManagers().waitForAtLeastOne();
+        pu = gsm.deploy(new SpaceDeployment(spaceName).clusterSchema("partitioned-sync2backup").numberOfInstances(1).numberOfBackups(0), 20, TimeUnit.SECONDS);
+        Assert.assertNotNull("Failed to deploy space", pu);
+        //pu = admin.getProcessingUnits().waitFor(spaceName,30, TimeUnit.SECONDS);
 
-		admin.getGridServiceManagers().waitForAtLeastOne();
+        //pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+        Assert.assertTrue("Failed to find space [" + spaceName + "]", pu.waitFor(1, 20, TimeUnit.SECONDS));
+        Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+        if(space1 == null)
+            Assert.fail("Failed to find deployed space");
+
+        space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+        /*try {
+            space.clear(null, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        } catch (UnusableEntryException e) {
+            e.printStackTrace();
+        }*/
     }
 
 	@Override
 	public void stop() {
 
-		space.close();
+		//space.close();
 
 		admin.getGridServiceAgents().waitForAtLeastOne();
 
-		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
+        GridServiceManager gsm = admin.getGridServiceManagers().waitForAtLeastOne();
+        gsm.undeploy(spaceName);
+
+	/*	for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
 			gsa.shutdown();
-		}
+		}*/
 
 		admin.close();
 
@@ -104,7 +118,7 @@ public class RemoteSpaceController extends ServerController {
 //		super.stop();
 	}
 
-    @Override
+	@Override
 	public void deploy(String appName) throws IOException {
 
 		SpaceDeployment sd = new SpaceDeployment(spaceName);

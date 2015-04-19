@@ -8,17 +8,26 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jboss.security.Base64Encoder;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,22 +48,55 @@ public class HTTPUtils {
 
         public HTTPResponse send(HTTPPostRequest postRequest) throws IOException {
             System.out.println("Sending POST to "+postRequest._urlAsString);
-            HTTPResponse result = postRequest.post(cookieStore);
+            HTTPResponse result = null;
+            try {
+                result = postRequest.post(cookieStore);
+            } catch (UnrecoverableKeyException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
             return result;
         }
 
         public HTTPResponse send(HTTPPutRequest putRequest) throws IOException {
-            HTTPResponse result = putRequest.put(cookieStore);
+            HTTPResponse result = null;
+            try {
+                result = putRequest.put(cookieStore);
+            } catch (UnrecoverableKeyException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            }
             return result;
         }
 
         public HTTPResponse send(HTTPGetRequest getRequest) throws IOException {
             System.out.println("Sending GET to "+getRequest._urlAsString);
-            HTTPResponse result = getRequest.get(cookieStore);
+            HTTPResponse result = null;
+            try {
+                result = getRequest.get(cookieStore);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (KeyManagementException e) {
+                e.printStackTrace();
+            } catch (UnrecoverableKeyException e) {
+                e.printStackTrace();
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            }
             return result;
         }
-        public HTTPResponse send(HTTPDeleteRequest deleteRequest) throws IOException {
-            return deleteRequest.get(cookieStore);
+        public HTTPResponse send(HTTPDeleteRequest deleteRequest) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+            return deleteRequest.delete(cookieStore);
         }
 
         public String getCookie() {
@@ -130,8 +172,13 @@ public class HTTPUtils {
             return this;
         }
 
-        protected HTTPResponse post(CookieStore cookieStore) throws IOException {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+        protected HTTPResponse post(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+            SchemeRegistry schemeRegistry = new SchemeRegistry();
+            schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
+            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
+
+            DefaultHttpClient httpClient = new DefaultHttpClient(cm);
             httpClient.setCookieStore(cookieStore);
             HttpPost httpPost = new HttpPost(_urlAsString);
 
@@ -186,11 +233,17 @@ public class HTTPUtils {
         }
 
 
-        protected HTTPResponse get(CookieStore cookieStore) throws IOException {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+        protected HTTPResponse get(CookieStore cookieStore) throws IOException, NoSuchAlgorithmException, KeyManagementException, UnrecoverableKeyException, KeyStoreException {
+
+            SchemeRegistry schemeRegistry = new SchemeRegistry();
+            schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
+            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
+
+            DefaultHttpClient httpClient = new DefaultHttpClient(cm);
+
             httpClient.setCookieStore(cookieStore);
             HttpGet httpGet = new HttpGet(_urlAsString);
-
             if (auth != null) {
                 httpGet.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
             }
@@ -231,8 +284,14 @@ public class HTTPUtils {
             _urlAsString = urlAsString;
         }
 
-        protected HTTPResponse get(CookieStore cookieStore) throws IOException {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+        protected HTTPResponse delete(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+            SchemeRegistry schemeRegistry = new SchemeRegistry();
+            schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
+            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
+
+            DefaultHttpClient httpClient = new DefaultHttpClient(cm);
+
             httpClient.setCookieStore(cookieStore);
             HttpDelete httpGet = new HttpDelete(_urlAsString);
 
@@ -283,8 +342,15 @@ public class HTTPUtils {
             return this;
         }
 
-        protected HTTPResponse put(CookieStore cookieStore) throws IOException {
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+        protected HTTPResponse put(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+
+            SchemeRegistry schemeRegistry = new SchemeRegistry();
+            schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
+            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
+
+            DefaultHttpClient httpClient = new DefaultHttpClient(cm);
+
             httpClient.setCookieStore(cookieStore);
             HttpPut httpPut = new HttpPut(_urlAsString);
             if (jsonBody != null) {

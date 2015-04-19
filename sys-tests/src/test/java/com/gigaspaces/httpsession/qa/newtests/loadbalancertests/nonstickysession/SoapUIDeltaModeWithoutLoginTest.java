@@ -1,8 +1,9 @@
 package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysession;
 
-import com.gigaspaces.httpsession.qa.newtests.FullStoreModeBase;
-import com.gigaspaces.httpsession.qa.newtests.TestBase;
-import com.gigaspaces.httpsession.qa.newtests.WithLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.TestBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import com.gigaspaces.httpsession.qa.utils.ApacheLoadBalancerController;
 import com.gigaspaces.httpsession.qa.utils.ServerControllerFactory;
 import org.junit.Before;
@@ -21,7 +22,7 @@ public class SoapUIDeltaModeWithoutLoginTest extends TestBase {
     public void before() {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
-        this.shiroSecurityConfiguration = new WithLoginShiroSecurityConfiguration();
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
         this.webAppAddress = "http://localhost:7777/demo-app";
     }
     @Test

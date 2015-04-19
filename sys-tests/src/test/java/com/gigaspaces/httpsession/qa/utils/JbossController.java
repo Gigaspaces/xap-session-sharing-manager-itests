@@ -145,14 +145,16 @@ public class JbossController extends ServerController {
     }
 
     @Override
-    public void stopAll(boolean undeployOnce) throws IOException {
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         stop();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        undeploy(APP_NAME);
+        if (undeploy) {
+            undeploy(APP_NAME);
+        }
     }
 
     @Override

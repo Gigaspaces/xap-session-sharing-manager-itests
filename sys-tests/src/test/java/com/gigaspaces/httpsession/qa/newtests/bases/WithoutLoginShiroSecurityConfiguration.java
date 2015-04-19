@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.qa.newtests;
+package com.gigaspaces.httpsession.qa.newtests.bases;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -9,6 +9,6 @@
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="9080"
-                  httpsPort="9443" />
+                  httpsPort="-1" />
 
 </server>

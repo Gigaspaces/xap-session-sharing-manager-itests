@@ -57,7 +57,7 @@ public class DataGenerator {
         Map<String, DataUnit> expected = new HashMap<String, DataUnit>();
 
         for (int i = 1; i <= count; i++) {
-            if (i%2 == 0) {
+            if (i%2 == 1) {
                 User user = generateUser(i);
                 appendData(USER_KEY + (lastIndex + i), user, "B", builder, expected, true);
             } else {
@@ -123,6 +123,10 @@ public class DataGenerator {
         while (it.hasNext()) {
             String key = it.next();
             DataUnit dataUnit = stringDataUnitMap.get(key);
+            if (dataUnit.getDatavalue() == null) {
+                continue;
+            }
+            dataUnit.setExpectedVersion(dataUnit.getExpectedVersion()+1);
 
             if (dataUnit.getDatavalue() instanceof String) {
                 dataUnit.setDatavalue(UUID.randomUUID().toString());

@@ -1,14 +1,13 @@
 package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysession;
 
-import com.gigaspaces.httpsession.qa.newtests.FullStoreModeBase;
-import com.gigaspaces.httpsession.qa.newtests.TestBase;
-import com.gigaspaces.httpsession.qa.newtests.WithoutLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.TestBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import com.gigaspaces.httpsession.qa.utils.ApacheLoadBalancerController;
 import com.gigaspaces.httpsession.qa.utils.ServerControllerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 /**

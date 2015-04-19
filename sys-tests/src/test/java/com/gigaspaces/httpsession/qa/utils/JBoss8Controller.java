@@ -129,7 +129,7 @@ public class JBoss8Controller extends JbossController {
     }
 
     @Override
-    public void stopAll(boolean undeployOnce) throws IOException {
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         stop();
         try {
             Thread.sleep(2000);

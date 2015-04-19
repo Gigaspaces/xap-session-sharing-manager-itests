@@ -11,17 +11,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WebsphereController extends ServerController {
 
-	private static final String BIN_START = "bin/server";
+	protected static final String BIN_START = "bin/server";
 	public String WEBSPHERE_WEB_APPS;
-    private static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/websphere-server.xml";
+    private static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/websphere/websphere-server.xml";
 
     private static AtomicInteger instancesCount = new AtomicInteger(0);
 
-    private int instanceId;
+    protected int instanceId;
 
     @Override
     protected void init() {
@@ -38,40 +39,6 @@ public class WebsphereController extends ServerController {
 	public Runner createStarter() {
         String path = FilenameUtils
                 .concat(Config.getWebsphereHome(), BIN_START);
-
-        Runner creator = new Runner(Config.getWebsphereHome(),10000, null);
-        List<String> creatorCommands = creator.getCommands();
-        creatorCommands.add(path);
-        creatorCommands.add("create");
-        creatorCommands.add("site"+instanceId);
-
-
-        creator.or(new StringPredicate("Server site"+instanceId+" created.") {
-
-            @Override
-            public boolean customTest(String input) {
-                return input.contains(match);
-            }
-        });
-
-        creator.or(new TimeoutPredicate(TIMEOUT));
-
-        creator.startAndWait();
-
-
-        try {
-            //TODO put these files in the tests directory
-            File serverConfig = new File(Config.getWebsphereHome()+"/usr/servers/site"+instanceId+"/server.xml");
-            if (!serverConfig.exists()) {
-                throw new RuntimeException("Unable to find server.xml file for site"+instanceId);
-            }
-            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
-            content = content.replaceAll("9443", ""+(9443+instanceId    ));
-            content = content.replaceAll("9080", ""+port);
-            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
 
 
@@ -91,8 +58,8 @@ public class WebsphereController extends ServerController {
             }
         });
 
-
-        starter.or(new TimeoutPredicate(TIMEOUT));
+/*
+        starter.or(new TimeoutPredicate(TIMEOUT));*/
 		return starter;
 	}
 
@@ -116,8 +83,10 @@ public class WebsphereController extends ServerController {
             }
         });
 
+/*
 
         stopper.or(new TimeoutPredicate(TIMEOUT));
+*/
 
 		return stopper;
 	}
@@ -140,25 +109,76 @@ public class WebsphereController extends ServerController {
 	}
 
     @Override
+    public void start() {
+        String path = FilenameUtils
+                .concat(Config.getWebsphereHome(), BIN_START);
+
+
+        Runner creator = new Runner(Config.getWebsphereHome(),10000, null);
+        List<String> creatorCommands = creator.getCommands();
+        creatorCommands.add(path);
+        creatorCommands.add("create");
+        creatorCommands.add("site"+instanceId);
+
+
+        creator.or(new StringPredicate("Server site"+instanceId+" created.") {
+
+            @Override
+            public boolean customTest(String input) {
+                return input.contains(match);
+            }
+        });
+
+        creator.or(new TimeoutPredicate(TIMEOUT));
+
+        try {
+            service.submit(creator).get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Failed to run websphere creator command. "+e.getMessage());
+        }
+
+
+        try {
+            //TODO put these files in the tests directory
+            File serverConfig = new File(Config.getWebsphereHome()+"/usr/servers/site"+instanceId+"/server.xml");
+            if (!serverConfig.exists()) {
+                throw new RuntimeException("Unable to find server.xml file for site"+instanceId);
+            }
+            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+            content = content.replaceAll("9443", ""+(9443+instanceId    ));
+            content = content.replaceAll("9080", ""+port);
+            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        super.start();
+    }
+
+    @Override
     public void startAll(String file, Map<String, String> properties) {
+        start();
         try {
             deploy(APP_NAME);
         } catch (IOException e) {
             e.printStackTrace();
         }
         config(file, properties);
-        start();
     }
 
     @Override
-    public void stopAll(boolean undeployOnce) throws IOException {
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         stop();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        undeploy(APP_NAME);
+        if (undeploy) {
+            undeploy(APP_NAME);
+        }
     }
 
 

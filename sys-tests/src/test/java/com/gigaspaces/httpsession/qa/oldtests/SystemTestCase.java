@@ -165,17 +165,16 @@ public abstract class SystemTestCase {
 
 	public abstract Map<String, String> getConfiguration();
 
-	//@Before
     @Before
 	public final void startup() {
 		
 		space.start();
 		
-	/*	try {
+		try {
 			space.deploy(SESSION_SPACE);
 		} catch (IOException e) {
 			throw new AssertionError(e);
-		}*/
+		}
 	}
 
 	public final void runJbossTest() {
@@ -267,7 +266,7 @@ public abstract class SystemTestCase {
 		}
 	}
 
-//	@After
+	@After
 	public final void teardown() throws IOException {
 
 		space.undeploy(SESSION_SPACE);

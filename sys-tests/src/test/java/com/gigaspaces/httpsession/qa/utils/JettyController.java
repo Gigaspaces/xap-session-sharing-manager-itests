@@ -1,6 +1,8 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +10,17 @@ import java.util.Map;
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 
 public class JettyController extends ServerController {
 
-	private static final String BIN_START_JAR = "start.jar";
-	public static final String JETTY_WEB_APPS = FilenameUtils.concat(
+	protected static final String BIN_START_JAR = "start.jar";
+    protected static final String JETTY_WEB_APPS = FilenameUtils.concat(
 			Config.getJettyHome(), WEB_APPS);
-    private static boolean isDeployed;
-    private static boolean isUndeployed;
+    protected static boolean isDeployed;
+    protected static boolean isUndeployed;
+
+    protected static final String START_INI = "sys-tests/src/test/resources/config/jetty/start.ini";
 
 
     public JettyController(String host, int port) {
@@ -38,26 +43,19 @@ public class JettyController extends ServerController {
 		commands.add("-jar");
 		commands.add(path);
 
+        commands.add("--module=http");
+        commands.add("-Djetty.port="+port);
 		commands.add("-DSTOP.PORT=" + (port - 1));
 		commands.add("-DSTOP.KEY=secret");
-		commands.add("-Djetty.port=" + port);
 		commands.add("-Djetty.home=" + Config.getJettyHome());
-/*
+
 		starter.or(new StringPredicate("oejs.Server:main: Started") {
 
 			@Override
 			public boolean customTest(String input) {
 				return input.contains(match);
 			}
-		});*/
-        starter.or(new StringPredicate("demo-app/,AVAILABLE}{/demo-app}") {
-
-            @Override
-            public boolean customTest(String input) {
-                return input.contains(match);
-            }
-        });
-
+		});
 
 
     starter.or(new TimeoutPredicate(TIMEOUT));
@@ -104,6 +102,16 @@ public class JettyController extends ServerController {
 	}
 
     @Override
+    public void start() {
+        try {
+            FileUtils.copyFile(new File(Config.getAbrolutePath(START_INI)), new File(Config.getJettyHome()+"/start.ini"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        super.start();
+    }
+
+    @Override
     public void startAll(String file, Map<String, String> properties) {
         if (!isDeployed) {
             isDeployed = true;
@@ -118,14 +126,14 @@ public class JettyController extends ServerController {
     }
 
     @Override
-    public void stopAll(boolean undeployOnce) throws IOException {
+    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         stop();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (!isUndeployed || !undeployOnce) {
+        if (undeploy && (!isUndeployed || !undeployOnce)) {
             isUndeployed = true;
             undeploy(APP_NAME);
         }

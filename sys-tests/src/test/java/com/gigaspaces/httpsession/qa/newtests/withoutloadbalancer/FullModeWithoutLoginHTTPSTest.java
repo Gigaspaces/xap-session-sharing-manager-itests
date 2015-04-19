@@ -1,9 +1,10 @@
 package com.gigaspaces.httpsession.qa.newtests.withoutloadbalancer;
 
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractTestBase;
-import com.gigaspaces.httpsession.qa.newtests.bases.DeltaStoreModeBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,29 +13,29 @@ import java.io.IOException;
  * @author Yohana Khoury
  * @since 10.1
  */
-public class DeltaModeWithoutLoginTest extends AbstractTestBase {
+public class FullModeWithoutLoginHTTPSTest extends AbstractTestBase {
 
     @Override
     @Before
     public void before() {
         super.before();
-        this.storeModeBase = new DeltaStoreModeBase();
+        this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "https://localhost:7777/demo-app";
     }
     @Test
-    public void testJetty() throws IOException {
-        super.testJetty();
-    }
-
-    @Test
-    public void testTomcat() throws IOException {
-        super.testTomcat();
+    public void testJettyHTTPS() throws IOException {
+        super.testJettyHTTPS();
     }
 
     @Test
-    public void testWebSphere() throws IOException {
-        super.testWebSphere();
+    public void testTomcatHTTPS() throws IOException {
+        super.testTomcatHTTPS();
+    }
+
+    @Test
+    public void testWebSphereHTTPS() throws IOException {
+        super.testWebSphereHTTPS();
     }
 
 

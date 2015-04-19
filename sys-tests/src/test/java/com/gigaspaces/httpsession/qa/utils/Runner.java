@@ -65,7 +65,8 @@ public class Runner extends Thread {
 					System.out.println(line);
 
 					if (sunchronize(line)) {
-						refresh();
+                        refresh();
+                        break;
 					}
 				}
 			} finally {
