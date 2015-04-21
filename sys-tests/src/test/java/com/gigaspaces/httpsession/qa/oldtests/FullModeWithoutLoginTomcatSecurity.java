@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-@Ignore
+
 public class FullModeWithoutLoginTomcatSecurity extends TestWithoutLoginBase {
 	
 	@Override

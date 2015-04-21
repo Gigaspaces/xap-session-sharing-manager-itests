@@ -23,6 +23,8 @@ public class RemoteSpaceController extends ServerController {
 	private int instances = 2;
 	private int backs = 1;
 
+    private static boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "true"));
+
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
 
@@ -78,8 +80,9 @@ public class RemoteSpaceController extends ServerController {
 
 	@Override
 	public void start() {
-
-		super.start();
+        if (!useExistingAgent) {
+            super.start();
+        }
 
 		admin.getGridServiceManagers().waitForAtLeastOne();
     }
@@ -89,12 +92,14 @@ public class RemoteSpaceController extends ServerController {
 
 		space.close();
 
-		admin.getGridServiceAgents().waitForAtLeastOne();
+        if (!useExistingAgent) {
+            admin.getGridServiceAgents().waitForAtLeastOne();
 
-		for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
-			gsa.shutdown();
-		}
+            for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
+                gsa.shutdown();
+            }
 
+        }
 		admin.close();
 
 		admin = null;
