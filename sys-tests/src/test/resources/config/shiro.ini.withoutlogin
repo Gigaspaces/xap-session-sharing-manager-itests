@@ -20,6 +20,9 @@ securityManager.sessionManager = $sessionManager
 
 # whatever your CacheManager implementation is, for example:
 cacheManager = com.gigaspaces.httpsession.sessions.GigaSpacesCacheManager
+cacheManager.initialCapacity=1000
+cacheManager.maximumCapacity=10000
+cacheManager.concurrencyLevel=32
 
 # Model Manager service
 storeMode = com.gigaspaces.httpsession.sessions.DeltaStoreMode
@@ -30,6 +33,9 @@ cacheManager.storeMode = $storeMode
 
 # Serialization Service
 serializer = com.gigaspaces.httpsession.serialize.KryoSerializerImpl
+javaSerialization=com.esotericsoftware.kryo.serializers.JavaSerializer
+serializer.classSerializers=javax.security.auth.Subject:$javaSerialization,org.springframework.security.core.userdetails.User:$javaSerialization,org.springframework.security.core.context.SecurityContextImpl:$javaSerialization
+
 cacheManager.serializer = $serializer
 # Session Policy Service
 policy = com.gigaspaces.httpsession.policies.SessionPolicyWithoutLogin

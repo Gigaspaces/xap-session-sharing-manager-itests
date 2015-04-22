@@ -196,7 +196,7 @@ public abstract class SystemTestCase {
 	}
 
 	public final void runSecuredTomcatTest() {
-		server = new TomcatController(Config.getHost(), 9090, true);
+		server = new TomcatController(Config.getHost(), 9090, true, false);
 
 		runTest(true);
 	}

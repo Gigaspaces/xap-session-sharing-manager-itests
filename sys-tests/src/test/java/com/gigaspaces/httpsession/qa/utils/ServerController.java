@@ -33,6 +33,7 @@ public abstract class ServerController {
 	protected String host = "127.0.0.1";
 	protected int port = 8080;
 	protected boolean secured;
+	protected boolean springSecured;
 
     final static ExecutorService service = Executors.newCachedThreadPool();
 
@@ -57,10 +58,18 @@ public abstract class ServerController {
 		init();
 	}
 
-	public ServerController(String host, int port, boolean secured) {
+	public ServerController(int port, boolean secured, boolean springSecured) {
+		this.port = port;
+		this.secured = secured;
+		this.springSecured = springSecured;
+		init();
+	}
+
+	public ServerController(String host, int port, boolean secured, boolean springSecured) {
 		this.host = host;
 		this.port = port;
 		this.secured = secured;
+		this.springSecured = springSecured;
 		init();
 	}
 

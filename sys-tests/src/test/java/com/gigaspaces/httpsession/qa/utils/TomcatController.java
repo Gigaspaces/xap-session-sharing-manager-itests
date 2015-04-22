@@ -31,16 +31,24 @@ public class TomcatController extends ServerController {
     private static boolean isUndeployed;
     protected int currentInstance;
 
-    public TomcatController(String host, int port, boolean isSecured) {
-        super(host, port, isSecured);
+    private static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web.xml";
+    private static final String SPRING_SECURITY_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-spring-security.xml";
+    private static final String SPRING_SECURITY_CONFIG = "sys-tests/src/test/resources/config/spring-security.xml";
+
+    public TomcatController(String host, int port, boolean isSecured, boolean isSpringSecurity) {
+        super(host, port, isSecured, isSpringSecurity);
     }
 
     public TomcatController(String host, int port) {
-        this(host, port, false);
+        this(host, port, false, false);
     }
 
     public TomcatController(int port) {
         super(port);
+    }
+
+    public TomcatController(int port, boolean isSecured, boolean isSpringSecurity) {
+        super(port, isSecured, isSpringSecurity);
     }
 
     @Override
@@ -140,6 +148,27 @@ public class TomcatController extends ServerController {
         FileUtils.writeLines(new File(path), lines);
     }
 
+    public void saveWebXmlFile(String appName)
+            throws IOException {
+        String path = FilenameUtils.concat(TOMCAT_WEB_APPS, appName + "/"
+                + "WEB-INF/web.xml");
+
+        if(springSecured) {
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));
+        }else{
+            FileUtils.copyFile(new File(Config.getAbrolutePath(DEFAULT_WEB_XML_CONFIG)), new File(path));
+        }
+    }
+
+    public void saveSpringSecurityFile(String appName)
+            throws IOException {
+        String path = FilenameUtils.concat(TOMCAT_WEB_APPS, appName + "/"
+                + "WEB-INF/spring-security.xml");
+
+        if(springSecured)
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_CONFIG)), new File(path));
+    }
+
     @Override
     public void start() {
         try {
@@ -160,6 +189,8 @@ public class TomcatController extends ServerController {
             isDeployed = true;
             try {
                 deploy(APP_NAME);
+                saveWebXmlFile(APP_NAME);
+                saveSpringSecurityFile(APP_NAME);
             } catch (IOException e) {
                 e.printStackTrace();
             }
