@@ -1,7 +1,7 @@
 package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysession;
 
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
-import com.gigaspaces.httpsession.qa.newtests.bases.DeltaStoreModeBase;
+import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -14,13 +14,13 @@ import java.io.IOException;
  * @since 10.1
  */
 @Ignore
-public class DeltaModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBalancerTest {
+public class FullModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBalancerTest {
 
     @Override
     @Before
     public void before() {
         super.before();
-        this.storeModeBase = new DeltaStoreModeBase();
+        this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
         this.webAppAddress = "http://localhost:7777/demo-app";
     }
