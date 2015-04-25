@@ -13,7 +13,6 @@ import java.io.IOException;
  * @author Yohana Khoury
  * @since 10.1
  */
-@Ignore
 public class DeltaModeWithLoginHTTPSTest extends AbstractTestBase {
 
     @Override
@@ -37,6 +36,11 @@ public class DeltaModeWithLoginHTTPSTest extends AbstractTestBase {
     @Test
     public void testWebSphereHTTPS() throws IOException {
         super.testWebSphereHTTPS();
+    }
+
+    @Test
+    public void testTomcatSecurityHTTPS() throws IOException {
+        super.testTomcatSecurityHTTPS();
     }
 
 

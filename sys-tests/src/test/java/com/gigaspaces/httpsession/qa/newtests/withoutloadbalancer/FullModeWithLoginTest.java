@@ -13,7 +13,6 @@ import java.io.IOException;
  * @author Yohana Khoury
  * @since 10.1
  */
-@Ignore
 public class FullModeWithLoginTest extends AbstractTestBase {
 
     @Override

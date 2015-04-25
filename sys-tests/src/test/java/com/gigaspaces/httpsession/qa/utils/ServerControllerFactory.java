@@ -6,7 +6,11 @@ package com.gigaspaces.httpsession.qa.utils;
  */
 public class ServerControllerFactory {
     public enum ServerControllerEnum {
-        JETTY9, JETTY9HTTPS, WEBSPHERE, WEBSPHEREHTTPS, TOMCAT7, TOMCAT7HTTPS, JBOSS7, JBOSS8, TOMCAT7SPRINGSECURITY
+        JETTY9, JETTY9HTTPS,
+        WEBSPHERE, WEBSPHEREHTTPS,
+        TOMCAT7, TOMCAT7HTTPS, TOMCAT7SECURITY, TOMCAT7SECURITYHTTPS,
+        TOMCAT7SPRINGSECURITY,
+        JBOSS7, JBOSS8
     }
     public static ServerController getServerController(ServerControllerEnum serverController, int port) {
         switch (serverController) {
@@ -16,18 +20,22 @@ public class ServerControllerFactory {
                 return new JettyHTTPSController(port);
             case TOMCAT7:
                 return new TomcatController(port);
+            case TOMCAT7SECURITY:
+                return new TomcatController(port, true);
             case TOMCAT7HTTPS:
                 return new TomcatHTTPSController(port);
             case TOMCAT7SPRINGSECURITY:
                 return new TomcatController(port, false, true);
+            case TOMCAT7SECURITYHTTPS:
+                return new TomcatHTTPSController(port, true);
             case JBOSS7:
-                return new JbossController(port);
+            return new JbossController(port);
             case JBOSS8:
-                return new JBoss8Controller(port);
+            return new JBoss8Controller(port);
             case WEBSPHERE:
-                return new WebsphereController(port);
+            return new WebsphereController(port);
             case WEBSPHEREHTTPS:
-                return new WebsphereHTTPSController(port);
+            return new WebsphereHTTPSController(port);
             default:
                 System.out.println("Unsupported!!");
                 return null;

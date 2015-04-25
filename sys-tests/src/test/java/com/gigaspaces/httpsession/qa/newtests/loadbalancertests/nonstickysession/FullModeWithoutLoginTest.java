@@ -37,4 +37,9 @@ public class FullModeWithoutLoginTest extends AbstractLoadBalancerTest {
     public void testWebSphereLoadBalancer() throws IOException {
         super.testWebSphereLoadBalancer();
     }
+
+    @Test
+    public void testTomcatLoadBalancerSecurity() throws IOException {
+        super.testTomcatLoadBalancerSecurity();
+    }
 }

@@ -65,7 +65,13 @@ public abstract class ServerController {
 		init();
 	}
 
-	public ServerController(String host, int port, boolean secured, boolean springSecured) {
+    public ServerController(int port, boolean secured) {
+        this.port = port;
+        this.secured = secured;
+        init();
+    }
+
+    public ServerController(String host, int port, boolean secured, boolean springSecured) {
 		this.host = host;
 		this.port = port;
 		this.secured = secured;
@@ -158,7 +164,7 @@ public abstract class ServerController {
 
     public void config(String file, Map<String, String> properties) {
 
-        properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group", "httpsession"));
+        properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group", System.getenv("LOOKUPGROUPS")));
 
         Ini ini = new Ini();
 

@@ -23,12 +23,13 @@ public class RemoteSpaceController extends ServerController {
 	private int instances = 2;
 	private int backs = 1;
 
-    private static boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "true"));
+    private static boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "false"));
+    private static boolean useExistingSpace = Boolean.valueOf(System.getProperty("useExistingSpace", "false"));
 
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
 
-	private Admin admin = new AdminFactory().addGroup(System.getProperty("group", "httpsession")).createAdmin();
+	private Admin admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS"))).createAdmin();
 
 	private Runner starter;
 	private ProcessingUnit pu;
@@ -111,26 +112,40 @@ public class RemoteSpaceController extends ServerController {
 
     @Override
 	public void deploy(String appName) throws IOException {
+            if (useExistingSpace) {
+                admin.getGridServiceManagers().waitForAtLeastOne();
+                pu = admin.getProcessingUnits().waitFor(SESSION_SPACE);
+                pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+                Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+                if (space1 == null)
+                    Assert.fail("Failed to find deployed space");
+                space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+                pu.getSpace().getGigaSpace().clear(null);
+            } else {
 
-		SpaceDeployment sd = new SpaceDeployment(spaceName);
-		sd.numberOfInstances(instances);
-		sd.numberOfBackups(backs);
+                SpaceDeployment sd = new SpaceDeployment(spaceName);
+                sd.numberOfInstances(instances);
+                sd.numberOfBackups(backs);
 
-		pu = admin.getGridServiceManagers().deploy(sd);
+                pu = admin.getGridServiceManagers().deploy(sd);
 
-		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
-        Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
-        if(space1 == null)
-            Assert.fail("Failed to find deployed space");
+                pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+                Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+                if (space1 == null)
+                    Assert.fail("Failed to find deployed space");
 
-		space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+                space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+            }
 	}
 
+    public void undeploy() throws IOException {
+        undeploy("");
+    }
 	@Override
 	public void undeploy(String appName) throws IOException {
-
-		pu.undeploy();
-
+        if (!useExistingSpace) {
+            pu.undeploy();
+        }
 		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
 	}
 

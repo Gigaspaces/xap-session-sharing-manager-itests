@@ -26,17 +26,17 @@ public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
     }
 
     @Test
-    public void testJettyLoadBalancer() throws IOException {
-        super.testJettyLoadBalancer();
+    public void testJettyLoadBalancerStickySession() throws IOException {
+        super.testJettyLoadBalancerStickySession();
     }
 
     @Test
-    public void testTomcatLoadBalancer() throws IOException {
-        super.testTomcatLoadBalancer();
+    public void testTomcatLoadBalancerStickySession() throws IOException {
+        super.testTomcatLoadBalancerStickySession();
     }
 
     @Test
-    public void testWebSphereLoadBalancer() throws IOException {
-        super.testWebSphereLoadBalancer();
+    public void testWebSphereLoadBalancerStickySession() throws IOException {
+        super.testWebSphereLoadBalancerStickySession();
     }
 }

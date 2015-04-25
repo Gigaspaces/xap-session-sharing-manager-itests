@@ -47,4 +47,21 @@ public class AbstractTestBase extends TestBase {
 
         test();
     }
+
+   /*
+    Here starts tests with secure webserver
+     */
+
+    public void testTomcatSecurity() throws IOException {
+
+        startWebServer(new TomcatController(7777,true));
+
+        test();
+    }
+
+    public void testTomcatSecurityHTTPS() throws IOException {
+
+        startWebServer(new TomcatHTTPSController(7777,true));
+        test();
+    }
 }

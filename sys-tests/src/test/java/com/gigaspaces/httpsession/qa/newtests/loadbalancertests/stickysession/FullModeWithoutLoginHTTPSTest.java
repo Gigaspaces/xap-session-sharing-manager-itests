@@ -24,17 +24,17 @@ public class FullModeWithoutLoginHTTPSTest extends AbstractLoadBalancerTest {
     }
 
     @Test
-    public void testJettyLoadBalancerHTTPS() throws IOException {
-        super.testJettyLoadBalancerHTTPS();
+    public void testJettyLoadBalancerStickySessionHTTPS() throws IOException {
+        super.testJettyLoadBalancerStickySessionHTTPS();
     }
 
     @Test
-    public void testTomcatLoadBalancerHTTPS() throws IOException {
-        super.testTomcatLoadBalancerHTTPS();
+    public void testTomcatLoadBalancerStickySessionHTTPS() throws IOException {
+        super.testTomcatLoadBalancerStickySessionHTTPS();
     }
 
     @Test
-    public void testWebSphereLoadBalancerHTTPS() throws IOException {
-        super.testWebSphereLoadBalancerHTTPS();
+    public void testWebSphereLoadBalancerStickySessionHTTPS() throws IOException {
+        super.testWebSphereLoadBalancerStickySessionHTTPS();
     }
 }

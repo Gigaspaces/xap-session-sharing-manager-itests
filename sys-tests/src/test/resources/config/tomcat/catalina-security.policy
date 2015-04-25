@@ -155,6 +155,8 @@ grant {
 
     // Applications using the Tomcat JDBC connection pool need to be able to access this package
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.jdbc.pool";
+
+    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.coyote.http11";
 };
 
 // BIW Additions

@@ -40,6 +40,7 @@ public abstract class TestBase {
     private int usersCount = 2;
     private static ObjectMapper mapper = new ObjectMapper();
 
+    private boolean isLoggedIn = false;
 
     protected void assertSpaceMode(int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type) {
         storeModeBase.assertSpaceMode(remoteSpaceController.getSpace(), expectedSessions, expected, type);
@@ -85,10 +86,12 @@ public abstract class TestBase {
             HTTPUtils.HTTPSession user = new HTTPUtils.HTTPSession();
             sessions.add(user);
         }
+        isLoggedIn = false;
     }
 
     @After
     public void after() throws IOException, InterruptedException {
+        remoteSpaceController.undeploy();
         remoteSpaceController.stop();
         stopWebServer();
         Thread.sleep(5000);
@@ -102,6 +105,28 @@ public abstract class TestBase {
     public void test() throws IOException {
         int iterations = 4;
 
+        if (!isLoggedIn) {
+            if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
+                for (int i = 0; i < sessions.size(); i++) {
+                    HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/login.jsp");
+                    postRequest.withParameter("username", "user" + (i + 1))
+                            .withParameter("password", "user" + (i + 1));
+                    HTTPUtils.HTTPResponse response = sessions.get(i).send(postRequest);
+                    Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
+                }
+                isLoggedIn = true;
+            } else if (shiroSecurityConfiguration instanceof WithLoginSpringSecurityConfiguration) {
+                for (int i = 0; i < sessions.size(); i++) {
+                    HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/j_spring_security_check");
+                    postRequest.withParameter("j_username", "user" + (i + 1))
+                            .withParameter("j_password", "user" + (i + 1));
+                    HTTPUtils.HTTPResponse response = sessions.get(i).send(postRequest);
+                    Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
+                }
+                isLoggedIn = true;
+            }
+        }
+
         String requestsAddress = getWebAppAddress();
         //Write
         for (int j = 0; j < iterations; j++) {
@@ -111,7 +136,7 @@ public abstract class TestBase {
                 Map<String, DataUnit> data = DataGenerator.generateData();
                 HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(requestsAddress);
                 if (/*j == 0 &&*/ shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
-                    getRequest.auth("user" + (i + 1), "user" + (i + 1));
+                    //getRequest.auth("user" + (i + 1), "user" + (i + 1));
                 }
 
                 HTTPUtils.HTTPResponse response = session.send(getRequest);

@@ -37,5 +37,9 @@ public class DeltaModeWithoutLoginTest extends AbstractTestBase {
         super.testWebSphere();
     }
 
+    @Test
+    public void testTomcatSecurity() throws IOException {
+        super.testTomcatSecurity();
+    }
 
 }

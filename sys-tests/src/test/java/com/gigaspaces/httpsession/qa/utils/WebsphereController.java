@@ -181,6 +181,10 @@ public class WebsphereController extends ServerController {
         }
     }
 
+    @Override
+    public void reset() {
+        instancesCount.set(0);
+    }
 
     @Override
 	public void undeploy(String appName) throws IOException {
