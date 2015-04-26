@@ -25,11 +25,11 @@ public abstract class ServerController {
 
 	protected static final long TIMEOUT = 10000L;
     protected static final String SESSION_SPACE = "sessionSpace";
-    protected static final String APP_NAME = "demo-app";
+    public static final String DEFAULT_APP_NAME = "demo-app";
+    public String appName;
 
     private Runner starter;
 	private Runner stopper;
-	private AtomicBoolean running = new AtomicBoolean(false);
 	protected String host = "127.0.0.1";
 	protected int port = 8080;
 	protected boolean secured;
@@ -48,27 +48,27 @@ public abstract class ServerController {
 	}
 
 	public ServerController(int port) {
-		this.port = port;
-		init();
-	}
+        this(port, false, false, DEFAULT_APP_NAME);
+    }
 
 	public ServerController(String host, int port) {
-		this.host = host;
-		this.port = port;
-		init();
+		this(host, port, false, false);
 	}
 
+    public ServerController(int port, String appName) {
+        this(port, false, false, appName);
+    }
+
+    public ServerController(int port,boolean secured, String appName) {
+        this(port, secured, false, appName);
+    }
+
 	public ServerController(int port, boolean secured, boolean springSecured) {
-		this.port = port;
-		this.secured = secured;
-		this.springSecured = springSecured;
-		init();
+		this(port, secured, springSecured, DEFAULT_APP_NAME);
 	}
 
     public ServerController(int port, boolean secured) {
-        this.port = port;
-        this.secured = secured;
-        init();
+        this(port, secured, false, DEFAULT_APP_NAME);
     }
 
     public ServerController(String host, int port, boolean secured, boolean springSecured) {
@@ -76,8 +76,17 @@ public abstract class ServerController {
 		this.port = port;
 		this.secured = secured;
 		this.springSecured = springSecured;
-		init();
+        this.appName = DEFAULT_APP_NAME;
+        init();
 	}
+
+    public ServerController(int port, boolean secured, boolean springSecured, String appName) {
+        this.port = port;
+        this.secured = secured;
+        this.springSecured = springSecured;
+        this.appName = appName;
+        init();
+    }
 
 	public String getHost() {
 		return host;
@@ -212,7 +221,7 @@ public abstract class ServerController {
         }
 
         try {
-            saveShiroFile(APP_NAME, lines);
+            saveShiroFile(appName, lines);
         } catch (IOException e) {
             throw new Error("can not save shiro.ini", e);
         }

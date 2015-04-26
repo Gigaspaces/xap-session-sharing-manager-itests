@@ -24,6 +24,10 @@ public class WebsphereController extends ServerController {
 
     protected int instanceId;
 
+    public WebsphereController(int port, String appName) {
+        super(port, appName);
+    }
+
     @Override
     protected void init() {
         instanceId = instancesCount.incrementAndGet();
@@ -161,7 +165,7 @@ public class WebsphereController extends ServerController {
     public void startAll(String file, Map<String, String> properties) {
         start();
         try {
-            deploy(APP_NAME);
+            deploy(appName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -177,7 +181,7 @@ public class WebsphereController extends ServerController {
             e.printStackTrace();
         }
         if (undeploy) {
-            undeploy(APP_NAME);
+            undeploy(appName);
         }
     }
 

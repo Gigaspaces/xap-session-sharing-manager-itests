@@ -6,6 +6,10 @@ import java.util.List;
 
 public class JettyHTTPSController extends JettyController {
 
+    public JettyHTTPSController(int port, String appName) {
+        super(port, appName);
+    }
+
     public JettyHTTPSController(int port) {
         super(port);
     }

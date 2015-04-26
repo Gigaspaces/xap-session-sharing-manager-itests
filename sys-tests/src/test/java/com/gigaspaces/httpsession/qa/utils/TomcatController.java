@@ -47,17 +47,29 @@ public class TomcatController extends ServerController {
         super(port);
     }
 
+    public TomcatController(int port, String appName) {
+        super(port, appName);
+    }
+
     public TomcatController(int port, boolean isSecured) {
         super(port,isSecured);
+    }
+
+    public TomcatController(int port, boolean isSecured, String appName) {
+        super(port,isSecured, appName);
+    }
+    public TomcatController(int port, boolean isSecured, boolean isSpringSecurity) {
+        super(port, isSecured, isSpringSecurity);
+    }
+
+    public TomcatController(int port, boolean isSecured, boolean isSpringSecurity, String appName) {
+        super(port, isSecured, isSpringSecurity, appName);
     }
 
     public String getTomcatHome() {
         return Config.getTomcatHome()+"-"+(currentInstance%2+1);
     }
 
-    public TomcatController(int port, boolean isSecured, boolean isSpringSecurity) {
-        super(port, isSecured, isSpringSecurity);
-    }
 
     @Override
     public Runner createStarter() {
@@ -198,9 +210,9 @@ public class TomcatController extends ServerController {
             }
 
             try {
-                deploy(APP_NAME);
-                saveWebXmlFile(APP_NAME);
-                saveSpringSecurityFile(APP_NAME);
+                deploy(appName);
+                saveWebXmlFile(appName);
+                saveSpringSecurityFile(appName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -214,7 +226,7 @@ public class TomcatController extends ServerController {
         stop();
         if (undeploy && (!isUndeployed || !undeployOnce)) {
             //isUndeployed = true;
-            undeploy(APP_NAME);
+            undeploy(appName);
 
             if (isSecured()) {
                 try {
@@ -230,12 +242,12 @@ public class TomcatController extends ServerController {
         }
     }
 
-    @Override
+  /*  @Override
     public void reset() {
         instancesCount.set(0);
         isDeployed = false;
         isUndeployed = false;
-    }
+    }*/
 
 
     @Override

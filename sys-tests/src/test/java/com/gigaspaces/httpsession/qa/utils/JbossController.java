@@ -35,7 +35,11 @@ public class JbossController extends ServerController {
 		super(port);
 	}
 
-	@Override
+    public JbossController(int port, String appName) {
+        super(port, appName);
+    }
+
+    @Override
 	protected void init() {
 		defaultJbossCliAdminPort = 9999;
 		super.init();
@@ -134,7 +138,7 @@ public class JbossController extends ServerController {
     public void startAll(String file, Map<String, String> properties) {
      //   if (!isInitialized) {
             try {
-                deploy(APP_NAME);
+                deploy(appName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -153,7 +157,7 @@ public class JbossController extends ServerController {
             e.printStackTrace();
         }
         if (undeploy) {
-            undeploy(APP_NAME);
+            undeploy(appName);
         }
     }
 

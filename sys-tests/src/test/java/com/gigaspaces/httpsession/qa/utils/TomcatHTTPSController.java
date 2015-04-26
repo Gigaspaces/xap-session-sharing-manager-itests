@@ -19,6 +19,14 @@ public class TomcatHTTPSController extends TomcatController {
         super(port,isSecured);
     }
 
+    public TomcatHTTPSController(int port, String appName) {
+        super(port,appName);
+    }
+
+    public TomcatHTTPSController(int port, boolean secured, String appName) {
+        super(port, secured, appName);
+    }
+
     @Override
     public void start() {
         try {

@@ -23,6 +23,10 @@ public class JettyController extends ServerController {
     protected static final String START_INI = "sys-tests/src/test/resources/config/jetty/start.ini";
 
 
+    public JettyController(int port, String appName) {
+        super(port, appName);
+    }
+
     public JettyController(String host, int port) {
 		super(host, port);
 	}
@@ -116,7 +120,7 @@ public class JettyController extends ServerController {
         if (!isDeployed) {
             isDeployed = true;
             try {
-                deploy(APP_NAME);
+                deploy(appName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -135,7 +139,7 @@ public class JettyController extends ServerController {
         }
         if (undeploy && (!isUndeployed || !undeployOnce)) {
             isUndeployed = true;
-            undeploy(APP_NAME);
+            undeploy(appName);
         }
     }
 

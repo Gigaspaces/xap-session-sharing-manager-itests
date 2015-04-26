@@ -18,6 +18,10 @@ public class WebsphereHTTPSController extends WebsphereController {
         super(port);
     }
 
+    public WebsphereHTTPSController(int port, String appName) {
+        super(port, appName);
+    }
+
     @Override
     public void start() {
         String path = FilenameUtils

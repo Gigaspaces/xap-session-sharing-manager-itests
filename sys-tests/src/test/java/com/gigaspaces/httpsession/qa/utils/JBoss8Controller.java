@@ -25,6 +25,10 @@ public class JBoss8Controller extends JbossController {
         super(port);
     }
 
+    public JBoss8Controller(int port, String appName) {
+        super(port, appName);
+    }
+
     @Override
     public Runner createStarter() {
         try {
@@ -119,7 +123,7 @@ public class JBoss8Controller extends JbossController {
         if (!isDeployed) {
             isDeployed = true;
             try {
-                deploy(APP_NAME);
+                deploy(appName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -138,7 +142,7 @@ public class JBoss8Controller extends JbossController {
         }
         if (!isUndeployed || !undeployOnce) {
             isUndeployed = true;
-            undeploy(APP_NAME);
+            undeploy(appName);
         }
     }
 

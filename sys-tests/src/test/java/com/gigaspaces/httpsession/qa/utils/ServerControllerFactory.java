@@ -13,29 +13,33 @@ public class ServerControllerFactory {
         JBOSS7, JBOSS8
     }
     public static ServerController getServerController(ServerControllerEnum serverController, int port) {
+        return getServerController(serverController, port, ServerController.DEFAULT_APP_NAME);
+    }
+
+    public static ServerController getServerController(ServerControllerEnum serverController, int port, String appName) {
         switch (serverController) {
             case JETTY9:
-                return new JettyController(port);
+                return new JettyController(port, appName);
             case JETTY9HTTPS:
-                return new JettyHTTPSController(port);
+                return new JettyHTTPSController(port, appName);
             case TOMCAT7:
-                return new TomcatController(port);
+                return new TomcatController(port, appName);
             case TOMCAT7SECURITY:
-                return new TomcatController(port, true);
+                return new TomcatController(port, true, appName);
             case TOMCAT7HTTPS:
-                return new TomcatHTTPSController(port);
+                return new TomcatHTTPSController(port, appName);
             case TOMCAT7SPRINGSECURITY:
-                return new TomcatController(port, false, true);
+                return new TomcatController(port, false, true, appName);
             case TOMCAT7SECURITYHTTPS:
-                return new TomcatHTTPSController(port, true);
+                return new TomcatHTTPSController(port, true, appName);
             case JBOSS7:
-            return new JbossController(port);
+            return new JbossController(port, appName);
             case JBOSS8:
-            return new JBoss8Controller(port);
+            return new JBoss8Controller(port, appName);
             case WEBSPHERE:
-            return new WebsphereController(port);
+            return new WebsphereController(port, appName);
             case WEBSPHEREHTTPS:
-            return new WebsphereHTTPSController(port);
+            return new WebsphereHTTPSController(port, appName);
             default:
                 System.out.println("Unsupported!!");
                 return null;

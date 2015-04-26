@@ -114,11 +114,8 @@ public class ApacheLoadBalancerController extends ServerController {
         serverControllers.get(port).stop();
     }
 
-    public static void updateLoadBalancerConfig(String appname, List<String> addresses) throws IOException {
-        updateLoadBalancerConfig(appname, addresses, null);
-    }
 
-    public static void updateLoadBalancerConfig(String appname, List<String> addresses, String stickySession) throws IOException {
+    private void updateLoadBalancerConfig(String appname, List<String> addresses, String stickySession) throws IOException {
         ArrayList<String> lines = new ArrayList<String>();
         lines.add("<Proxy balancer://mycluster>");
         for (String address : addresses) {
