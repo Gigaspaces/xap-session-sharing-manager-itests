@@ -88,6 +88,13 @@
 			<groupId>com.smartbear.soapui</groupId>
 			<artifactId>soapui</artifactId>
 			<version>5.0.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jfxrt</artifactId>
+                    <groupId>javafx</groupId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 
