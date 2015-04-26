@@ -23,8 +23,8 @@ public class RemoteSpaceController extends ServerController {
 	private int instances = 2;
 	private int backs = 1;
 
-    private static boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "true"));
-    private static boolean useExistingSpace = Boolean.valueOf(System.getProperty("useExistingSpace", "true"));
+    private static boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "false"));
+    private static boolean useExistingSpace = Boolean.valueOf(System.getProperty("useExistingSpace", "false"));
 
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
