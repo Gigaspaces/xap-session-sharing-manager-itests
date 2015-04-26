@@ -114,7 +114,8 @@ public class RemoteSpaceController extends ServerController {
 	public void deploy(String appName) throws IOException {
             if (useExistingSpace) {
                 admin.getGridServiceManagers().waitForAtLeastOne();
-                pu = admin.getProcessingUnits().waitFor(SESSION_SPACE);
+                pu = admin.getProcessingUnits().waitFor(SESSION_SPACE,30, TimeUnit.SECONDS);
+                Assert.assertNotNull("Space is not deployed", pu);
                 pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
                 Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
                 if (space1 == null)

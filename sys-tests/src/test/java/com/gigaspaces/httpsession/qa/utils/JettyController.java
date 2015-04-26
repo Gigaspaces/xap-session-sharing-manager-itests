@@ -62,7 +62,7 @@ public class JettyController extends ServerController {
 		});
 
 
-    starter.or(new TimeoutPredicate(TIMEOUT));
+    starter.or(new TimeoutPredicate(TIMEOUT*2));
 
 		return starter;
 	}
@@ -117,7 +117,9 @@ public class JettyController extends ServerController {
 
     @Override
     public void startAll(String file, Map<String, String> properties) {
-        if (!isDeployed) {
+        File target = new File(FilenameUtils.concat(JETTY_WEB_APPS, appName));
+
+        if (!isDeployed || !target.exists()) {
             isDeployed = true;
             try {
                 deploy(appName);

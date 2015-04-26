@@ -40,7 +40,7 @@ public abstract class TestBase {
     private int usersCount = 2;
     private static ObjectMapper mapper = new ObjectMapper();
 
-    private boolean isLoggedIn = false;
+    protected boolean isLoggedIn = false;
 
     protected void assertSpaceMode(int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type) {
         storeModeBase.assertSpaceMode(remoteSpaceController.getSpace(), expectedSessions, expected, type);
@@ -81,12 +81,16 @@ public abstract class TestBase {
             Assert.fail("TBD");
         }
         expected = new HashMap<String, Map<String, DataUnit>>();
+        createSessions();
+        isLoggedIn = false;
+    }
+
+    public void createSessions() {
         sessions = new ArrayList<HTTPUtils.HTTPSession>();
         for (int i = 0; i < usersCount; i++) {
             HTTPUtils.HTTPSession user = new HTTPUtils.HTTPSession();
             sessions.add(user);
         }
-        isLoggedIn = false;
     }
 
     @After
@@ -143,7 +147,6 @@ public abstract class TestBase {
                 System.out.println(response.getCookies() + "," + response.getStatusCode());
 
                 updateSession(session, data, requestsAddress);
-
                 String sessionid;
                 if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
                     sessionid = "user" + (i + 1);
@@ -156,7 +159,7 @@ public abstract class TestBase {
                 } else {
                     expected.get(sessionid).putAll(data);
                 }
-
+                validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
             }
         }
         /*try {
@@ -181,7 +184,7 @@ public abstract class TestBase {
             DataGenerator.manipulateData(expectedBySessionID);
 
             updateSession(session, expectedBySessionID, requestsAddress);
-
+            validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
         }
         System.out.println("UPDATE ENDS");
        /* try {
@@ -211,6 +214,7 @@ public abstract class TestBase {
             }
 
             updateSession(session, expectedBySessionID, requestsAddress);
+            validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
         }
        /* try {
             Thread.sleep(3000);
@@ -320,6 +324,41 @@ public abstract class TestBase {
         }
 
         Assert.assertEquals("Unexpected number of total web servers (ports)", 2, ports.size());
+    }
+
+    public void validateSessionAttributes(HTTPUtils.HTTPSession session, Map<String, DataUnit> expected, String requestAddress) throws IOException {
+        HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(requestAddress+"/json/view");
+        HTTPUtils.HTTPResponse response = session.send(getRequest);
+        Assert.assertEquals("Unexpected status code", 200, response.getStatusCode());
+
+
+        for (String key : expected.keySet()) {
+            DataUnit dataUnit = expected.get(key);
+            if (dataUnit.getDataaction().equals("R")) {
+                try {
+                    Assert.assertFalse("Session should not have the attribute with key [" + key + "]", new JSONObject(response.getBody()).getJSONObject("attributes").has(key));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (dataUnit.getDatavalue() instanceof User) {
+                    try {
+                        Assert.assertEquals("Failed to find attribute [" + key + "] in web server side", dataUnit.getDatavalue(), mapper.readValue(new JSONObject(response.getBody()).getJSONObject("attributes").get(key).toString(), User.class));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Assert.fail("Failed to parse JSON in updateSession. " + e.getMessage());
+                    }
+                } else {
+                    try {
+                        Assert.assertEquals("Failed to find attribute [" + key + "] in web server side", dataUnit.getDatavalue(), new JSONObject(response.getBody()).getJSONObject("attributes").get(key).toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Assert.fail("Failed to parse JSON in updateSession. " + e.getMessage());
+                    }
+                }
+            }
+        }
+
     }
 
     public HTTPUtils.HTTPResponse sendRequest(HTTPUtils.HTTPSession session, DataUnit dataUnit, String requestsAddress) throws IOException {
