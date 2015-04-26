@@ -53,7 +53,7 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public Runner createStarter() {
         Map<String, String> envs = new HashMap<String, String>();
-        envs.put("LOOKUPGROUPS", System.getProperty("group", "httpsession"));
+        envs.put("LOOKUPGROUPS", System.getProperty("group", System.getenv("LOOKUPGROUPS")));
 
  		starter = new Runner(Config.getGSHome(), 10000, envs);
 
