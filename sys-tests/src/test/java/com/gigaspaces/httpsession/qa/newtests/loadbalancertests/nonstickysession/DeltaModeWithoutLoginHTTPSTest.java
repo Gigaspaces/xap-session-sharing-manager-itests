@@ -37,4 +37,9 @@ public class DeltaModeWithoutLoginHTTPSTest extends AbstractLoadBalancerTest {
     public void testWebSphereLoadBalancerHTTPS() throws IOException {
         super.testWebSphereLoadBalancerHTTPS();
     }
+
+    @Test
+    public void testTomcatLoadBalancerSecurityHTTPS() throws IOException {
+        super.testTomcatLoadBalancerSecurityHTTPS();
+    }
 }

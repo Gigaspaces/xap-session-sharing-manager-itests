@@ -37,4 +37,9 @@ public class FullModeWithoutLoginHTTPSTest extends AbstractLoadBalancerTest {
     public void testWebSphereLoadBalancerStickySessionHTTPS() throws IOException {
         super.testWebSphereLoadBalancerStickySessionHTTPS();
     }
+
+    @Test
+    public void testTomcatLoadBalancerSecurityHTTPS() throws IOException {
+        super.testTomcatLoadBalancerSecurityHTTPS();
+    }
 }

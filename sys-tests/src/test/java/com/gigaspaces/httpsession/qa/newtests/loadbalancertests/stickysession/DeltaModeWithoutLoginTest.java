@@ -37,4 +37,9 @@ public class DeltaModeWithoutLoginTest extends AbstractLoadBalancerTest {
     public void testWebSphereLoadBalancerStickySession() throws IOException {
         super.testWebSphereLoadBalancerStickySession();
     }
+
+    @Test
+    public void testTomcatLoadBalancerSecurity() throws IOException {
+        super.testTomcatLoadBalancerSecurity();
+    }
 }
