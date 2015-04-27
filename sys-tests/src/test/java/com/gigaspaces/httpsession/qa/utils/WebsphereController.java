@@ -39,6 +39,10 @@ public class WebsphereController extends ServerController {
         super(port);
     }
 
+    public WebsphereController(int port, boolean isSpringSecurity, String appName) {
+        super(port, false, isSpringSecurity, appName);
+    }
+
 	@Override
 	public Runner createStarter() {
         String path = FilenameUtils
@@ -166,6 +170,8 @@ public class WebsphereController extends ServerController {
         start();
         try {
             deploy(appName);
+            saveWebXmlFile(appName +".war", WEBSPHERE_WEB_APPS);
+            saveSpringSecurityFile(appName +".war", WEBSPHERE_WEB_APPS);
         } catch (IOException e) {
             e.printStackTrace();
         }

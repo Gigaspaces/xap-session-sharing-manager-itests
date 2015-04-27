@@ -1,6 +1,7 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import junit.framework.Assert;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.config.Ini;
 import org.slf4j.Logger;
@@ -239,5 +240,26 @@ public abstract class ServerController {
 
     public void stopOneWebServerWithPort(int port) {
         throw new RuntimeException("This method can only be called to a load balancer controller");
+    }
+
+    protected void saveWebXmlFile(String appName, String webServerApp)
+            throws IOException {
+        String path = FilenameUtils.concat(webServerApp, appName + "/"
+                + "WEB-INF/web.xml");
+
+        if(springSecured) {
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));
+        }else{
+            FileUtils.copyFile(new File(Config.getAbrolutePath(DEFAULT_WEB_XML_CONFIG)), new File(path));
+        }
+    }
+
+    protected void saveSpringSecurityFile(String appName, String webServerApp)
+            throws IOException {
+        String path = FilenameUtils.concat(webServerApp, appName + "/"
+                + "WEB-INF/spring-security.xml");
+
+        if(springSecured)
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_CONFIG)), new File(path));
     }
 }

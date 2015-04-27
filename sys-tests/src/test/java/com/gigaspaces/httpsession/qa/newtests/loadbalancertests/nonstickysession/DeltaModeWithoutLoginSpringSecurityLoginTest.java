@@ -35,8 +35,8 @@ public class DeltaModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBa
         super.testTomcatLoadBalancerNonStickySessionSpringSecurity();
     }
 
-//    @Test
-//    public void testWebSphereLoadBalancer() throws IOException {
-//        super.testWebSphereLoadBalancer();
-//    }
+    @Test
+    public void testWebSphereLoadBalancer() throws IOException {
+        super.testWebsphereLoadBalancerNonStickySessionSpringSecurity();
+    }
 }

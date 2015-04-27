@@ -7,7 +7,7 @@ package com.gigaspaces.httpsession.qa.utils;
 public class ServerControllerFactory {
     public enum ServerControllerEnum {
         JETTY9, JETTY9HTTPS,JETTY9SPRINGSECURITY,
-        WEBSPHERE, WEBSPHEREHTTPS,
+        WEBSPHERE, WEBSPHEREHTTPS,WEBSHERESPRINGSECURITY,
         TOMCAT7, TOMCAT7HTTPS, TOMCAT7SECURITY, TOMCAT7SECURITYHTTPS,
         TOMCAT7SPRINGSECURITY,
         JBOSS7, JBOSS8
@@ -40,6 +40,8 @@ public class ServerControllerFactory {
             return new JBoss8Controller(port, appName);
             case WEBSPHERE:
             return new WebsphereController(port, appName);
+            case WEBSHERESPRINGSECURITY:
+                return new WebsphereController(port, true, appName);
             case WEBSPHEREHTTPS:
             return new WebsphereHTTPSController(port, appName);
             default:

@@ -156,27 +156,6 @@ public class TomcatController extends ServerController {
         FileUtils.writeLines(new File(path), lines);
     }
 
-    public void saveWebXmlFile(String appName)
-            throws IOException {
-        String path = FilenameUtils.concat(TOMCAT_WEB_APPS, appName + "/"
-                + "WEB-INF/web.xml");
-
-        if(springSecured) {
-            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));
-        }else{
-            FileUtils.copyFile(new File(Config.getAbrolutePath(DEFAULT_WEB_XML_CONFIG)), new File(path));
-        }
-    }
-
-    public void saveSpringSecurityFile(String appName)
-            throws IOException {
-        String path = FilenameUtils.concat(TOMCAT_WEB_APPS, appName + "/"
-                + "WEB-INF/spring-security.xml");
-
-        if(springSecured)
-            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_CONFIG)), new File(path));
-    }
-
     @Override
     public void start() {
         try {
@@ -207,8 +186,8 @@ public class TomcatController extends ServerController {
 
             try {
                 deploy(appName);
-                saveWebXmlFile(appName);
-                saveSpringSecurityFile(appName);
+                saveWebXmlFile(appName, TOMCAT_WEB_APPS);
+                saveSpringSecurityFile(appName, TOMCAT_WEB_APPS);
             } catch (IOException e) {
                 e.printStackTrace();
             }
