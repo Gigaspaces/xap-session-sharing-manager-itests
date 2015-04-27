@@ -50,7 +50,7 @@ public class DeltaModeWithLoginTest extends AbstractTestBase {
         testTwoWebAppsSharingAttributes();
     }
 
-    //@Test
+    @Test
     public void testMultiJetty() throws IOException {
         startWebServer(new MultipleWebServerController(
                 new ServerController[]{

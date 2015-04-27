@@ -33,6 +33,7 @@ public class FullStoreModeBase extends StoreModeBase {
                     .deserialize((byte[]) buff.getProperty(StoreMode.PROPERTY_ATTRIBUTES));
 
             Map<String, DataUnit> expectedForSession = expected.get(buff.getProperty("SESSION_ID"));
+            Assert.assertEquals("Unexpected attributes size in space", expectedForSession.keySet().size(), actual.keySet().size());
             Iterator<String> keyIterator = expectedForSession.keySet().iterator();
 
             while (keyIterator.hasNext()) {

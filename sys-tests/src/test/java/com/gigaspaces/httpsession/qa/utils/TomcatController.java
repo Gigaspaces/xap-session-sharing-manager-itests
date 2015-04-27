@@ -27,8 +27,6 @@ public class TomcatController extends ServerController {
             getTomcatHome(), WEB_APPS);
 
     private static AtomicInteger instancesCount = new AtomicInteger(0);
-    private static boolean isDeployed;
-    private static boolean isUndeployed;
     protected int currentInstance;
 
     public TomcatController(String host, int port, boolean isSecured, boolean isSpringSecurity) {
@@ -48,11 +46,11 @@ public class TomcatController extends ServerController {
     }
 
     public TomcatController(int port, boolean isSecured) {
-        super(port,isSecured);
+        super(port, isSecured);
     }
 
     public TomcatController(int port, boolean isSecured, String appName) {
-        super(port,isSecured, appName);
+        super(port, isSecured, appName);
     }
     public TomcatController(int port, boolean isSecured, boolean isSpringSecurity) {
         super(port, isSecured, isSpringSecurity);
@@ -63,7 +61,7 @@ public class TomcatController extends ServerController {
     }
 
     public String getTomcatHome() {
-        return Config.getTomcatHome()+"-"+(currentInstance%2+1);
+        return Config.getTomcatHome() + "-" + (currentInstance % 2 + 1);
     }
 
 
@@ -172,35 +170,31 @@ public class TomcatController extends ServerController {
 
     @Override
     public void startAll(String file, Map<String, String> properties) {
-        if (!isDeployed) {
-            //isDeployed = true;
-            if (isSecured()) {
-                try {
-                    File securedPolicy = new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
-                    securedPolicy.renameTo(new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
-                    FileUtils.copyFile(new File(TEST_SECURED_POLICY), new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
+        if (isSecured()) {
             try {
-                deploy(appName);
-                saveWebXmlFile(appName, TOMCAT_WEB_APPS);
-                saveSpringSecurityFile(appName, TOMCAT_WEB_APPS);
+                File securedPolicy = new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
+                securedPolicy.renameTo(new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
+                FileUtils.copyFile(new File(TEST_SECURED_POLICY), new File(getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
-            config(file, properties);
         }
+
+        try {
+            deploy(appName);
+            saveWebXmlFile(appName, TOMCAT_WEB_APPS);
+            saveSpringSecurityFile(appName, TOMCAT_WEB_APPS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        config(file, properties);
         start();
     }
 
     @Override
     public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         stop();
-        if (undeploy && (!isUndeployed || !undeployOnce)) {
-            //isUndeployed = true;
+        if (undeploy) {
             undeploy(appName);
 
             if (isSecured()) {
@@ -216,14 +210,6 @@ public class TomcatController extends ServerController {
             }
         }
     }
-
-  /*  @Override
-    public void reset() {
-        instancesCount.set(0);
-        isDeployed = false;
-        isUndeployed = false;
-    }*/
-
 
     @Override
     public void undeploy(String appName) throws IOException {
