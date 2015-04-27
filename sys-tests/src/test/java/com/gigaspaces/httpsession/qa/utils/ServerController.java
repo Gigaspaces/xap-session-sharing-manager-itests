@@ -35,6 +35,12 @@ public abstract class ServerController {
 	protected boolean secured;
 	protected boolean springSecured;
 
+    protected static final String START_INI = "sys-tests/src/test/resources/config/jetty/start.ini";
+
+    protected static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web.xml";
+    protected static final String SPRING_SECURITY_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-spring-security.xml";
+    protected static final String SPRING_SECURITY_CONFIG = "sys-tests/src/test/resources/config/spring-security.xml";
+
     final static ExecutorService service = Executors.newCachedThreadPool();
 
 

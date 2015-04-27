@@ -20,8 +20,9 @@ public class JettyController extends ServerController {
     protected static boolean isDeployed;
     protected static boolean isUndeployed;
 
-    protected static final String START_INI = "sys-tests/src/test/resources/config/jetty/start.ini";
-
+    public JettyController(int port, boolean isSpringSecurity, String appName) {
+        super(port, false, isSpringSecurity, appName);
+    }
 
     public JettyController(int port, String appName) {
         super(port, appName);
@@ -105,6 +106,27 @@ public class JettyController extends ServerController {
 		FileUtils.writeLines(new File(path), lines);
 	}
 
+    public void saveWebXmlFile(String appName)
+            throws IOException {
+        String path = FilenameUtils.concat(JETTY_WEB_APPS, appName + "/"
+                + "WEB-INF/web.xml");
+
+        if(springSecured) {
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));
+        }else{
+            FileUtils.copyFile(new File(Config.getAbrolutePath(DEFAULT_WEB_XML_CONFIG)), new File(path));
+        }
+    }
+
+    public void saveSpringSecurityFile(String appName)
+            throws IOException {
+        String path = FilenameUtils.concat(JETTY_WEB_APPS, appName + "/"
+                + "WEB-INF/spring-security.xml");
+
+        if(springSecured)
+            FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_CONFIG)), new File(path));
+    }
+
     @Override
     public void start() {
         try {
@@ -123,6 +145,8 @@ public class JettyController extends ServerController {
             isDeployed = true;
             try {
                 deploy(appName);
+                saveWebXmlFile(appName);
+                saveSpringSecurityFile(appName);
             } catch (IOException e) {
                 e.printStackTrace();
             }

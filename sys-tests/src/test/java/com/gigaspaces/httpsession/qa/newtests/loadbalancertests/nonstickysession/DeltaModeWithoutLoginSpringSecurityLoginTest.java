@@ -25,10 +25,10 @@ public class DeltaModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBa
         this.webAppAddress = "http://localhost:7777/demo-app";
     }
 
-//    @Test
-//    public void testJettyLoadBalancer() throws IOException {
-//        super.testJettyLoadBalancer();
-//    }
+    @Test
+    public void testJettyLoadBalancer() throws IOException {
+        super.testJettyLoadBalancerNonStickySessionSpringSecurity();
+    }
 
     @Test
     public void testTomcatLoadBalancer() throws IOException {

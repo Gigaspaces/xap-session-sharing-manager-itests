@@ -182,6 +182,17 @@ public class AbstractLoadBalancerTest extends TestBase {
         test();
     }
 
+    public void testJettyLoadBalancerNonStickySessionSpringSecurity() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JETTY9SPRINGSECURITY,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        test();
+    }
+
 
     /*
     Here starts tests with secure webserver

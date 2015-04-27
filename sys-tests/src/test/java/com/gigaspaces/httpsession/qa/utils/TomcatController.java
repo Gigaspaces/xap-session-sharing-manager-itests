@@ -31,10 +31,6 @@ public class TomcatController extends ServerController {
     private static boolean isUndeployed;
     protected int currentInstance;
 
-    private static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web.xml";
-    private static final String SPRING_SECURITY_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-spring-security.xml";
-    private static final String SPRING_SECURITY_CONFIG = "sys-tests/src/test/resources/config/spring-security.xml";
-
     public TomcatController(String host, int port, boolean isSecured, boolean isSpringSecurity) {
         super(host, port, isSecured, isSpringSecurity);
     }

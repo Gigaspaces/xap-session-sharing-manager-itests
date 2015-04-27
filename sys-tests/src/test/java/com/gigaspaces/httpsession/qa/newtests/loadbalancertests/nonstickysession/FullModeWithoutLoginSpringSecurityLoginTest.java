@@ -2,7 +2,7 @@ package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysessio
 
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
-import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithLoginSpringSecurityConfiguration;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,14 +21,14 @@ public class FullModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBal
     public void before() {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
-        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
+        this.shiroSecurityConfiguration = new WithLoginSpringSecurityConfiguration();
         this.webAppAddress = "http://localhost:7777/demo-app";
     }
 
-//    @Test
-//    public void testJettyLoadBalancer() throws IOException {
-//        super.testJettyLoadBalancer();
-//    }
+    @Test
+    public void testJettyLoadBalancer() throws IOException {
+        super.testJettyLoadBalancerNonStickySessionSpringSecurity();
+    }
 
     @Test
     public void testTomcatLoadBalancer() throws IOException {
