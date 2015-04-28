@@ -39,4 +39,14 @@ public class FullModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBal
     public void testWebSphereLoadBalancer() throws IOException {
         super.testWebsphereLoadBalancerNonStickySessionSpringSecurity();
     }
+
+//    @Test
+//    public void testJBoss7LoadBalancer() throws IOException {
+//        super.testJBoss7LoadBalancerNonStickySessionSpringSecurity();
+//    }
+//
+//    @Test
+//    public void testJBoss8LoadBalancer() throws IOException {
+//        super.testJBoss8LoadBalancerNonStickySessionSpringSecurity();
+//    }
 }

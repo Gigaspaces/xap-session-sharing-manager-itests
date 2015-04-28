@@ -18,7 +18,7 @@ public class JbossController extends ServerController {
 	protected static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/jboss7-standalone.xml";
 	protected static final String BIN_JBOSS_CLI = "bin/jboss-cli";
 	protected static final String BIN_STANDALONE = "bin/standalone";
-	protected static final String STARTED_COMPLETED = "Deployed \"demo-app.war\""; //"Deployed \"demo-app.war\"";
+	protected static final String STARTED_COMPLETED = "Deployed \"demo-app.war\"";
 	public static final String JBOSS_DEPLOYMENTS = FilenameUtils.concat(
 			Config.getJbossHome(), "standalone/deployments");
 	protected static AtomicInteger instancesCount = new AtomicInteger(0);
@@ -29,6 +29,7 @@ public class JbossController extends ServerController {
 	protected int actualJbossCliAdminPort;
 
 	protected static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-jboss.xml";
+	protected static final String SPRING_SECURITY_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-jboss-spring-security.xml";
 
 	public JbossController(String host, int port) {
 		super(host, port);
@@ -41,6 +42,10 @@ public class JbossController extends ServerController {
     public JbossController(int port, String appName) {
         super(port, appName);
     }
+
+	public JbossController(int port, boolean secured, boolean springSecured, String appName) {
+		super(port, secured, springSecured, appName);
+	}
 
     @Override
 	protected void init() {
@@ -81,7 +86,7 @@ public class JbossController extends ServerController {
 
 			@Override
 			public boolean customTest(String input) {
-				return input.endsWith(match);
+				return input.contains(match);
 			}
 		});
 

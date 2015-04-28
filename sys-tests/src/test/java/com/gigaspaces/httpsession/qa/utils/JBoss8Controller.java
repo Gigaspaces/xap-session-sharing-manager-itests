@@ -27,6 +27,7 @@ public class JBoss8Controller extends ServerController {
     protected static final String STARTED_COMPLETED = "Deployed \"demo-app.war\"";
 
 	protected static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-jboss.xml";
+    protected static final String SPRING_SECURITY_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-jboss-spring-security.xml";
 
     protected File serverConfig;
 
@@ -43,6 +44,10 @@ public class JBoss8Controller extends ServerController {
 
     public JBoss8Controller(int port, String appName) {
         super(port, appName);
+    }
+
+    public JBoss8Controller(int port, boolean secured, boolean springSecured, String appName) {
+        super(port, secured, springSecured, appName);
     }
 
     @Override
