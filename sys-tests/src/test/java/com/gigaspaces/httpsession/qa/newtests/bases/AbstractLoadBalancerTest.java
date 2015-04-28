@@ -47,6 +47,28 @@ public class AbstractLoadBalancerTest extends TestBase {
         test();
     }
 
+    public void testJBoss7LoadBalancer() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        test();
+    }
+
+    public void testJBoss8LoadBalancer() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS8,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        test();
+    }
+
     /*
     Here starts tests with Sticky Session
      */
@@ -203,7 +225,6 @@ public class AbstractLoadBalancerTest extends TestBase {
         ));
         test();
     }
-
 
     /*
     Here starts tests with secure webserver

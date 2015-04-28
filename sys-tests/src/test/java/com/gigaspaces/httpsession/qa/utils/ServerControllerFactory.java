@@ -10,7 +10,7 @@ public class ServerControllerFactory {
         WEBSPHERE, WEBSPHEREHTTPS,WEBSHERESPRINGSECURITY,
         TOMCAT7, TOMCAT7HTTPS, TOMCAT7SECURITY, TOMCAT7SECURITYHTTPS,
         TOMCAT7SPRINGSECURITY,
-        JBOSS7, JBOSS8
+        JBOSS7, JBOSS8, JBOSS7SPRINGSECURITY
     }
     public static ServerController getServerController(ServerControllerEnum serverController, int port) {
         return getServerController(serverController, port, ServerController.DEFAULT_APP_NAME);
@@ -36,6 +36,8 @@ public class ServerControllerFactory {
                 return new TomcatHTTPSController(port, true, appName);
             case JBOSS7:
             return new JbossController(port, appName);
+            case JBOSS7SPRINGSECURITY:
+                return new JbossController(port, appName);
             case JBOSS8:
             return new JBoss8Controller(port, appName);
             case WEBSPHERE:

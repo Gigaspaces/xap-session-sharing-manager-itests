@@ -244,8 +244,7 @@ public abstract class ServerController {
 
     protected void saveWebXmlFile(String appName, String webServerApp)
             throws IOException {
-        String path = FilenameUtils.concat(webServerApp, appName + "/"
-                + "WEB-INF/web.xml");
+        String path = FilenameUtils.concat(webServerApp, appName + "/" + "WEB-INF/web.xml");
 
         if(springSecured) {
             FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));

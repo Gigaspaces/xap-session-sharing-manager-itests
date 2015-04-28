@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.vladium.util.Files;
+import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -17,7 +18,7 @@ public class JbossController extends ServerController {
 	protected static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/jboss7-standalone.xml";
 	protected static final String BIN_JBOSS_CLI = "bin/jboss-cli";
 	protected static final String BIN_STANDALONE = "bin/standalone";
-	protected static final String STARTED_COMPLETED = "Deployed \"app.war\"";
+	protected static final String STARTED_COMPLETED = "Deployed \"demo-app.war\""; //"Deployed \"demo-app.war\"";
 	public static final String JBOSS_DEPLOYMENTS = FilenameUtils.concat(
 			Config.getJbossHome(), "standalone/deployments");
 	protected static AtomicInteger instancesCount = new AtomicInteger(0);
@@ -26,6 +27,8 @@ public class JbossController extends ServerController {
 	protected static boolean isUndeployed;
 	protected int defaultJbossCliAdminPort;
 	protected int actualJbossCliAdminPort;
+
+	protected static final String DEFAULT_WEB_XML_CONFIG = "sys-tests/src/test/resources/config/web-jboss.xml";
 
 	public JbossController(String host, int port) {
 		super(host, port);
@@ -134,39 +137,64 @@ public class JbossController extends ServerController {
 
 	}
 
-    @Override
-    public void startAll(String file, Map<String, String> properties) {
-     //   if (!isInitialized) {
-            try {
-                deploy(appName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            config(file, properties);
-           // isInitialized = true;
-        //}
-        start();
-    }
+	@Override
+	protected void saveWebXmlFile(String appName, String webServerApp)
+			throws IOException {
+		String path = FilenameUtils.concat(webServerApp, appName + "/" + "WEB-INF/web.xml");
 
-    @Override
-    public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
-        stop();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (undeploy) {
-            undeploy(appName);
-        }
-    }
+		if(springSecured) {
+			FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_WEB_XML_CONFIG)), new File(path));
+		}else{
+			FileUtils.copyFile(new File(Config.getAbrolutePath(DEFAULT_WEB_XML_CONFIG)), new File(path));
+		}
+	}
 
     @Override
 	public void undeploy(String appName) throws IOException {
-//		File file=new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
-//				appName + ".war.deploy"));
-//		
-//		FileUtils.forceDelete(file);
-		
+		File serverDir = new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war"));
+		Assert.assertTrue("Failed to find server's directory [" + appName + "]", serverDir.exists());
+		FileUtils.forceDelete(serverDir);
+
+		File[] dirFiles = new File(JBOSS_DEPLOYMENTS).listFiles();
+		for (int i=0; i<dirFiles.length; i++)
+			if (dirFiles[i].getName().startsWith(appName + ".war.", 0))
+				FileUtils.forceDelete(dirFiles[i]);
+	}
+
+
+	@Override
+	public void startAll(String file, Map<String, String> properties) {
+		if (!isDeployed) {
+			isDeployed = true;
+			try {
+				deploy(appName);
+				saveWebXmlFile(appName + ".war", JBOSS_DEPLOYMENTS);
+				saveSpringSecurityFile(appName + ".war", JBOSS_DEPLOYMENTS);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			config(file, properties);
+		}
+		start();
+	}
+
+	@Override
+	public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
+		stop();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if (!isUndeployed || !undeployOnce) {
+			isUndeployed = true;
+			undeploy(appName);
+		}
+	}
+
+	@Override
+	public void reset() {
+		isDeployed = false;
+		isUndeployed = false;
 	}
 }
