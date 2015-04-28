@@ -34,15 +34,6 @@ public class TomcatController extends ServerController {
 	public Runner createStarter() {
 
 		Runner starter = new Runner(Config.getTomcatHome(), null);
-		if (isSecured()){
-			try {
-				File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
-				securedPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
-				FileUtils.copyFile(new File(TEST_SECURED_POLICY), new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
-			}catch (IOException e){
-				throw new RuntimeException(e);
-			}
-		}
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -74,17 +65,7 @@ public class TomcatController extends ServerController {
 
 		Runner stopper = new Runner(Config.getTomcatHome(), null);
 
-		if (isSecured()){
-			try {
-				File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
-				FileUtils.forceDelete(securedPolicy);
 
-				File orgSecuredPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org");
-				orgSecuredPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
-			}catch (IOException e){
-				throw new RuntimeException(e);
-			}
-		}
 
 		String path = getExecutionPath(Config.getTomcatHome(), BIN_CATALINA);
 
@@ -109,7 +90,37 @@ public class TomcatController extends ServerController {
 		return stopper;
 	}
 
-	@Override
+    @Override
+    public void start() {
+        if (isSecured()){
+            try {
+                File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
+                securedPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org"));
+                FileUtils.copyFile(new File(TEST_SECURED_POLICY), new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        super.start();
+    }
+
+    @Override
+    public void stop() {
+        if (isSecured()){
+            try {
+                File securedPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG);
+                FileUtils.forceDelete(securedPolicy);
+
+                File orgSecuredPolicy = new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG + ".org");
+                orgSecuredPolicy.renameTo(new File(Config.getTomcatHome() + File.separator + "conf" + File.separator + SECURED_POLICY_ORG));
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        super.stop();
+    }
+
+    @Override
 	public void deploy(String appName) throws IOException {
 		FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), new File(
 				FilenameUtils.concat(TOMCAT_WEB_APPS, appName)));
