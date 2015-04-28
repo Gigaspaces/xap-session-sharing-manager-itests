@@ -3,6 +3,7 @@ package com.gigaspaces.httpsession.qa.newtests.loadbalancertests.nonstickysessio
 import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.DeltaStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
+import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfigurationSessionIDNameChange;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +46,7 @@ public class DeltaModeWithoutLoginTest extends AbstractLoadBalancerTest {
 
     @Test
     public void testJBoss8LoadBalancer() throws IOException {
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         super.testJBoss8LoadBalancer();
     }
 }
