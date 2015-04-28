@@ -6,7 +6,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +19,23 @@ import java.util.HashMap;
  */
 @Controller
 public class JSONController{
+
+    @RequestMapping(value = "/invalidate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public
+    @ResponseBody
+    HashMap<String, Object> invalidate(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        HashMap<String, Object> moreInfo = new HashMap<String, Object>();
+        moreInfo.put("port", request.getServerPort());
+        moreInfo.put("sessionid", session.getId());
+
+        HashMap<String, Object> result = new HashMap<String, Object>();
+
+        result.put("more", moreInfo);
+
+        return result;
+    }
 
     @RequestMapping(value = "/view", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
