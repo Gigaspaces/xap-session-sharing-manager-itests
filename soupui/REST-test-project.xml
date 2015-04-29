@@ -1,5 +1,384 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="REST Project 1" resourceRoot="" soapui-version="5.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:7777" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:7777</con:endpoint></con:endpoints><con:resource name="Send" path="/demo-app/rest/xmlServices/send"><con:settings/><con:parameters/><con:method name="Send" method="POST"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element>student</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>500 404 415</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>multipart/form-data</con:mediaType><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>text/xml</con:mediaType><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>application/x-www-form-urlencoded</con:mediaType><con:params/></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request><con:request name="Request 2" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request></con:method></con:resource></con:interface><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:7777" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:7777</con:endpoint></con:endpoints><con:resource name="Remove" path="/demo-app/rest/xmlServices/remove"><con:settings/><con:parameters/><con:method name="Remove" method="POST"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element>student</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>application/x-www-form-urlencoded</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>503</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>415</con:status><con:params/><con:element>html</con:element></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request><con:request name="Request 2" mediaType="application/json" postQueryString="false"><con:settings/><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request></con:method></con:resource></con:interface><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:7777" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:7777</con:endpoint></con:endpoints><con:resource name="Get" path="/demo-app/rest/xmlServices/get"><con:settings/><con:parameters/><con:method name="Get" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element>student</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false" sslKeystore=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri><con:credentials><con:domain/><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:7777" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:7777</con:endpoint></con:endpoints><con:resource name="Rewrite" path="/demo-app/rest/xmlServices/rewrite"><con:settings/><con:parameters/><con:method name="Rewrite" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element>sessionInfo</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/xml</con:mediaType><con:status>200</con:status><con:params/><con:element>sessionInfo</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/x-www-form-urlencoded</con:mediaType><con:params/><con:element>sessionInfo</con:element></con:representation><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>415 400</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/xml</con:mediaType><con:status>500</con:status><con:params/><con:element>sessionInfo</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request><![CDATA[<sessionInfo>
+<con:soapui-project activeEnvironment="Default" name="REST Project 1" resourceRoot="" soapui-version="5.1.3"
+                    abortOnError="false" runType="SEQUENTIAL" id="b9ba5e42-0f8d-496c-a1e6-d49ec4867c65"
+                    xmlns:con="http://eviware.com/soapui/config">
+    <con:settings>
+        <con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local">
+            <![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="TestSuite" value="FunctionalTest"/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export JUnit Results" value="true"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Export All" value="true"/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="TestCase" value="TestCase 1"/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="Root Folder" value="/home/yohana/software/SmartBear/SoapUI-5.1.3/out"/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Endpoint" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+</xml-fragment>]]></con:setting>
+    </con:settings>
+    <con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02"
+                   name="http://localhost:7777" type="rest" id="99e46898-5005-45a9-a9c3-10111dc2f0d2"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart=""/>
+        <con:endpoints>
+            <con:endpoint>http://localhost:7777</con:endpoint>
+        </con:endpoints>
+        <con:resource name="Send" path="/demo-app/rest/xmlServices/send" id="a9779997-0496-4dff-ae1d-fb4fd5c962c4">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="Send" method="POST" id="9b2351e6-f061-4f05-9837-1c50decb8793">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>student</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>500 404 415</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>multipart/form-data</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>text/xml</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/x-www-form-urlencoded</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:request name="Request 1" mediaType="application/json" postQueryString="false"
+                             id="62255d8c-a2bf-4c01-b4f2-88b1da39e861">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+                <con:request name="Request 2" mediaType="application/json" postQueryString="false"
+                             id="628e9727-28b4-4af9-9bd3-5258e1a2adc6">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+            </con:method>
+        </con:resource>
+    </con:interface>
+    <con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02"
+                   name="http://localhost:7777" type="rest" id="4f45d6a9-1d17-4d06-bca8-acfbbe4fce99"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart=""/>
+        <con:endpoints>
+            <con:endpoint>http://localhost:7777</con:endpoint>
+        </con:endpoints>
+        <con:resource name="Remove" path="/demo-app/rest/xmlServices/remove" id="e88b3f13-9f60-419a-8c85-a8f8efe010f8">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="Remove" method="POST" id="494ea3b2-a341-43da-98b1-84301235578a">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>student</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/x-www-form-urlencoded</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>503</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>415</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:request name="Request 1" mediaType="application/json" postQueryString="false"
+                             id="52023ef7-0dcb-48c3-b9ff-fd6607dfeea5">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+                <con:request name="Request 2" mediaType="application/json" postQueryString="false"
+                             id="63f83735-32a9-4759-aced-79d92c590321">
+                    <con:settings/>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request/>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+            </con:method>
+        </con:resource>
+    </con:interface>
+    <con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02"
+                   name="http://localhost:7777" type="rest" id="ac83faf1-712c-456f-88b5-e818bc68c260"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart=""/>
+        <con:endpoints>
+            <con:endpoint>http://localhost:7777</con:endpoint>
+        </con:endpoints>
+        <con:resource name="Get" path="/demo-app/rest/xmlServices/get" id="92966eda-e3bd-4944-a465-af3b4e205efc">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="Get" method="GET" id="b8552010-25ed-487d-88dd-f15bb8484459">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>student</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/json</con:mediaType>
+                    <con:params/>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:request name="Request 1" mediaType="application/json" postQueryString="false" sslKeystore=""
+                             id="0d319679-2bb1-4d69-8724-4fb31e0bbe6e">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request/>
+                    <con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri>
+                    <con:credentials>
+                        <con:domain/>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                </con:request>
+            </con:method>
+        </con:resource>
+    </con:interface>
+    <con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02"
+                   name="http://localhost:7777" type="rest" id="fb547c29-cf64-4be7-a1a0-6c365c9ff1e9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart=""/>
+        <con:endpoints>
+            <con:endpoint>http://localhost:7777</con:endpoint>
+        </con:endpoints>
+        <con:resource name="Rewrite" path="/demo-app/rest/xmlServices/rewrite"
+                      id="2a6e4285-2575-431d-922d-364989f240d3">
+            <con:settings/>
+            <con:parameters/>
+            <con:method name="Rewrite" method="POST" id="f7fcfc48-d777-4c0d-803e-304b35d55100">
+                <con:settings/>
+                <con:parameters/>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:params/>
+                    <con:element>sessionInfo</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:status>200</con:status>
+                    <con:params/>
+                    <con:element>sessionInfo</con:element>
+                </con:representation>
+                <con:representation type="REQUEST">
+                    <con:mediaType>application/x-www-form-urlencoded</con:mediaType>
+                    <con:params/>
+                    <con:element>sessionInfo</con:element>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>text/html;charset=utf-8</con:mediaType>
+                    <con:status>415 400</con:status>
+                    <con:params/>
+                    <con:element>html</con:element>
+                </con:representation>
+                <con:representation type="FAULT">
+                    <con:mediaType>application/xml</con:mediaType>
+                    <con:status>500</con:status>
+                    <con:params/>
+                    <con:element>sessionInfo</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:representation type="RESPONSE">
+                    <con:mediaType xsi:nil="true"/>
+                    <con:status>0</con:status>
+                    <con:params/>
+                    <con:element>data</con:element>
+                </con:representation>
+                <con:request name="Request 1" mediaType="application/xml" postQueryString="false"
+                             id="32ffbfbd-a1c7-45a8-ba6e-2c56cb4db4b2">
+                    <con:settings>
+                        <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                        </con:setting>
+                    </con:settings>
+                    <con:endpoint>http://localhost:7777</con:endpoint>
+                    <con:request><![CDATA[<sessionInfo>
    <attributes>
       <entry>
          <key>2</key>
@@ -12,7 +391,321 @@
     
       </entry>
    </attributes>
-</sessionInfo>]]></con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/rewrite</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:request></con:method></con:resource></con:interface><con:testSuite name="FunctionalTest"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="true" maxResults="0" name="TestCase 1" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" id="aaf5cf89-83dc-486a-b5a3-e8e9d335940f"><con:settings><con:setting id="HttpSettings@socket_timeout">4000</con:setting></con:settings><con:testStep type="properties" name="testProperties"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>Service</con:name><con:value>http://localhost:7777</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="restrequest" name="addValue"><con:settings/><con:config service="http://localhost:7777" methodName="Send" resourcePath="/demo-app/rest/xmlServices/send" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="addValue" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:7777/</con:endpoint><con:request>key=1&amp;value=1</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="getValue"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/get" methodName="Get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="getValue" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="deleteValue"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove" methodName="Remove" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="deleteValue" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request>key=1</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path><content>false</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="getValue2"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/get" methodName="Get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="getValue2" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path><content>false</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="addValue2"><con:settings/><con:config service="http://localhost:7777" methodName="Send" resourcePath="/demo-app/rest/xmlServices/send" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="addValue2" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:7777</con:endpoint><con:request>key=2&amp;value=2</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='2']/value = '2'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="addValue3"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/send" methodName="Send" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="addValue3" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request>key=3&amp;value=3</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='3']/value = '3' and //sessionInfo/attributes/entry[key/text()='2']/value = '2'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="deleteValue2"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove" methodName="Remove" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="deleteValue2" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request>key=2</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='3']/value = '3'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="deleteValue3"><con:settings/><con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove" methodName="Remove" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="deleteValue3" mediaType="application/x-www-form-urlencoded" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:7777</con:endpoint><con:request>key=3</con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>count(//sessionInfo/attributes/entry) = 1</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="addmultipleValues"><con:settings/><con:config service="http://localhost:7777" methodName="Rewrite" resourcePath="/demo-app/rest/xmlServices/rewrite" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="addmultipleValues" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:7777</con:endpoint><con:request><![CDATA[<sessionInfo>
+</sessionInfo>]]></con:request>
+                    <con:originalUri>http://localhost/demo-app/rest/xmlServices/rewrite</con:originalUri>
+                    <con:credentials>
+                        <con:authType>No Authorization</con:authType>
+                    </con:credentials>
+                    <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                    <con:jmsPropertyConfig/>
+                    <con:parameters/>
+                    <con:parameterOrder/>
+                </con:request>
+            </con:method>
+        </con:resource>
+    </con:interface>
+    <con:testSuite name="FunctionalTest" id="bef730cf-7d93-46c2-9358-cc3a18b2071a">
+        <con:settings/>
+        <con:runType>SEQUENTIAL</con:runType>
+        <con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="true" maxResults="0" name="TestCase 1"
+                      searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo=""
+                      amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword=""
+                      id="aaf5cf89-83dc-486a-b5a3-e8e9d335940f">
+            <con:settings>
+                <con:setting id="HttpSettings@socket_timeout">4000</con:setting>
+            </con:settings>
+            <con:testStep type="properties" name="testProperties" id="73df2fa1-2ba6-41f1-9133-1789856a6329">
+                <con:settings/>
+                <con:config xsi:type="con:PropertiesStep" saveFirst="true"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:properties>
+                        <con:property>
+                            <con:name>Service</con:name>
+                            <con:value>http://localhost:7777</con:value>
+                        </con:property>
+                    </con:properties>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="addValue" id="e34c31ec-290e-4764-8f0b-217a2ff52dc7">
+                <con:settings/>
+                <con:config service="http://localhost:7777" methodName="Send"
+                            resourcePath="/demo-app/rest/xmlServices/send" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="addValue" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="08022f9e-912c-4c21-a251-03a7a0cff5f0">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:encoding>UTF-8</con:encoding>
+                        <con:endpoint>http://localhost:7777/</con:endpoint>
+                        <con:request>key=1&amp;value=1</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="540494eb-f793-4d5f-aeac-121b65f89744">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="getValue" id="285483c5-690d-4d97-b6dd-db9bb95fceee">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/get"
+                            methodName="Get" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="getValue" mediaType="application/json" postQueryString="false"
+                                     id="aceedcf5-5385-41c0-b9d4-f6a219bf7504">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="5c3a5c76-a2f1-4627-a23c-35ca2c5f62ff">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="deleteValue" id="19023209-6c84-4bfc-9cc4-67e35f192822">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove"
+                            methodName="Remove" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="deleteValue" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="a5d11ee6-1050-482c-8e3f-f456dabf5a64">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request>key=1</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="91cd7e4e-0d4d-4804-b439-ce39660d60e4">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path>
+                                <content>false</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="getValue2" id="2727e964-89a2-43b0-badd-26e69db5784d">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/get"
+                            methodName="Get" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="getValue2" mediaType="application/json" postQueryString="false"
+                                     id="33b6c212-d7d2-4a56-a7a5-53f5cba1a2f0">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="16c190ba-a6fb-452d-adc1-a1e54bc34ee9">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='1']/value = '1'</path>
+                                <content>false</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="addValue2" id="806e4221-4047-4e0e-b22d-c7ffec995207">
+                <con:settings/>
+                <con:config service="http://localhost:7777" methodName="Send"
+                            resourcePath="/demo-app/rest/xmlServices/send" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="addValue2" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="02c1615a-49c7-49b8-889c-ffd03df31bf1">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:encoding>UTF-8</con:encoding>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request>key=2&amp;value=2</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="450562f8-97e4-4cce-9e0d-c963dadb1451">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='2']/value = '2'</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="addValue3" id="e7d54b58-52de-408a-aec2-90ae16e93b03">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/send"
+                            methodName="Send" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="addValue3" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="907886b8-251d-4802-8625-9ea5c1086238">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request>key=3&amp;value=3</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/send</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="832de5c5-b025-4dcf-8918-f7b6f62cabe2">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='3']/value = '3' and
+                                    //sessionInfo/attributes/entry[key/text()='2']/value = '2'
+                                </path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="deleteValue2" id="5950d241-7378-47fb-b311-6caf2f444eca">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove"
+                            methodName="Remove" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="deleteValue2" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="b13cc660-964f-44b2-99ba-ebdcea244234">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request>key=2</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="c8ce6453-02d5-4c5a-9527-eaa8d011cf5d">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='3']/value = '3'</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:assertion type="XPath Match" name="XPath Match2" id="c8ce6453-02d5-4c5a-9527-eaa8d011cf5d">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='2']/value = '2'</path>
+                                <content>false</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="deleteValue3" id="bfcb00e1-6756-46a3-8d42-510f40dacf88">
+                <con:settings/>
+                <con:config service="http://localhost:7777" resourcePath="/demo-app/rest/xmlServices/remove"
+                            methodName="Remove" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="deleteValue3" mediaType="application/x-www-form-urlencoded"
+                                     postQueryString="false" id="77016495-fea3-4c93-908a-710517c062d1">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request>key=3</con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/remove</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="93e03096-cb2a-4564-9ce9-fb15dfd5720a">
+                            <con:configuration>
+                                <path>count(//sessionInfo/attributes/entry) = 0</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="addmultipleValues" id="99cc01b1-9f18-409a-bf9b-d5bb14e0321b">
+                <con:settings/>
+                <con:config service="http://localhost:7777" methodName="Rewrite"
+                            resourcePath="/demo-app/rest/xmlServices/rewrite" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="addmultipleValues" mediaType="application/xml" postQueryString="false"
+                                     id="3fb32f06-3bae-4563-ae51-3b7b5bf0ab5d">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:encoding>UTF-8</con:encoding>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request><![CDATA[<sessionInfo>
    <attributes>
       <entry>
          <key>5</key>
@@ -23,4 +716,114 @@
        <value xsi:type="xs:string" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">6</value>
       </entry>
    </attributes>
-</sessionInfo>]]></con:request><con:originalUri>http://localhost/demo-app/rest/xmlServices/rewrite</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>count(//sessionInfo/attributes/entry) = 3</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="valueMatch"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='5']/value = '5' and //sessionInfo/attributes/entry[key/text()='6']/value = '6'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder/></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="getValue3"><con:settings/><con:config service="http://localhost:7777" methodName="Get" resourcePath="/demo-app/rest/xmlServices/get" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="getValue3" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:7777</con:endpoint><con:request/><con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>count(//sessionInfo/attributes/entry[key/text()='com.gigaspaces.httpsession.policies.isRestore'])=1</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="confirmValyes"><con:configuration><path>//sessionInfo/attributes/entry[key/text()='5']/value = '5' and //sessionInfo/attributes/entry[key/text()='6']/value = '6'</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:loadTest name="LoadTest"><con:settings><con:setting id="HttpSettings@close-connections">false</con:setting></con:settings><con:threadCount>60</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>60</con:testLimit><con:limitType>TIME</con:limitType><con:loadStrategy><con:type>Simple</con:type><con:config><testDelay>1</testDelay><randomFactor>0.5</randomFactor></con:config></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</sessionInfo>]]></con:request>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/rewrite</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="86f9c7e3-a5d0-484b-be4a-f6c49ded02a9">
+                            <con:configuration>
+                                <path>count(//sessionInfo/attributes/entry) = 2</path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:assertion type="XPath Match" name="valueMatch" id="72b8de20-ae6c-4057-aa1a-185d0f77b019">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='5']/value = '5' and
+                                    //sessionInfo/attributes/entry[key/text()='6']/value = '6'
+                                </path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                        <con:parameterOrder/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:testStep type="restrequest" name="getValue3" id="ab20833e-ad6d-4d6f-86dc-99438ca58ce0">
+                <con:settings/>
+                <con:config service="http://localhost:7777" methodName="Get"
+                            resourcePath="/demo-app/rest/xmlServices/get" xsi:type="con:RestRequestStep"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                    <con:restRequest name="getValue3" mediaType="application/json" postQueryString="false"
+                                     id="4b0879d8-ceb1-4e78-a331-feafc8a80895">
+                        <con:settings>
+                            <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+                        </con:settings>
+                        <con:encoding>UTF-8</con:encoding>
+                        <con:endpoint>http://localhost:7777</con:endpoint>
+                        <con:request/>
+                        <con:originalUri>http://localhost/demo-app/rest/xmlServices/get</con:originalUri>
+                        <con:assertion type="XPath Match" name="XPath Match" id="9a0bd5a6-dd41-4f0f-834d-73ef367df0e4">
+                            <con:configuration>
+                                <path>
+                                    count(//sessionInfo/attributes/entry[key/text()='com.gigaspaces.httpsession.policies.isRestore'])=0
+                                </path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:assertion type="XPath Match" name="confirmValyes"
+                                       id="f469e443-ddb5-478e-9513-0b054bd34657">
+                            <con:configuration>
+                                <path>//sessionInfo/attributes/entry[key/text()='5']/value = '5' and
+                                    //sessionInfo/attributes/entry[key/text()='6']/value = '6'
+                                </path>
+                                <content>true</content>
+                                <allowWildcards>false</allowWildcards>
+                                <ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+                                <ignoreComments>false</ignoreComments>
+                            </con:configuration>
+                        </con:assertion>
+                        <con:credentials>
+                            <con:authType>No Authorization</con:authType>
+                        </con:credentials>
+                        <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                        <con:jmsPropertyConfig/>
+                        <con:parameters/>
+                    </con:restRequest>
+                </con:config>
+            </con:testStep>
+            <con:loadTest name="LoadTest" id="7fa6257e-d707-4578-86ab-814af3099482">
+                <con:settings>
+                    <con:setting id="HttpSettings@close-connections">false</con:setting>
+                </con:settings>
+                <con:threadCount>60</con:threadCount>
+                <con:startDelay>0</con:startDelay>
+                <con:sampleInterval>250</con:sampleInterval>
+                <con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed>
+                <con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange>
+                <con:historyLimit>-1</con:historyLimit>
+                <con:testLimit>60</con:testLimit>
+                <con:limitType>TIME</con:limitType>
+                <con:loadStrategy>
+                    <con:type>Simple</con:type>
+                    <con:config>
+                        <testDelay>1</testDelay>
+                        <randomFactor>0.5</randomFactor>
+                    </con:config>
+                </con:loadStrategy>
+                <con:assertion type="Step Status" name="Step Status"/>
+                <con:maxAssertionErrors>100</con:maxAssertionErrors>
+                <con:cancelExcessiveThreads>true</con:cancelExcessiveThreads>
+                <con:strategyInterval>500</con:strategyInterval>
+            </con:loadTest>
+            <con:properties/>
+        </con:testCase>
+        <con:properties/>
+    </con:testSuite>
+    <con:properties/>
+    <con:wssContainer/>
+    <con:oAuth2ProfileContainer/>
+    <con:sensitiveInformation/>
+</con:soapui-project>
