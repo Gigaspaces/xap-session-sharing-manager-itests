@@ -274,4 +274,240 @@ public class AbstractLoadBalancerTest extends TestBase {
         test();
     }
 
+    /*
+    Here starts single web server failover tests
+     */
+
+    public void testJettyLoadBalancerOneWebServerOutOfManyFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JETTY9,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testOneWebServerOutOfManyFailover();
+    }
+
+    public void testTomcatLoadBalancerOneWebServerOutOfManyFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.TOMCAT7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testOneWebServerOutOfManyFailover();
+    }
+
+    public void testWebSphereLoadBalancerOneWebServerOutOfManyFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.WEBSPHERE,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testOneWebServerOutOfManyFailover();
+    }
+
+    public void testJBoss7LoadBalancerOneWebServerOutOfManyFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testOneWebServerOutOfManyFailover();
+    }
+
+    public void testJBoss8LoadBalancerOneWebServerOutOfManyFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS8,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testOneWebServerOutOfManyFailover();
+    }
+
+    /*
+    Here starts all web server failover tests
+     */
+
+    public void testJettyLoadBalancerWebServersFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JETTY9,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testWebServersFailover();
+    }
+
+    public void testTomcatLoadBalancerWebServersFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.TOMCAT7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testWebServersFailover();
+    }
+
+    public void testWebSphereLoadBalancerWebServersFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.WEBSPHERE,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testWebServersFailover();
+    }
+
+    public void testJBoss7LoadBalancerWebServersFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testWebServersFailover();
+    }
+
+    public void testJBoss8LoadBalancerWebServersFailover() throws Exception {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS8,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testWebServersFailover();
+    }
+
+    /*
+    Here starts space failover - primaries only
+     */
+
+    public void testJettyLoadBalancerSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JETTY9,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testSpaceFailover();
+    }
+
+    public void testTomcatLoadBalancerSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.TOMCAT7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testSpaceFailover();
+    }
+
+    public void testWebSphereLoadBalancerSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.WEBSPHERE,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testSpaceFailover();
+    }
+
+    public void testJBoss7LoadBalancerSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testSpaceFailover();
+    }
+
+    public void testJBoss8LoadBalancerSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS8,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testSpaceFailover();
+    }
+
+    /*
+    Here starts space failover - whole cluster
+     */
+
+
+    public void testJettyLoadBalancerFullSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JETTY9,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testFullSpaceFailover();
+    }
+
+    public void testTomcatLoadBalancerFullSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.TOMCAT7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testFullSpaceFailover();
+    }
+
+    public void testWebSphereLoadBalancerFullSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.WEBSPHERE,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testFullSpaceFailover();
+    }
+
+    public void testJBoss7LoadBalancerFullSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS7,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testFullSpaceFailover();
+    }
+
+    public void testJBoss8LoadBalancerFullSpaceFailover() throws IOException {
+
+        startWebServer(new ApacheLoadBalancerController(
+                ServerControllerFactory.ServerControllerEnum.JBOSS8,
+                new int[]{8080,8082},
+                "demo-app",
+                Arrays.asList("http://localhost:8080/demo-app http://localhost:8082/demo-app".split(" "))
+        ));
+        testFullSpaceFailover();
+    }
 }
