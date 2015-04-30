@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -75,7 +76,9 @@ public class JBoss8Controller extends ServerController {
             throw new RuntimeException(e);
         }
 
-        Runner starter = new Runner(Config.getJboss8Home(), null);
+        Map<String, String> envs = new HashMap<String, String>();
+        envs.put("JAVA_HOME", Config.getJava7Home());
+        Runner starter = new Runner(Config.getJboss8Home(), envs);
 
         String path = getExecutionPath(Config.getJboss8Home(), BIN_STANDALONE);
 
@@ -100,7 +103,9 @@ public class JBoss8Controller extends ServerController {
 
     @Override
     public Runner createStopper() {
-        Runner stopper = new Runner(Config.getJboss8Home(), null);
+        Map<String, String> envs = new HashMap<String, String>();
+        envs.put("JAVA_HOME", Config.getJava7Home());
+        Runner stopper = new Runner(Config.getJboss8Home(), envs);
 
         String path = getExecutionPath(Config.getJboss8Home(), BIN_JBOSS_CLI);
 

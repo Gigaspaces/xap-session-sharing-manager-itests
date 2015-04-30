@@ -22,7 +22,7 @@ public class JettyHTTPSController extends JettyController {
 				.concat(Config.getJettyHome(), BIN_START_JAR);
 
 		List<String> commands = starter.getCommands();
-		commands.add("java");
+        commands.add(Config.getJava7Home()+"/bin/java");
 		commands.add("-jar");
 		commands.add(path);
 
