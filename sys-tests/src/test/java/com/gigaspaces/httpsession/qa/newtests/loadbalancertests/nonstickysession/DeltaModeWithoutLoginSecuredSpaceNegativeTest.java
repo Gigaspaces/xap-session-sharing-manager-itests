@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 /**
- * @author Yohana Khoury
- * @since 10.1
+ * @author Kobi Kisos
+ * @since 10.2
  */
 public class DeltaModeWithoutLoginSecuredSpaceNegativeTest extends AbstractLoadBalancerTest {
 
