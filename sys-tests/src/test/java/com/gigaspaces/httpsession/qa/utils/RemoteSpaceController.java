@@ -1,6 +1,5 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
@@ -9,6 +8,7 @@ import org.openspaces.admin.gsa.GridServiceAgent;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
+import org.openspaces.core.GigaSpace;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,11 +29,12 @@ public class RemoteSpaceController extends ServerController {
 	private final static String GS_AGENT = ((File.separatorChar == '\\')) ? "gs-agent.bat"
 			: "gs-agent.sh";
 
+	private static final String SPACE_USERS = "sys-tests/src/test/resources/config/security-users";
 	private Admin admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS"))).createAdmin();
 
 	private Runner starter;
 	private ProcessingUnit pu;
-	private ISpaceProxy space;
+	private GigaSpace space;
 
 	public RemoteSpaceController() {
 	}
@@ -75,23 +76,34 @@ public class RemoteSpaceController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-
 		return starter;
 	}
 
 	@Override
 	public void start() {
-        if (!useExistingAgent) {
-            super.start();
-        }
+       start(false);
+    }
+
+	public void start(boolean isSecuredSpace) {
+		if (!useExistingAgent) {
+			super.start();
+		}
+
+		if(isSecuredSpace){
+			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
+					.credentials("user1", "user1").createAdmin();
+		}else{
+			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
+					.createAdmin();
+		}
 
 		admin.getGridServiceManagers().waitForAtLeastOne();
-    }
+	}
 
 	@Override
 	public void stop() {
 
-		space.close();
+//		space.close();
 
         if (!useExistingAgent) {
             admin.getGridServiceAgents().waitForAtLeastOne();
@@ -110,8 +122,12 @@ public class RemoteSpaceController extends ServerController {
 //		super.stop();
 	}
 
-    @Override
+	@Override
 	public void deploy(String appName) throws IOException {
+		deploy(appName, false);
+	}
+
+	public void deploy(String appName, boolean isSecuredSpace) throws IOException {
             if (useExistingSpace) {
                 admin.getGridServiceManagers().waitForAtLeastOne();
                 pu = admin.getProcessingUnits().waitFor(SESSION_SPACE,30, TimeUnit.SECONDS);
@@ -120,14 +136,18 @@ public class RemoteSpaceController extends ServerController {
                 Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
                 if (space1 == null)
                     Assert.fail("Failed to find deployed space");
-                space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
+                space = pu.getSpace().getGigaSpace();
                 pu.getSpace().getGigaSpace().clear(null);
             } else {
 
                 SpaceDeployment sd = new SpaceDeployment(spaceName);
                 sd.numberOfInstances(instances);
                 sd.numberOfBackups(backs);
-
+				if(isSecuredSpace) {
+					sd.secured(true);
+					sd.userDetails("user1", "user1");
+					sd.setContextProperty("com.gs.security.fs.file-service.file-path", Config.getAbrolutePath(SPACE_USERS));
+				}
                 pu = admin.getGridServiceManagers().deploy(sd);
 
                 pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
@@ -135,8 +155,8 @@ public class RemoteSpaceController extends ServerController {
                 if (space1 == null)
                     Assert.fail("Failed to find deployed space");
 
-                space = (ISpaceProxy) pu.getSpace().getGigaSpace().getSpace();
-            }
+                space = pu.getSpace().getGigaSpace();
+			}
 	}
 
     public void undeploy() throws IOException {
@@ -156,7 +176,7 @@ public class RemoteSpaceController extends ServerController {
 
 	}
 
-	public ISpaceProxy getSpace() {
+	public GigaSpace getSpace() {
 		return space;
 	}
 

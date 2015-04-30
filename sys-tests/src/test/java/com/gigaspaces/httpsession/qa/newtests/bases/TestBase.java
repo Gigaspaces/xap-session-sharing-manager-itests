@@ -42,6 +42,10 @@ public abstract class TestBase {
 
     protected boolean isLoggedIn = false;
 
+    protected boolean isSecuredSpace = false;
+
+    protected ExpectedTestResult expectedTestResult = new ExpectedTestResult(200, null);
+
     protected void assertSpaceMode(int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type) {
         storeModeBase.assertSpaceMode(remoteSpaceController.getSpace(), expectedSessions, expected, type);
     }
@@ -73,9 +77,9 @@ public abstract class TestBase {
 
     @Before
     public void before() {
-        remoteSpaceController.start();
+        remoteSpaceController.start(isSecuredSpace);
         try {
-            remoteSpaceController.deploy("");
+            remoteSpaceController.deploy("", isSecuredSpace);
         } catch (IOException e) {
             e.printStackTrace();
             Assert.fail("TBD");
@@ -107,6 +111,10 @@ public abstract class TestBase {
     }
 
     public void test() throws IOException {
+        test(expectedTestResult);
+    }
+
+    public void test(ExpectedTestResult expectedTestResult) throws IOException {
         int iterations = 4;
 
         if (!isLoggedIn) {
@@ -146,7 +154,7 @@ public abstract class TestBase {
                 HTTPUtils.HTTPResponse response = session.send(getRequest);
                 System.out.println(response.getCookies() + "," + response.getStatusCode());
 
-                updateSession(session, data, requestsAddress);
+                updateSession(session, data, requestsAddress, expectedTestResult);
                 String sessionid;
                 if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
                     sessionid = "user" + (i + 1);
@@ -159,7 +167,7 @@ public abstract class TestBase {
                 } else {
                     expected.get(sessionid).putAll(data);
                 }
-                validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
+                validateSessionAttributes(session, expected.get(sessionid), requestsAddress, expectedTestResult);
             }
         }
         /*try {
@@ -167,7 +175,8 @@ public abstract class TestBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
+        if(expectedTestResult.getResponseCode() != 500)
+            assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 
 
         System.out.println("UPDATE STARTS");
@@ -183,8 +192,8 @@ public abstract class TestBase {
             Map<String, DataUnit> expectedBySessionID = expected.get(sessionid);
             DataGenerator.manipulateData(expectedBySessionID);
 
-            updateSession(session, expectedBySessionID, requestsAddress);
-            validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
+            updateSession(session, expectedBySessionID, requestsAddress, expectedTestResult);
+            validateSessionAttributes(session, expected.get(sessionid), requestsAddress, expectedTestResult);
         }
         System.out.println("UPDATE ENDS");
        /* try {
@@ -192,7 +201,8 @@ public abstract class TestBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-          assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
+        if(expectedTestResult.getResponseCode() != 500)
+            assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
 
         //Delete
         for (int i = 0; i < sessions.size(); i++) {
@@ -213,15 +223,16 @@ public abstract class TestBase {
                 dataUnit.setExpectedVersion(dataUnit.getExpectedVersion() + 1);
             }
 
-            updateSession(session, expectedBySessionID, requestsAddress);
-            validateSessionAttributes(session, expected.get(sessionid), requestsAddress);
+            updateSession(session, expectedBySessionID, requestsAddress, expectedTestResult);
+            validateSessionAttributes(session, expected.get(sessionid), requestsAddress, expectedTestResult);
         }
        /* try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
+        if(expectedTestResult.getResponseCode() != 500)
+            assertSpaceMode(usersCount, expected, SystemTestCase.DEFAULT_SESSION_BASE_NAME);
     }
 
     public void testFullSpaceFailover() throws IOException {
@@ -326,11 +337,17 @@ public abstract class TestBase {
         Assert.assertEquals("Unexpected number of total web servers (ports)", 2, ports.size());
     }
 
-    public void validateSessionAttributes(HTTPUtils.HTTPSession session, Map<String, DataUnit> expected, String requestAddress) throws IOException {
+    public void validateSessionAttributes(HTTPUtils.HTTPSession session, Map<String, DataUnit> expected, String requestAddress, ExpectedTestResult expectedTestResult) throws IOException {
         HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(requestAddress+"/json/view");
         HTTPUtils.HTTPResponse response = session.send(getRequest);
-        Assert.assertEquals("Unexpected status code", 200, response.getStatusCode());
 
+        if (response.getStatusCode() != expectedTestResult.getResponseCode()) {
+            System.out.println(response.getBody());
+            Assert.assertEquals("Unexpected status code. Response body: [" + response.getBody() + "]", expectedTestResult.getResponseCode(), response.getStatusCode());
+        }
+
+        if(expectedTestResult.getResponseCode() == 500)
+            return;
 
         for (String key : expected.keySet()) {
             DataUnit dataUnit = expected.get(key);
@@ -384,7 +401,7 @@ public abstract class TestBase {
         return response;
     }
 
-    public void updateSession(HTTPUtils.HTTPSession session, Map<String, DataUnit> expected, String requestsAddress) throws IOException {
+    public void updateSession(HTTPUtils.HTTPSession session, Map<String, DataUnit> expected, String requestsAddress, ExpectedTestResult expectedTestResult) throws IOException {
         for (String key : expected.keySet()) {
             DataUnit dataUnit = expected.get(key);
             if (dataUnit.getDatavalue() == null) {
@@ -394,10 +411,13 @@ public abstract class TestBase {
 
             HTTPUtils.HTTPResponse response = sendRequest(session, expected.get(key), requestsAddress);
 
-            if (response.getStatusCode() != 200) {
+            if (response.getStatusCode() != expectedTestResult.getResponseCode()) {
                 System.out.println(response.getBody());
-                Assert.assertEquals("Unexpected status code. Response body: [" + response.getBody() + "]", 200, response.getStatusCode());
+                Assert.assertEquals("Unexpected status code. Response body: [" + response.getBody() + "]", expectedTestResult.getResponseCode(), response.getStatusCode());
             }
+
+            if(expectedTestResult.getResponseCode() == 500)
+                return;
 
             if (dataUnit.getDataaction().equals("R")) {
                 try {

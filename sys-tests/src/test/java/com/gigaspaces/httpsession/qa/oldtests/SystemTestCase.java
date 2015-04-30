@@ -419,7 +419,7 @@ public abstract class SystemTestCase {
 		SQLQuery<SpaceDocument> sqlQuery = new SQLQuery<SpaceDocument>(type, "");
 		SpaceDocument[] data;
 		try {
-			data = (SpaceDocument[]) space.getSpace().readMultiple(sqlQuery, null, Integer.MAX_VALUE);
+			data = (SpaceDocument[]) space.getSpace().readMultiple(sqlQuery, Integer.MAX_VALUE);
 		} catch (Throwable e) {
 			throw new Error(e);
 		}

@@ -2,8 +2,8 @@ package com.gigaspaces.httpsession.qa.newtests.bases;
 
 import com.gigaspaces.document.SpaceDocument;
 import com.gigaspaces.httpsession.qa.DataUnit;
-import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import com.j_spaces.core.client.SQLQuery;
+import org.openspaces.core.GigaSpace;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +14,13 @@ import java.util.Map;
  */
 public abstract class StoreModeBase {
     public abstract String getStoreModeClassName();
-    public abstract void assertSpaceMode(ISpaceProxy space, int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type);
+    public abstract void assertSpaceMode(GigaSpace space, int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type);
 
-    protected SpaceDocument[]  readSpaceData(ISpaceProxy space, String type) {
+    protected SpaceDocument[]  readSpaceData(GigaSpace space, String type) {
         SQLQuery<SpaceDocument> sqlQuery = new SQLQuery<SpaceDocument>(type, "");
         SpaceDocument[] data;
         try {
-            data = (SpaceDocument[]) space.readMultiple(sqlQuery, null, Integer.MAX_VALUE);
+            data = (SpaceDocument[]) space.readMultiple(sqlQuery, Integer.MAX_VALUE);
         } catch (Throwable e) {
             throw new Error(e);
         }

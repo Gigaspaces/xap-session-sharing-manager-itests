@@ -5,8 +5,8 @@ import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
 import com.gigaspaces.httpsession.sessions.FullStoreMode;
 import com.gigaspaces.httpsession.sessions.StoreMode;
-import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import org.junit.Assert;
+import org.openspaces.core.GigaSpace;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +23,7 @@ public class FullStoreModeBase extends StoreModeBase {
     }
 
     @Override
-    public void assertSpaceMode(ISpaceProxy space, int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type) {
+    public void assertSpaceMode(GigaSpace space, int expectedSessions, HashMap<String, Map<String, DataUnit>> expected, String type) {
         SpaceDocument[] data = readSpaceData(space, type);
         Assert.assertEquals("invalid length result:", expectedSessions, data.length);
 
