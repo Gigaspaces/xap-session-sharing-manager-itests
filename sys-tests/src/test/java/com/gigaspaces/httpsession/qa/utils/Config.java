@@ -18,8 +18,9 @@ public class Config {
 	private static final String TEST_RESOURCES_CONFIG_PROPERTIES = "src/test/resources/config/config.properties";
     private static final String APACHE_HOME = "APACHE_HOME";
     private static final String WEBSPHERE_HOME = "WEBSPHERE_HOME";
+    private static final String JAVA7_HOME = "JAVA7_HOME";
 
-	private static Properties properties = new Properties();
+    private static Properties properties = new Properties();
 
 	static {
 		readConfig();
@@ -95,4 +96,7 @@ public class Config {
         return getProperty(WEBSPHERE_HOME);
     }
 
+    public static String getJava7Home() {
+        return getProperty(JAVA7_HOME);
+    }
 }

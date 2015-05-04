@@ -47,7 +47,7 @@ public class FullStoreModeBase extends StoreModeBase {
                     count++;
                 }
 
-                Assert.assertEquals("Unexpected attribute ["+key+"] value", expectedValue, actualValue);
+                Assert.assertEquals("Unexpected value for attribute [" + key + "]", expectedValue, actualValue);
             }
 
             Assert.assertEquals("Unexpected attributes size in space", count, actual.keySet().size());

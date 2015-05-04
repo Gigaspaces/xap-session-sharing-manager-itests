@@ -46,8 +46,8 @@ public class DeltaStoreModeBase extends StoreModeBase {
                     Assert.fail("session does not have the key ["+key+"]");
                 }
                 Object actualValue= SerializeUtils.deserialize(actual.get(key).getValue());
-                Assert.assertEquals("Unexpected attribute ["+key+"] version", expectedForSession.get(key).getExpectedVersion(), actual.get(key).getVersion());
-                Assert.assertEquals("Unexpected attribute ["+key+"] value", expectedValue, actualValue);
+                Assert.assertEquals("Unexpected version for attribute [" + key + "]", expectedForSession.get(key).getExpectedVersion(), actual.get(key).getVersion());
+                Assert.assertEquals("Unexpected value for attribute [" + key + "]", expectedValue, actualValue);
             }
         }
     }

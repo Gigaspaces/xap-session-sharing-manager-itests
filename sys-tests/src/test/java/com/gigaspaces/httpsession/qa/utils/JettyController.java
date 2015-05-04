@@ -1,16 +1,13 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class JettyController extends ServerController {
 
@@ -44,7 +41,7 @@ public class JettyController extends ServerController {
 				.concat(Config.getJettyHome(), BIN_START_JAR);
 
 		List<String> commands = starter.getCommands();
-		commands.add("java");
+		commands.add(Config.getJava7Home()+"/bin/java");
 		commands.add("-jar");
 		commands.add(path);
 
@@ -76,7 +73,7 @@ public class JettyController extends ServerController {
 				.concat(Config.getJettyHome(), BIN_START_JAR);
 
 		List<String> commands = stopper.getCommands();
-		commands.add("java");
+		commands.add(Config.getJava7Home()+"/bin/java");
 		commands.add("-jar");
 		commands.add(path);
 		commands.add("-DSTOP.PORT=" + (port - 1));
