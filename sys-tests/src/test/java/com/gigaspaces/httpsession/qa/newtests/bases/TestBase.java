@@ -1,4 +1,7 @@
 package com.gigaspaces.httpsession.qa.newtests.bases;
+
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.serializers.JavaSerializer;
 import com.eviware.soapui.tools.SoapUITestCaseRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gigaspaces.httpsession.qa.DataUnit;
@@ -72,7 +75,14 @@ public abstract class TestBase {
 
         CompressUtils.register(new NonCompressCompressor());
 
-        SerializeUtils.register(new KryoSerializerImpl());
+        KryoSerializerImpl kryo = new KryoSerializerImpl();
+        HashMap<String, Serializer> map = new HashMap<String, Serializer>();
+        JavaSerializer javaserializer = new JavaSerializer();
+        map.put("javax.security.auth.Subject", javaserializer);
+        map.put("org.springframework.security.core.userdetails.User", javaserializer);
+        map.put("org.springframework.security.core.context.SecurityContextImpl", javaserializer);
+        kryo.setClassSerializers(map);
+        SerializeUtils.register(kryo);
     }
 
     @Before
