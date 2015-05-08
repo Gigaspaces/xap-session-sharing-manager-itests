@@ -1,0 +1,2 @@
+This is a very important file.
+If it does not exist, the web application creates one and then it redeploys the app which might cause test failure!
