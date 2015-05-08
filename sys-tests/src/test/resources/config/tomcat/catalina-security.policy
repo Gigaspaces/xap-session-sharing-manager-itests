@@ -210,7 +210,7 @@ grant {
 
     // Allow the application to connect or accept any connections.
     // IP Tables will restrict what connects in or out.
-    permission java.net.SocketPermission "*", "connect,accept,resolve";
+    permission java.net.SocketPermission "*", "connect,accept,resolve,listen";
 
     // Quiet log4j
     permission java.util.PropertyPermission "log4j.defaultInitOverride", "read";
