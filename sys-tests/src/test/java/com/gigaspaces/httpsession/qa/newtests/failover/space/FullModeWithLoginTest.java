@@ -55,29 +55,30 @@ public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
 
     /*
     Here starts space failover - whole cluster
+    The following test has been disabled until the issue GS-12404 is resolved
      */
 
-    @Test
+    //@Test
     public void testJettyLoadBalancerFullSpaceFailover() throws IOException {
         super.testJettyLoadBalancerFullSpaceFailover();
     }
 
-    @Test
+    //@Test
     public void testTomcatLoadBalancerFullSpaceFailover() throws IOException {
         super.testTomcatLoadBalancerFullSpaceFailover();
     }
 
-    @Test
+    //@Test
     public void testWebSphereLoadBalancerFullSpaceFailover() throws IOException {
         super.testWebSphereLoadBalancerFullSpaceFailover();
     }
 
-    @Test
+    //@Test
     public void testJBoss7LoadBalancerFullSpaceFailover() throws IOException {
         super.testJBoss7LoadBalancerFullSpaceFailover();
     }
 
-    @Test
+    //@Test
     public void testJBoss8LoadBalancerFullSpaceFailover() throws IOException {
         super.testJBoss8LoadBalancerFullSpaceFailover();
     }
