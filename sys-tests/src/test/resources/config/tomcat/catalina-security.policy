@@ -160,6 +160,7 @@ grant {
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.jdbc.pool";
 
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.coyote.http11";
+    permission java.lang.RuntimePermission "accessClassInPackage.javax.security.auth.*";
 };
 
 // BIW Additions
