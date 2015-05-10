@@ -59,7 +59,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancer() throws IOException {
-
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8,
                 new int[]{8080,8082},
@@ -238,6 +238,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancerNonStickySessionSpringSecurity() throws IOException {
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
 
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8SPRINGSECURITY,
@@ -323,7 +324,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancerOneWebServerOutOfManyFailover() throws Exception {
-
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8,
                 new int[]{8080,8082},
@@ -382,7 +383,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancerWebServersFailover() throws Exception {
-
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8,
                 new int[]{8080,8082},
@@ -441,7 +442,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancerSpaceFailover() throws IOException {
-
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8,
                 new int[]{8080,8082},
@@ -501,7 +502,7 @@ public class AbstractLoadBalancerTest extends TestBase {
     }
 
     public void testJBoss8LoadBalancerFullSpaceFailover() throws IOException {
-
+        this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationSessionIDNameChange();
         startWebServer(new ApacheLoadBalancerController(
                 ServerControllerFactory.ServerControllerEnum.JBOSS8,
                 new int[]{8080,8082},
