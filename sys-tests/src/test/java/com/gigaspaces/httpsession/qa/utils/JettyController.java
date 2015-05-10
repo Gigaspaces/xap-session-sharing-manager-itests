@@ -153,7 +153,7 @@ public class JettyController extends ServerController {
 
     @Override
 	public void undeploy(String appName) throws IOException {
-        File serverDir = new File(FilenameUtils.concat(JETTY_WEB_APPS, appName));
+        File serverDir = new File(FilenameUtils.concat(JETTY_WEB_APPS, this.appName));
         Assert.assertTrue("Failed to find server's directory [" + appName + "]", serverDir.exists());
         FileUtils.forceDelete(serverDir);
 	}	
