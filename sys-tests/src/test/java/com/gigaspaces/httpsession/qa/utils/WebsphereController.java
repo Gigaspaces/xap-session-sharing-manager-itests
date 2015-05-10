@@ -118,6 +118,10 @@ public class WebsphereController extends ServerController {
 
     @Override
     public void start() {
+        super.start();
+    }
+
+    protected void createSite() {
         String path = FilenameUtils
                 .concat(Config.getWebsphereHome(), BIN_START);
 
@@ -161,21 +165,20 @@ public class WebsphereController extends ServerController {
             throw new RuntimeException(e);
         }
 
-
-        super.start();
     }
 
     @Override
     public void startAll(String file, Map<String, String> properties) {
-        start();
+        createSite();
         try {
             deploy(appName);
-            saveWebXmlFile(appName +".war", WEBSPHERE_WEB_APPS);
-            saveSpringSecurityFile(appName +".war", WEBSPHERE_WEB_APPS);
+            saveWebXmlFile(appName + ".war", WEBSPHERE_WEB_APPS);
+            saveSpringSecurityFile(appName + ".war", WEBSPHERE_WEB_APPS);
         } catch (IOException e) {
             e.printStackTrace();
         }
         config(file, properties);
+        start();
     }
 
     @Override
