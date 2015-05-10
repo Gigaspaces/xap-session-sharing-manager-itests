@@ -32,6 +32,8 @@ public class FullStoreModeBase extends StoreModeBase {
             Map<Object, Object> actual = (Map<Object, Object>) SerializeUtils
                     .deserialize((byte[]) buff.getProperty(StoreMode.PROPERTY_ATTRIBUTES));
             actual.remove("javax.security.auth.subject"); // This is temporarily until this attribute is filtered and not written to the space
+            actual.remove("org.apache.shiro.subject.support.DefaultSubjectContext_AUTHENTICATED_SESSION_KEY");
+            actual.remove("org.apache.shiro.subject.support.DefaultSubjectContext_PRINCIPALS_SESSION_KEY");
             Map<String, DataUnit> expectedForSession = expected.get(buff.getProperty("SESSION_ID"));
             Iterator<String> keyIterator = expectedForSession.keySet().iterator();
 
