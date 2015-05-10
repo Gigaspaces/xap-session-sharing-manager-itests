@@ -87,6 +87,7 @@ public abstract class TestBase {
 
     @Before
     public void before() {
+        System.out.println("Starting...");
         remoteSpaceController.start(isSecuredSpace);
         try {
             remoteSpaceController.deploy("", isSecuredSpace);
@@ -109,6 +110,7 @@ public abstract class TestBase {
 
     @After
     public void after() throws IOException, InterruptedException {
+        System.out.println("Tearing down...");
         remoteSpaceController.undeploy();
         remoteSpaceController.stop();
         stopWebServer();
