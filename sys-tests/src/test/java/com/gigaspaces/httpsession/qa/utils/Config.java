@@ -5,6 +5,8 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class Config {
@@ -22,9 +24,12 @@ public class Config {
 
     private static Properties properties = new Properties();
 
+    private static Map<String, String> envsWithJavaHome = new HashMap<String, String>();
+
 	static {
 		readConfig();
-	}
+        envsWithJavaHome.put("JAVA_HOME", getJava7Home());
+    }
 
 	public static String getProperty(String key) {
 		return properties.getProperty(key);
@@ -98,5 +103,9 @@ public class Config {
 
     public static String getJava7Home() {
         return getProperty(JAVA7_HOME);
+    }
+
+    public static Map<String, String> getEnvsWithJavaHome() {
+        return envsWithJavaHome;
     }
 }

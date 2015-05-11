@@ -49,8 +49,7 @@ public class WebsphereController extends ServerController {
                 .concat(Config.getWebsphereHome(), BIN_START);
 
 
-
-        Runner starter = new Runner(Config.getWebsphereHome(),10000, null);
+        Runner starter = new Runner(Config.getWebsphereHome(), 10000, Config.getEnvsWithJavaHome());
 
 		List<String> commands = starter.getCommands();
 
@@ -73,7 +72,7 @@ public class WebsphereController extends ServerController {
 
 	@Override
 	public Runner createStopper() {
-		Runner stopper = new Runner(Config.getWebsphereHome(),10000, null);
+        Runner stopper = new Runner(Config.getWebsphereHome(), 10000, Config.getEnvsWithJavaHome());
 
 		String path = FilenameUtils
 				.concat(Config.getWebsphereHome(), BIN_START);
@@ -126,7 +125,7 @@ public class WebsphereController extends ServerController {
                 .concat(Config.getWebsphereHome(), BIN_START);
 
 
-        Runner creator = new Runner(Config.getWebsphereHome(),10000, null);
+        Runner creator = new Runner(Config.getWebsphereHome(), 10000, Config.getEnvsWithJavaHome());
         List<String> creatorCommands = creator.getCommands();
         creatorCommands.add(path);
         creatorCommands.add("create");
