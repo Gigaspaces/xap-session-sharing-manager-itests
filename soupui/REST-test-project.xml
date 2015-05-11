@@ -391,7 +391,7 @@
         <con:runType>SEQUENTIAL</con:runType>
         <con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="true" maxResults="0" name="TestCase 1" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" id="aaf5cf89-83dc-486a-b5a3-e8e9d335940f">
             <con:settings>
-                <con:setting id="HttpSettings@socket_timeout">4000</con:setting>
+                <con:setting id="HttpSettings@socket_timeout">10000</con:setting>
             </con:settings>
             <con:testStep type="properties" name="testProperties" id="73df2fa1-2ba6-41f1-9133-1789856a6329">
                 <con:settings/>
