@@ -1,16 +1,15 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
-
 import com.gigaspaces.httpsession.qa.Contract;
 import com.gigaspaces.httpsession.qa.DataUnit;
 import com.gigaspaces.httpsession.qa.User;
 import com.gigaspaces.httpsession.serialize.SerializeUtils;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class DataGenerator {
 
@@ -131,7 +130,7 @@ public class DataGenerator {
             if (dataUnit.getDatavalue() instanceof String) {
                 dataUnit.setDatavalue(UUID.randomUUID().toString());
             } else if (dataUnit.getDatavalue() instanceof User) {
-                ((User) dataUnit.getDatavalue()).setAge(((User) dataUnit.getDatavalue()).getAge()*10);
+                ((User) dataUnit.getDatavalue()).setAge(((User) dataUnit.getDatavalue()).getAge() + 1);
             }
         }
     }
