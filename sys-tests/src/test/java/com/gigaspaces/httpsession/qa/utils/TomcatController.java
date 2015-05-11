@@ -76,7 +76,7 @@ public class TomcatController extends ServerController {
             throw new RuntimeException(e);
         }
 
-        Runner starter = new Runner(getTomcatHome(), null);
+        Runner starter = new Runner(getTomcatHome(), Config.getEnvsWithJavaHome());
 
 
         String path = getExecutionPath(getTomcatHome(), BIN_CATALINA);
@@ -107,7 +107,7 @@ public class TomcatController extends ServerController {
     @Override
     public Runner createStopper() {
 
-        Runner stopper = new Runner(getTomcatHome(), null);
+        Runner stopper = new Runner(getTomcatHome(), Config.getEnvsWithJavaHome());
 
 
         String path = getExecutionPath(getTomcatHome(), BIN_CATALINA);
