@@ -26,7 +26,11 @@
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
 		<gs.version>10.2.0-SNAPSHOT</gs.version>
-	</properties>
+        <compileSource>1.6</compileSource>
+        <testCompileSource>1.6</testCompileSource>
+        <compileJdkPath>/usr/lib/jvm/java-7-oracle</compileJdkPath>
+        <testCompileJdkPath>/usr/lib/jvm/java-7-oracle</testCompileJdkPath>
+    </properties>
 	<repositories>
 		<repository>
 			<id>org.openspaces</id>
@@ -112,6 +116,58 @@
                 </configuration>
                 <version>2.3.2</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <showSuccess>true</showSuccess>
+                </configuration>
+            </plugin>
 		</plugins>
 	</reporting>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14.1</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <argLine>-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!--    <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <fork>true</fork>
+                        <source>${compileSource}</source>
+                        <target>${compileSource}</target>
+                        <executable>${compileJdkPath}/bin/javac</executable>
+                        <compilerVersion>${compileSource}</compilerVersion>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>process-test-sources</phase>
+                            <goals>
+                                <goal>testCompile</goal>
+                            </goals>
+                            <configuration>
+                                <fork>true</fork>
+                                <source>${testCompileSource}</source>
+                                <target>${testCompileSource}</target>
+                                <executable>${testCompileJdkPath}/bin/javac</executable>
+                                <compilerVersion>${testCompileSource}</compilerVersion>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>-->
 </project>
