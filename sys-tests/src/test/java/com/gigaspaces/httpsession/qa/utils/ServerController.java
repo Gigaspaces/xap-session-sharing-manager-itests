@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public abstract class ServerController {
 
@@ -143,6 +144,7 @@ public abstract class ServerController {
             service.submit(stopper).get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
+            Assert.fail("Failed to run server stopper. " + e.getMessage());
         }
 		/*try {
 			// stopper.start();

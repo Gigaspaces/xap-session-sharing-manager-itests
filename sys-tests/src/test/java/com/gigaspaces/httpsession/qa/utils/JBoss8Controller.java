@@ -105,13 +105,15 @@ public class JBoss8Controller extends ServerController {
         String path = getExecutionPath(Config.getJboss8Home(), BIN_JBOSS_CLI);
 
         LOGGER.debug("JBOSS shutdown script:" + path);
+/*
 
 
         stopper.getCommands().add("/bin/bash");
         stopper.getCommands().add(Config.getAbrolutePath("sys-tests/src/test/resources/config/tomcat/killScript.sh"));
         stopper.getCommands().add(serverConfig.getName());
+*/
 
-    /*    stopper.getCommands().add(path);
+        stopper.getCommands().add(path);
         stopper.getCommands().add("--connect");
         stopper.getCommands().add("controller=localhost:" + actualJbossCliAdminPort);
         stopper.getCommands().add("--command=:shutdown");
@@ -122,8 +124,7 @@ public class JBoss8Controller extends ServerController {
                 return match.equals(input);
             }
         });
-*/
-        stopper.or(new TimeoutPredicate(TIMEOUT));
+
 
         return stopper;
     }
@@ -207,6 +208,7 @@ public class JBoss8Controller extends ServerController {
 
     @Override
     public void reset() {
+        instancesCount.set(0);
         isDeployed = false;
         isUndeployed = false;
     }
