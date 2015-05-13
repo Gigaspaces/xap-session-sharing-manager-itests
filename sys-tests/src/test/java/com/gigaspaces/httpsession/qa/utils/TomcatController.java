@@ -99,8 +99,6 @@ public class TomcatController extends ServerController {
             }
         });
 
-        starter.or(new TimeoutPredicate(TIMEOUT));
-
         return starter;
     }
 
@@ -133,8 +131,6 @@ public class TomcatController extends ServerController {
                 return input.endsWith(match);
             }
         });
-
-        stopper.or(new TimeoutPredicate(TIMEOUT));
 
         return stopper;
     }

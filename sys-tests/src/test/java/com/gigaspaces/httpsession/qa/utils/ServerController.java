@@ -25,7 +25,6 @@ public abstract class ServerController {
 	protected static final String WEB_APP_SOURCE = "web/target/demo-app";
 	protected static final String WEB_APPS = "webapps/";
 
-	protected static final long TIMEOUT = 10000L;
     protected static final String SESSION_SPACE = "sessionSpace";
     public static final String DEFAULT_APP_NAME = "demo-app";
     public String appName;

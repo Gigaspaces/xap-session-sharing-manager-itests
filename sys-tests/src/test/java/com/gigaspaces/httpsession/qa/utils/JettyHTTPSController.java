@@ -49,7 +49,6 @@ public class JettyHTTPSController extends JettyController {
 */
 
 
-    starter.or(new TimeoutPredicate(TIMEOUT));
 
 		return starter;
 	}

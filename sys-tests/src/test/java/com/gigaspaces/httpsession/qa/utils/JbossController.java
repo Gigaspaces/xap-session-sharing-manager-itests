@@ -1,5 +1,11 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import com.vladium.util.Files;
+import junit.framework.Assert;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,12 +13,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.vladium.util.Files;
-import junit.framework.Assert;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 
 public class JbossController extends ServerController {
 	protected static final String DEFAULT_SERVER_CONFIG = "sys-tests/src/test/resources/config/jboss7-standalone.xml";
@@ -90,7 +90,6 @@ public class JbossController extends ServerController {
 			}
 		});
 
-		starter.or(new TimeoutPredicate(TIMEOUT));
 		return starter;
 	}
 
@@ -113,8 +112,6 @@ public class JbossController extends ServerController {
 				return match.equals(input);
 			}
 		});
-
-		stopper.or(new TimeoutPredicate(TIMEOUT));
 
 		return stopper;
 	}

@@ -60,7 +60,6 @@ public class JettyController extends ServerController {
 		});
 
 
-    starter.or(new TimeoutPredicate(TIMEOUT*2));
 
 		return starter;
 	}
@@ -81,7 +80,6 @@ public class JettyController extends ServerController {
 		commands.add("-Djetty.home=" + Config.getJettyHome());
 		commands.add("--stop");
 
-		stopper.or(new TimeoutPredicate(TIMEOUT));
 
 		return stopper;
 	}

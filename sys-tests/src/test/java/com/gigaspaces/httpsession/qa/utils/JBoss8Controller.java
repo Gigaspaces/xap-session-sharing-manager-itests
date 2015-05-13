@@ -94,7 +94,6 @@ public class JBoss8Controller extends ServerController {
             }
         });
 
-        starter.or(new TimeoutPredicate(TIMEOUT));
         return starter;
     }
 

@@ -43,8 +43,6 @@ public class WebsphereHTTPSController extends WebsphereController {
             }
         });
 
-        creator.or(new TimeoutPredicate(TIMEOUT));
-
         try {
             service.submit(creator).get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
