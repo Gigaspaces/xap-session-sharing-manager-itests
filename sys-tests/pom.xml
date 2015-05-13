@@ -127,7 +127,7 @@
 				</executions>
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
-					<argLine>-Xmx256m -Xms256m</argLine>
+                    <argLine>-Xmx2g -Xms2g</argLine>
 					<!--<includes>
 						<include>**/SystemTestSuite.java</include>
 					</includes>-->
