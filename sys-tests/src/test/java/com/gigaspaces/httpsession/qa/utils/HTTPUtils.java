@@ -21,13 +21,11 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jboss.security.Base64Encoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,65 +41,37 @@ public class HTTPUtils {
         COOKIES
     }
 
+    protected static final Logger LOGGER = LoggerFactory
+            .getLogger(HTTPUtils.class);
+
     public static class HTTPSession {
         BasicCookieStore cookieStore = new BasicCookieStore();
 
-        public HTTPResponse send(HTTPPostRequest postRequest) throws IOException {
-            System.out.println("Sending POST to "+postRequest._urlAsString);
+        public HTTPResponse send(HTTPPostRequest postRequest) {
+            LOGGER.info("Sending POST to " + postRequest._urlAsString);
             HTTPResponse result = null;
-            try {
-                result = postRequest.post(cookieStore);
-            } catch (UnrecoverableKeyException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            }
+            result = postRequest.post(cookieStore);
             return result;
         }
 
-        public HTTPResponse send(HTTPPutRequest putRequest) throws IOException {
-            HTTPResponse result = null;
-            try {
-                result = putRequest.put(cookieStore);
-            } catch (UnrecoverableKeyException e) {
-                e.printStackTrace();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            }
+        public HTTPResponse send(HTTPPutRequest putRequest) {
+            HTTPResponse result = putRequest.put(cookieStore);
             return result;
         }
 
-        public HTTPResponse send(HTTPGetRequest getRequest) throws IOException {
-            System.out.println("Sending GET to "+getRequest._urlAsString);
-            HTTPResponse result = null;
-            try {
-                result = getRequest.get(cookieStore);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            } catch (UnrecoverableKeyException e) {
-                e.printStackTrace();
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            }
+        public HTTPResponse send(HTTPGetRequest getRequest) {
+            LOGGER.info("Sending GET to " + getRequest._urlAsString);
+            HTTPResponse result = getRequest.get(cookieStore);
             return result;
         }
-        public HTTPResponse send(HTTPDeleteRequest deleteRequest) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+
+        public HTTPResponse send(HTTPDeleteRequest deleteRequest) {
             return deleteRequest.delete(cookieStore);
         }
 
         public String getCookie() {
             Iterator<Cookie> it = cookieStore.getCookies().iterator();
-            String cookies ="";
+            String cookies = "";
             while (it.hasNext()) {
                 Cookie c = it.next();
                 cookies += c.getValue();
@@ -152,7 +122,7 @@ public class HTTPUtils {
         private String jsonBody;
         private String auth = null;
 
-        public HTTPPostRequest (String urlAsString) {
+        public HTTPPostRequest(String urlAsString) {
             _urlAsString = urlAsString;
             postParams = new ArrayList<BasicNameValuePair>();
         }
@@ -168,54 +138,77 @@ public class HTTPUtils {
         }
 
         public HTTPPostRequest auth(String username, String password) {
-            this.auth = username+":"+password;
+            this.auth = username + ":" + password;
             return this;
         }
 
-        protected HTTPResponse post(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        protected HTTPResponse post(CookieStore cookieStore) {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
-            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            try {
+                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            } catch (Exception e) {
+                LOGGER.error("Failed to create MockSSLSocketFactory", e);
+            }
             ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
 
             DefaultHttpClient httpClient = new DefaultHttpClient(cm);
             httpClient.setCookieStore(cookieStore);
             HttpPost httpPost = new HttpPost(_urlAsString);
 
-            //
-            if (auth != null) {
-                httpPost.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
-            }
-            //
-
-            if (jsonBody != null) {
-                httpPost.setEntity(new StringEntity(jsonBody, "UTF-8"));
-                httpPost.setHeader("Content-type", "application/json; charset=UTF-8");
-            } else {
-                httpPost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
-            }
-
-            httpClient.setRedirectStrategy(new DefaultRedirectStrategy());
-            httpPost.getParams().setParameter("http.protocol.handle-redirects",true);
-
-            HttpResponse response = httpClient.execute(httpPost);
-
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            HTTPResponse result = new HTTPResponse();
-            result.set(PARAMS.RESPONSE_BODY, responseString);
-            result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
-            Iterator<Cookie> it = cookieStore.getCookies().iterator();
-            String cookies ="";
-            while (it.hasNext()) {
-                Cookie c = it.next();
-                cookies += c.getName()+"="+c.getValue();
-                if (it.hasNext()) {
-                    cookies += ";";
+            HttpEntity entity = null;
+            try {
+                //
+                if (auth != null) {
+                    httpPost.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
                 }
+                //
+
+                if (jsonBody != null) {
+                    httpPost.setEntity(new StringEntity(jsonBody, "UTF-8"));
+                    httpPost.setHeader("Content-type", "application/json; charset=UTF-8");
+                } else {
+                    httpPost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+                }
+
+                httpClient.setRedirectStrategy(new DefaultRedirectStrategy());
+                httpPost.getParams().setParameter("http.protocol.handle-redirects", true);
+
+                HttpResponse response = httpClient.execute(httpPost);
+
+                entity = response.getEntity();
+
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                HTTPResponse result = new HTTPResponse();
+                result.set(PARAMS.RESPONSE_BODY, responseString);
+                result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
+                Iterator<Cookie> it = cookieStore.getCookies().iterator();
+                String cookies = "";
+                while (it.hasNext()) {
+                    Cookie c = it.next();
+                    cookies += c.getName() + "=" + c.getValue();
+                    if (it.hasNext()) {
+                        cookies += ";";
+                    }
+                }
+
+                result.set(PARAMS.COOKIES, cookies);
+                return result;
+            } catch (Exception e) {
+                LOGGER.error("Failed to create post request", e);
+
+                throw new RuntimeException(e);
+            } finally {
+                if (entity != null) {
+                    try {
+                        EntityUtils.consume(entity);
+                    } catch (IOException exception) {
+                        LOGGER.warn("Failed to consume entity", exception);
+                    }
+                }
+                httpClient.getConnectionManager().closeExpiredConnections();
+                httpClient.getConnectionManager().shutdown();
             }
-            result.set(PARAMS.COOKIES, cookies);
-            return result;
         }
     }
 
@@ -223,56 +216,78 @@ public class HTTPUtils {
         private final String _urlAsString;
         private String auth = null;
 
-        public HTTPGetRequest (String urlAsString) {
+        public HTTPGetRequest(String urlAsString) {
             _urlAsString = urlAsString;
         }
 
-        public HTTPGetRequest auth (String username, String password) {
-            this.auth = username+":"+password;
+        public HTTPGetRequest auth(String username, String password) {
+            this.auth = username + ":" + password;
             return this;
         }
 
 
-        protected HTTPResponse get(CookieStore cookieStore) throws IOException, NoSuchAlgorithmException, KeyManagementException, UnrecoverableKeyException, KeyStoreException {
+        protected HTTPResponse get(CookieStore cookieStore) {
 
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
-            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            try {
+                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            } catch (Exception e) {
+                LOGGER.error("Failed to create MockSSLSocketFactory", e);
+            }
+
             ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
 
             DefaultHttpClient httpClient = new DefaultHttpClient(cm);
 
-            httpClient.setCookieStore(cookieStore);
-            HttpGet httpGet = new HttpGet(_urlAsString);
-            if (auth != null) {
-                httpGet.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
-            }
+            HttpEntity entity = null;
+            try {
+                httpClient.setCookieStore(cookieStore);
+                HttpGet httpGet = new HttpGet(_urlAsString);
+                if (auth != null) {
+                    httpGet.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
+                }
 
 
-            HttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            HTTPResponse result = new HTTPResponse();
-            result.set(PARAMS.RESPONSE_BODY, responseString);
-            result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
-            Iterator<Cookie> it = cookieStore.getCookies().iterator();
-            String cookies ="";
+                HttpResponse response = httpClient.execute(httpGet);
+                entity = response.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                HTTPResponse result = new HTTPResponse();
+                result.set(PARAMS.RESPONSE_BODY, responseString);
+                result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
+                Iterator<Cookie> it = cookieStore.getCookies().iterator();
+                String cookies = "";
      /*       String urlString = _urlAsString;
             if (urlString.lastIndexOf('/') == urlString.length()-1) {
                 urlString = urlString.substring(0, urlString.length() -1);
             }*/
-            URL url = new URL(/*urlString*/_urlAsString);
-            while (it.hasNext()) {
-                Cookie c = it.next();
-                if (c.getDomain().equals(url.getHost()) /*&& c.getPath().equals(url.getPath())*/) {
-                    cookies += c.getName() + "=" + c.getValue();
-                    if (it.hasNext()) {
-                        cookies += ";";
+                URL url = new URL(/*urlString*/_urlAsString);
+                while (it.hasNext()) {
+                    Cookie c = it.next();
+                    if (c.getDomain().equals(url.getHost()) /*&& c.getPath().equals(url.getPath())*/) {
+                        cookies += c.getName() + "=" + c.getValue();
+                        if (it.hasNext()) {
+                            cookies += ";";
+                        }
                     }
                 }
+                result.set(PARAMS.COOKIES, cookies);
+                return result;
+            } catch (Exception e) {
+                LOGGER.error("Failed to create post request", e);
+
+                throw new RuntimeException(e);
+            } finally {
+                if (entity != null) {
+                    try {
+                        EntityUtils.consume(entity);
+                    } catch (IOException exception) {
+                        LOGGER.warn("Failed to consume entity", exception);
+                    }
+                }
+                httpClient.getConnectionManager().closeExpiredConnections();
+                httpClient.getConnectionManager().shutdown();
             }
-            result.set(PARAMS.COOKIES, cookies);
-            return result;
         }
     }
 
@@ -280,45 +295,66 @@ public class HTTPUtils {
     public static class HTTPDeleteRequest {
         private final String _urlAsString;
 
-        public HTTPDeleteRequest (String urlAsString) {
+        public HTTPDeleteRequest(String urlAsString) {
             _urlAsString = urlAsString;
         }
 
-        protected HTTPResponse delete(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        protected HTTPResponse delete(CookieStore cookieStore) {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
-            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            try {
+                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            } catch (Exception e) {
+                LOGGER.error("Failed to create MockSSLSocketFactory", e);
+            }
             ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
 
             DefaultHttpClient httpClient = new DefaultHttpClient(cm);
+            HttpEntity entity = null;
+            try {
+                httpClient.setCookieStore(cookieStore);
+                HttpDelete httpGet = new HttpDelete(_urlAsString);
 
-            httpClient.setCookieStore(cookieStore);
-            HttpDelete httpGet = new HttpDelete(_urlAsString);
-
-            HttpResponse response = httpClient.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            HTTPResponse result = new HTTPResponse();
-            result.set(PARAMS.RESPONSE_BODY, responseString);
-            result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
-            Iterator<Cookie> it = cookieStore.getCookies().iterator();
-            String cookies ="";
+                HttpResponse response = httpClient.execute(httpGet);
+                entity = response.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                HTTPResponse result = new HTTPResponse();
+                result.set(PARAMS.RESPONSE_BODY, responseString);
+                result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
+                Iterator<Cookie> it = cookieStore.getCookies().iterator();
+                String cookies = "";
      /*       String urlString = _urlAsString;
             if (urlString.lastIndexOf('/') == urlString.length()-1) {
                 urlString = urlString.substring(0, urlString.length() -1);
             }*/
-            URL url = new URL(/*urlString*/_urlAsString);
-            while (it.hasNext()) {
-                Cookie c = it.next();
-                if (c.getDomain().equals(url.getHost()) /*&& c.getPath().equals(url.getPath())*/) {
-                    cookies += c.getName() + "=" + c.getValue();
-                    if (it.hasNext()) {
-                        cookies += ";";
+                URL url = new URL(/*urlString*/_urlAsString);
+                while (it.hasNext()) {
+                    Cookie c = it.next();
+                    if (c.getDomain().equals(url.getHost()) /*&& c.getPath().equals(url.getPath())*/) {
+                        cookies += c.getName() + "=" + c.getValue();
+                        if (it.hasNext()) {
+                            cookies += ";";
+                        }
                     }
                 }
+                result.set(PARAMS.COOKIES, cookies);
+
+                return result;
+            } catch (Exception e) {
+                LOGGER.error("Failed to create post request", e);
+
+                throw new RuntimeException(e);
+            } finally {
+                if (entity != null) {
+                    try {
+                        EntityUtils.consume(entity);
+                    } catch (IOException exception) {
+                        LOGGER.warn("Failed to consume entity", exception);
+                    }
+                }
+                httpClient.getConnectionManager().closeExpiredConnections();
+                httpClient.getConnectionManager().shutdown();
             }
-            result.set(PARAMS.COOKIES, cookies);
-            return result;
         }
     }
 
@@ -327,7 +363,7 @@ public class HTTPUtils {
         private final List<BasicNameValuePair> postParams;
         private String jsonBody;
 
-        public HTTPPutRequest (String urlAsString) {
+        public HTTPPutRequest(String urlAsString) {
             _urlAsString = urlAsString;
             postParams = new ArrayList<BasicNameValuePair>();
         }
@@ -342,45 +378,67 @@ public class HTTPUtils {
             return this;
         }
 
-        protected HTTPResponse put(CookieStore cookieStore) throws IOException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+        protected HTTPResponse put(CookieStore cookieStore) {
 
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
-            schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            try {
+                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+            } catch (Exception e) {
+                LOGGER.error("Failed to create MockSSLSocketFactory", e);
+            }
+
             ClientConnectionManager cm = new SingleClientConnManager(schemeRegistry);
 
             DefaultHttpClient httpClient = new DefaultHttpClient(cm);
 
-            httpClient.setCookieStore(cookieStore);
-            HttpPut httpPut = new HttpPut(_urlAsString);
-            if (jsonBody != null) {
-                httpPut.setEntity(new StringEntity(jsonBody, "UTF-8"));
-                httpPut.setHeader("Content-type", "application/json; charset=UTF-8");
-            } else {
-                httpPut.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
-            }
-
-            httpClient.setRedirectStrategy(new DefaultRedirectStrategy());
-            httpPut.getParams().setParameter("http.protocol.handle-redirects",true);
-
-            HttpResponse response = httpClient.execute(httpPut);
-
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            HTTPResponse result = new HTTPResponse();
-            result.set(PARAMS.RESPONSE_BODY, responseString);
-            result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
-            Iterator<Cookie> it = cookieStore.getCookies().iterator();
-            String cookies ="";
-            while (it.hasNext()) {
-                Cookie c = it.next();
-                cookies += c.getName()+"="+c.getValue();
-                if (it.hasNext()) {
-                    cookies += ";";
+            HttpEntity entity = null;
+            try {
+                httpClient.setCookieStore(cookieStore);
+                HttpPut httpPut = new HttpPut(_urlAsString);
+                if (jsonBody != null) {
+                    httpPut.setEntity(new StringEntity(jsonBody, "UTF-8"));
+                    httpPut.setHeader("Content-type", "application/json; charset=UTF-8");
+                } else {
+                    httpPut.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
                 }
+
+                httpClient.setRedirectStrategy(new DefaultRedirectStrategy());
+                httpPut.getParams().setParameter("http.protocol.handle-redirects", true);
+
+                HttpResponse response = httpClient.execute(httpPut);
+
+                entity = response.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                HTTPResponse result = new HTTPResponse();
+                result.set(PARAMS.RESPONSE_BODY, responseString);
+                result.set(PARAMS.RESPONSE_CODE, String.valueOf(response.getStatusLine().getStatusCode()));
+                Iterator<Cookie> it = cookieStore.getCookies().iterator();
+                String cookies = "";
+                while (it.hasNext()) {
+                    Cookie c = it.next();
+                    cookies += c.getName() + "=" + c.getValue();
+                    if (it.hasNext()) {
+                        cookies += ";";
+                    }
+                }
+                result.set(PARAMS.COOKIES, cookies);
+
+                return result;
+            } catch (Exception e) {
+                LOGGER.error("Failed to create post request", e);
+                throw new RuntimeException(e);
+            } finally {
+                if (entity != null) {
+                    try {
+                        EntityUtils.consume(entity);
+                    } catch (IOException exception) {
+                        LOGGER.warn("Failed to consume entity", exception);
+                    }
+                }
+                httpClient.getConnectionManager().closeExpiredConnections();
+                httpClient.getConnectionManager().shutdown();
             }
-            result.set(PARAMS.COOKIES, cookies);
-            return result;
         }
     }
 }
