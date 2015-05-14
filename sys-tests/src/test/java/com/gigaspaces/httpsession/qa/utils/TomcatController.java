@@ -114,16 +114,16 @@ public class TomcatController extends ServerController {
 
         List<String> commands = stopper.getCommands();
 
-/*        commands.add(path);
+        commands.add(path);
         //commands.add("-force");
         commands.add("stop");
         commands.add("-config");
-        commands.add(Config.getAbrolutePath(serverConfig.getAbsolutePath()));*/
+        commands.add(Config.getAbrolutePath(serverConfig.getAbsolutePath()));
 
-        commands.add("/bin/bash");
+        /*commands.add("/bin/bash");
         commands.add(Config.getAbrolutePath("sys-tests/src/test/resources/config/tomcat/killScript.sh"));
         commands.add(serverConfig.getAbsolutePath());
-
+*/
 
         stopper.or(new StringPredicate(DESTROYING_COMPLETED) {
             @Override
@@ -152,14 +152,33 @@ public class TomcatController extends ServerController {
 
     @Override
     public void start() {
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
-            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+            fis = new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG));
+            String content = IOUtils.toString(fis, "UTF-8");
             content = content.replaceAll("9005", "" + (9005 + currentInstance));
             content = content.replaceAll("9090", "" + port);
             content = content.replaceAll("9009", "" + (9009 + currentInstance));
-            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+            fos = new FileOutputStream(serverConfig);
+            IOUtils.write(content, fos, "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileInputStream close throws an exception", e);
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileOutputStream close throws an exception", e);
+                }
+            }
         }
         super.start();
     }
