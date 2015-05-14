@@ -1,5 +1,6 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
@@ -92,10 +93,12 @@ public class RemoteSpaceController extends ServerController {
 
 		if(isSecuredSpace){
 			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
-					.credentials("user1", "user1").createAdmin();
-		}else{
+                    .useDaemonThreads(true)
+                    .credentials("user1", "user1").createAdmin();
+        }else{
 			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
-					.createAdmin();
+                    .useDaemonThreads(true)
+                    .createAdmin();
 		}
 
 		admin.getGridServiceManagers().waitForAtLeastOne();
@@ -106,6 +109,7 @@ public class RemoteSpaceController extends ServerController {
 
 //		space.close();
 
+        ((ISpaceProxy) space.getSpace()).close();
         if (!useExistingAgent) {
             admin.getGridServiceAgents().waitForAtLeastOne();
 
@@ -118,8 +122,8 @@ public class RemoteSpaceController extends ServerController {
 
 		admin = null;
 
-		
-		
+        space = null;
+
 //		super.stop();
 	}
 
