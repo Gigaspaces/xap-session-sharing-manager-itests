@@ -24,6 +24,7 @@ public class Runner extends Thread {
 	protected Process process;
 	protected BufferedReader stdInput;
 	private int timeout = 60000;
+    private boolean isInterrupted = false;
 
 	public Runner(String wc, Map<String, String> envs) {
 		setDaemon(true);
@@ -59,7 +60,7 @@ public class Runner extends Thread {
 			try {
 				String line;
 
-				while ((line = stdInput.readLine()) != null) {
+				while ((line = stdInput.readLine()) != null && !isInterrupted ) {
 
 					LOGGER.debug(line);
 					System.out.println(line);
@@ -100,7 +101,7 @@ public class Runner extends Thread {
 		return result;
 	}
 
-	public void startAndWait() {
+	public void startAndWait() { // This method is not called when using ExecutorService
 
 		start();
 
@@ -112,7 +113,15 @@ public class Runner extends Thread {
 		}
 	}
 
-	public void or(Function predicate) {
+    @Override
+    public void interrupt() {
+        LOGGER.info("Runner interrupted!");
+        isInterrupted = true;
+        process.destroy();
+        super.interrupt();
+    }
+
+    public void or(Function predicate) {
 		this.predicates.add(predicate);
 	}
 }

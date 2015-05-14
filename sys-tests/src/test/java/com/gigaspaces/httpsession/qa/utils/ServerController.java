@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public abstract class ServerController {
@@ -119,11 +120,14 @@ public abstract class ServerController {
 			throws IOException;
 
 	public void startStarterRunner() {
+        Future<?> future = service.submit(starter);
         try {
-            service.submit(starter).get(40, TimeUnit.SECONDS);
+            future.get(40, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to run server starter. " + e.getMessage());
+        } finally {
+            future.cancel(true);
         }
 /*		try {
 
@@ -139,14 +143,17 @@ public abstract class ServerController {
     }
 
 	public void stop() {
+        Future<?> future = service.submit(stopper);
         try {
-            service.submit(stopper).get(10, TimeUnit.SECONDS);
+            future.get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to run server stopper. " + e.getMessage());
+        } finally {
+            future.cancel(true);
         }
-		/*try {
-			// stopper.start();
+        /*try {
+            // stopper.start();
 			stopper.startAndWait();
 
 			running.compareAndSet(true, false);
