@@ -58,11 +58,14 @@ public class JBoss8Controller extends ServerController {
 
 	@Override
     public Runner createStarter() {
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
             int currentInstance = instancesCount.getAndIncrement();
             //TODO put these files in the tests directory
             serverConfig = Files.createTempFile(new File(Config.getJboss8Home() + File.separator + "standalone" + File.separator + "configuration"), "jboss8-server" + currentInstance, ".xml");
-            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+            fis = new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG));
+            String content = IOUtils.toString(fis, "UTF-8");
             content = content.replaceAll("8080", "" + port);
             content = content.replaceAll("4712", "" + (4712 + currentInstance));
             content = content.replaceAll("4713", "" + (4713 + currentInstance));
@@ -70,9 +73,25 @@ public class JBoss8Controller extends ServerController {
             content = content.replaceAll(String.valueOf(defaultJbossCliAdminPort), "" + (defaultJbossCliAdminPort + currentInstance));
             content = content.replaceAll("8009", "" + (8009 + currentInstance));
             content = content.replaceAll("9993", "" + (9993 + currentInstance));
-            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+            fos = new FileOutputStream(serverConfig);
+            IOUtils.write(content, fos, "UTF-8");
         }catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileInputStream close throws an exception", e);
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileOutputStream close throws an exception", e);
+                }
+            }
         }
 
         Runner starter = new Runner(Config.getJboss8Home(), Config.getEnvsWithJavaHome());

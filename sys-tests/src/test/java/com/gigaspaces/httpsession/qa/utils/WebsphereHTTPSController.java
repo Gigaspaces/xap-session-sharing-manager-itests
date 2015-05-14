@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class WebsphereHTTPSController extends WebsphereController {
@@ -43,26 +44,48 @@ public class WebsphereHTTPSController extends WebsphereController {
             }
         });
 
+        Future<?> future = service.submit(creator);
         try {
-            service.submit(creator).get(10, TimeUnit.SECONDS);
+            future.get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to run websphere creator command. "+e.getMessage());
+        } finally {
+            future.cancel(true);
         }
 
 
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
             //TODO put these files in the tests directory
             File serverConfig = new File(Config.getWebsphereHome()+"/usr/servers/site"+instanceId+"/server.xml");
             if (!serverConfig.exists()) {
                 throw new RuntimeException("Unable to find server.xml file for site"+instanceId);
             }
-            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+            fis = new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG));
+            String content = IOUtils.toString(fis, "UTF-8");
             content = content.replaceAll("9080", "-1");
             content = content.replaceAll("9443", ""+port);
-            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+            fos = new FileOutputStream(serverConfig);
+            IOUtils.write(content, fos, "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileInputStream close throws an exception", e);
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileOutputStream close throws an exception", e);
+                }
+            }
         }
 
 

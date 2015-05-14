@@ -29,15 +29,34 @@ public class TomcatHTTPSController extends TomcatController {
 
     @Override
     public void start() {
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
         try {
-            String content = IOUtils.toString(new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG)), "UTF-8");
+            fis = new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG));
+            String content = IOUtils.toString(fis, "UTF-8");
             content = content.replaceAll("9005", "" + (9005 + currentInstance));
             content = content.replaceAll("8443", "" + port);
             content = content.replaceAll("9009", "" + (9009 + currentInstance));
             content = content.replaceAll("KEYSTORE_FILE_GOES_HERE", Config.getAbrolutePath(KEYSTORE_FILE_LOCATION));
-            IOUtils.write(content, new FileOutputStream(serverConfig), "UTF-8");
+            fos = new FileOutputStream(serverConfig);
+            IOUtils.write(content, fos, "UTF-8");
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileInputStream close throws an exception", e);
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    LOGGER.warn("FileOutputStream close throws an exception", e);
+                }
+            }
         }
         super.startStarterRunner();
     }
