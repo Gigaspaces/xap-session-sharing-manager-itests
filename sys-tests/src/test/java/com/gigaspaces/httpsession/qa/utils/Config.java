@@ -1,6 +1,8 @@
 package com.gigaspaces.httpsession.qa.utils;
 
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +23,8 @@ public class Config {
     private static final String APACHE_HOME = "APACHE_HOME";
     private static final String WEBSPHERE_HOME = "WEBSPHERE_HOME";
     private static final String JAVA7_HOME = "JAVA7_HOME";
-
+    protected static final Logger LOGGER = LoggerFactory
+            .getLogger(Config.class);
     private static Properties properties = new Properties();
 
     private static Map<String, String> envsWithJavaHome = new HashMap<String, String>();
@@ -37,9 +40,11 @@ public class Config {
 
 	private static void readConfig() {
 		properties = new Properties();
-		try {
-			properties.load(new FileInputStream(
-					TEST_RESOURCES_CONFIG_PROPERTIES));
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(
+                    TEST_RESOURCES_CONFIG_PROPERTIES);
+			properties.load(fis);
 			
 		} catch (FileNotFoundException e) {
 			Log.error("File not found:" + TEST_RESOURCES_CONFIG_PROPERTIES, e,
@@ -47,8 +52,16 @@ public class Config {
 		} catch (IOException e) {
 			Log.error("Error occurs while loading properites", e,
 					AssertionError.class);
-		}
-	}
+		} finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    LOGGER.error("Failed to close FileInputStream", e);
+                }
+            }
+        }
+    }
 
 	public static String getAbrolutePath(String relativePath){
 		
