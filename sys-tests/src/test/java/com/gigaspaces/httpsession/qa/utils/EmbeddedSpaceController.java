@@ -1,4 +1,4 @@
-package com.gigaspaces.httpsession.qa.utils;
+/*package com.gigaspaces.httpsession.qa.utils;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -6,7 +6,8 @@ import java.util.List;
 
 import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import com.j_spaces.core.client.FinderException;
-import com.j_spaces.core.client.SpaceFinder;
+import com.j_spaces.core.client.SpaceFinder;*/
+/*
 
 public class EmbeddedSpaceController extends ServerController {
 
@@ -71,3 +72,4 @@ public class EmbeddedSpaceController extends ServerController {
 	}
 
 }
+*/
