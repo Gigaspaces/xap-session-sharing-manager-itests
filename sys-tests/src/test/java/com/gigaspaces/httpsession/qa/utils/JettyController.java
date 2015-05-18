@@ -87,6 +87,9 @@ public class JettyController extends ServerController {
 	@Override
 	public void deploy(String appName) throws IOException {
         File target = new File(FilenameUtils.concat(JETTY_WEB_APPS, appName));
+        if (target.exists()) {
+            Assert.fail("Target file exists!" + target.getAbsolutePath());
+        }
         FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), target);
 
 	}

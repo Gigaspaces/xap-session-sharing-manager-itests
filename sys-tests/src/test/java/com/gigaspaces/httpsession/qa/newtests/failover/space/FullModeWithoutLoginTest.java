@@ -4,6 +4,7 @@ import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfiguration;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.IOException;
  * @author Yohana Khoury
  * @since 10.2
  */
+@Ignore
 public class FullModeWithoutLoginTest extends AbstractLoadBalancerTest {
     @Override
     @Before

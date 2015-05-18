@@ -4,6 +4,7 @@ import com.gigaspaces.httpsession.qa.newtests.bases.AbstractLoadBalancerTest;
 import com.gigaspaces.httpsession.qa.newtests.bases.DeltaStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithoutLoginShiroSecurityConfigurationSecuredSpace;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.IOException;
  * @author Kobi Kisos
  * @since 10.2
  */
+@Ignore
 public class DeltaModeWithoutLoginSecuredSpacePositiveTest extends AbstractLoadBalancerTest {
 
     @Override

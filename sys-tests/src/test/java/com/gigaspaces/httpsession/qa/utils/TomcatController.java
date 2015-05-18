@@ -110,7 +110,7 @@ public class TomcatController extends ServerController {
 
         String path = getExecutionPath(getTomcatHome(), BIN_CATALINA);
 
-        LOGGER.debug("Tomcat start script:" + path);
+        LOGGER.debug("Tomcat stop script:" + path);
 
         List<String> commands = stopper.getCommands();
 

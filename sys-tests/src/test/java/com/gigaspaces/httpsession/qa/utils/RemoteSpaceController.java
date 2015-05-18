@@ -1,6 +1,5 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import com.gigaspaces.internal.client.spaceproxy.ISpaceProxy;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
@@ -10,6 +9,7 @@ import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
 import org.openspaces.core.GigaSpace;
+import org.openspaces.core.space.UrlSpaceConfigurer;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,9 +36,11 @@ public class RemoteSpaceController extends ServerController {
 	private Runner starter;
 	private ProcessingUnit pu;
 	private GigaSpace space;
+    private UrlSpaceConfigurer urlSpaceConfigurer;
+    private Space space1;
 
-	public RemoteSpaceController() {
-	}
+    public RemoteSpaceController() {
+    }
 
 	public RemoteSpaceController(String spaceName, int instances, int backups) {
 
@@ -109,7 +111,7 @@ public class RemoteSpaceController extends ServerController {
 
 //		space.close();
 
-        ((ISpaceProxy) space.getSpace()).close();
+        //((ISpaceProxy) space.getSpace()).close();
         if (!useExistingAgent) {
             admin.getGridServiceAgents().waitForAtLeastOne();
 
@@ -122,7 +124,7 @@ public class RemoteSpaceController extends ServerController {
 
 		admin = null;
 
-        space = null;
+        //space = null;
 
 //		super.stop();
 	}
@@ -132,37 +134,37 @@ public class RemoteSpaceController extends ServerController {
 		deploy(appName, false);
 	}
 
-	public void deploy(String appName, boolean isSecuredSpace) throws IOException {
-            if (useExistingSpace) {
-                admin.getGridServiceManagers().waitForAtLeastOne();
-                pu = admin.getProcessingUnits().waitFor(SESSION_SPACE,30, TimeUnit.SECONDS);
-                Assert.assertNotNull("Space is not deployed", pu);
-                pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
-                Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
-                if (space1 == null)
-                    Assert.fail("Failed to find deployed space");
-                space = pu.getSpace().getGigaSpace();
-                pu.getSpace().getGigaSpace().clear(null);
-            } else {
+    public void deploy(String appName, boolean isSecuredSpace) throws IOException {
+        if (useExistingSpace) {
+            //admin.getGridServiceManagers().waitForAtLeastOne();
+            pu = admin.getProcessingUnits().waitFor(SESSION_SPACE, 30, TimeUnit.SECONDS);
+            Assert.assertNotNull("Space is not deployed", pu);
+            pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+            Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+            if (space1 == null)
+                Assert.fail("Failed to find deployed space");
+            space = space1.getGigaSpace();
+            space.clear(null);
+        } else {
 
-                SpaceDeployment sd = new SpaceDeployment(spaceName);
-                sd.numberOfInstances(instances);
-                sd.numberOfBackups(backs);
-				if(isSecuredSpace) {
-					sd.secured(true);
-					sd.userDetails("user1", "user1");
-					sd.setContextProperty("com.gs.security.fs.file-service.file-path", Config.getAbrolutePath(SPACE_USERS));
-				}
-                pu = admin.getGridServiceManagers().deploy(sd);
+            SpaceDeployment sd = new SpaceDeployment(spaceName);
+            sd.numberOfInstances(instances);
+            sd.numberOfBackups(backs);
+            if (isSecuredSpace) {
+                sd.secured(true);
+                sd.userDetails("user1", "user1");
+                sd.setContextProperty("com.gs.security.fs.file-service.file-path", Config.getAbrolutePath(SPACE_USERS));
+            }
+            pu = admin.getGridServiceManagers().deploy(sd);
 
-                pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
-                Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
-                if (space1 == null)
-                    Assert.fail("Failed to find deployed space");
+            pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+            Space space1 = pu.waitForSpace(60, TimeUnit.SECONDS);
+            if (space1 == null)
+                Assert.fail("Failed to find deployed space");
 
-                space = pu.getSpace().getGigaSpace();
-			}
-	}
+            space = pu.getSpace().getGigaSpace();
+        }
+    }
 
     public void undeploy() throws IOException {
         undeploy("");
@@ -170,10 +172,10 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public void undeploy(String appName) throws IOException {
         if (!useExistingSpace) {
-            pu.undeploy();
+            pu.undeployAndWait();
         }
-		pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
-	}
+        //pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
+    }
 
 	@Override
 	public void saveShiroFile(String appName, List<String> lines)

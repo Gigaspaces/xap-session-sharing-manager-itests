@@ -111,9 +111,12 @@ public abstract class TestBase {
     @After
     public void after() throws IOException, InterruptedException {
         System.out.println("Tearing down...");
-        remoteSpaceController.undeploy();
-        remoteSpaceController.stop();
+        System.out.println("Stopping web server");
         stopWebServer();
+        System.out.println("Undeploying space");
+        remoteSpaceController.undeploy();
+        System.out.println("Stopping spacecontroller");
+        remoteSpaceController.stop();
         Thread.sleep(5000);
     }
 
@@ -128,7 +131,7 @@ public abstract class TestBase {
 
     public void test(ExpectedTestResult expectedTestResult) throws IOException {
         int iterations = 4;
-
+        System.out.println("isLoggedIn? " + isLoggedIn);
         if (!isLoggedIn) {
             if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
                 for (int i = 0; i < sessions.size(); i++) {
