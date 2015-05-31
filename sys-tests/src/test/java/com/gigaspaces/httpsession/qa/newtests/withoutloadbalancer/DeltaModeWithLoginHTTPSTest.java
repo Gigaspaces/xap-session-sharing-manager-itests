@@ -4,7 +4,6 @@ import com.gigaspaces.httpsession.qa.newtests.bases.AbstractTestBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.DeltaStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithLoginShiroSecurityConfiguration;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class DeltaModeWithLoginHTTPSTest extends AbstractTestBase {
         super.before();
         this.storeModeBase = new DeltaStoreModeBase();
         this.shiroSecurityConfiguration = new WithLoginShiroSecurityConfiguration();
-        this.webAppAddress = "https://localhost:7777/demo-app";
+        this.webAppAddress = "https://localhost:7778/demo-app";
     }
     @Test
     public void testJettyHTTPS() throws IOException {

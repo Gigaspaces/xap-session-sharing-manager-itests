@@ -22,7 +22,7 @@ public class SoapUIDeltaModeWithoutLoginTest extends TestBase {
         super.before();
         this.storeModeBase = new DeltaStoreModeBase();
         this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
     @Test
     public void testJettyLoadBalancer() throws Exception {

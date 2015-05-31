@@ -22,7 +22,7 @@ public class SoapUIFullModeWithoutLoginTest extends TestBase {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
     @Test
     public void testJettyLoadBalancer() throws Exception {

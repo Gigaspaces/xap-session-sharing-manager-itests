@@ -22,7 +22,7 @@ public class FullModeWithoutLoginSpringSecurityLoginTest extends AbstractLoadBal
         super.before();
         this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithLoginSpringSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
 
     @Test

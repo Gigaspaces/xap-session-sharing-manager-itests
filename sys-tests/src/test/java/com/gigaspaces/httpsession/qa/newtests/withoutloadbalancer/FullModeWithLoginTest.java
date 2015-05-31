@@ -4,7 +4,6 @@ import com.gigaspaces.httpsession.qa.newtests.bases.AbstractTestBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.FullStoreModeBase;
 import com.gigaspaces.httpsession.qa.newtests.bases.WithLoginShiroSecurityConfiguration;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class FullModeWithLoginTest extends AbstractTestBase {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithLoginShiroSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
     @Test
     public void testJetty() throws IOException {

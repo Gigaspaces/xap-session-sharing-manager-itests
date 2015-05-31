@@ -24,7 +24,7 @@ public class FullModeWithoutLoginHTTPSTest extends AbstractLoadBalancerTest {
         CompressUtils.register(new CompressorImpl());
         this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithoutLoginShiroSecurityConfigurationWithCompression();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
 
     @Test

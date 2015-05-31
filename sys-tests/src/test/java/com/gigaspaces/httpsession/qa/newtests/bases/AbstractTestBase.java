@@ -10,18 +10,18 @@ import java.io.IOException;
  */
 public class AbstractTestBase extends TestBase {
     public void testJetty() throws IOException {
-        startWebServer(new JettyController(7777));
+        startWebServer(new JettyController(7778));
         test();
     }
 
     public void testTomcat() throws IOException {
-        startWebServer(new TomcatController(7777));
+        startWebServer(new TomcatController(7778));
 
         test();
     }
 
     public void testWebSphere() throws IOException {
-        startWebServer(new WebsphereController(7777));
+        startWebServer(new WebsphereController(7778));
 
         test();
     }
@@ -32,18 +32,18 @@ public class AbstractTestBase extends TestBase {
      */
 
     public void testJettyHTTPS() throws IOException {
-        startWebServer(new JettyHTTPSController(7777));
+        startWebServer(new JettyHTTPSController(7778));
         test();
     }
 
     public void testTomcatHTTPS() throws IOException {
-        startWebServer(new TomcatHTTPSController(7777));
+        startWebServer(new TomcatHTTPSController(7778));
 
         test();
     }
 
     public void testWebSphereHTTPS() throws IOException {
-        startWebServer(new WebsphereHTTPSController(7777));
+        startWebServer(new WebsphereHTTPSController(7778));
 
         test();
     }
@@ -54,14 +54,14 @@ public class AbstractTestBase extends TestBase {
 
     public void testTomcatSecurity() throws IOException {
 
-        startWebServer(new TomcatController(7777,true));
+        startWebServer(new TomcatController(7778,true));
 
         test();
     }
 
     public void testTomcatSecurityHTTPS() throws IOException {
 
-        startWebServer(new TomcatHTTPSController(7777,true));
+        startWebServer(new TomcatHTTPSController(7778,true));
         test();
     }
 }

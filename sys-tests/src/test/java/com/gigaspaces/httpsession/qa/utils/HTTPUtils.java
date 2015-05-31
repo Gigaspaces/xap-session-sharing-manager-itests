@@ -146,7 +146,7 @@ public class HTTPUtils {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
             try {
-                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+                schemeRegistry.register(new Scheme("https", 7778, new MockSSLSocketFactory()));
             } catch (Exception e) {
                 LOGGER.error("Failed to create MockSSLSocketFactory", e);
             }
@@ -231,7 +231,7 @@ public class HTTPUtils {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
             try {
-                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+                schemeRegistry.register(new Scheme("https", 7778, new MockSSLSocketFactory()));
             } catch (Exception e) {
                 LOGGER.error("Failed to create MockSSLSocketFactory", e);
             }
@@ -303,7 +303,7 @@ public class HTTPUtils {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
             try {
-                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+                schemeRegistry.register(new Scheme("https", 7778, new MockSSLSocketFactory()));
             } catch (Exception e) {
                 LOGGER.error("Failed to create MockSSLSocketFactory", e);
             }
@@ -383,7 +383,7 @@ public class HTTPUtils {
             SchemeRegistry schemeRegistry = new SchemeRegistry();
             schemeRegistry.register(new Scheme("http", 8080, PlainSocketFactory.getSocketFactory()));
             try {
-                schemeRegistry.register(new Scheme("https", 7777, new MockSSLSocketFactory()));
+                schemeRegistry.register(new Scheme("https", 7778, new MockSSLSocketFactory()));
             } catch (Exception e) {
                 LOGGER.error("Failed to create MockSSLSocketFactory", e);
             }

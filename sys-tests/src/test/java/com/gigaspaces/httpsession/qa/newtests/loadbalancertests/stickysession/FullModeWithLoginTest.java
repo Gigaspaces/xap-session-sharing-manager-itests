@@ -22,7 +22,7 @@ public class FullModeWithLoginTest extends AbstractLoadBalancerTest {
         super.before();
         this.storeModeBase = new FullStoreModeBase();
         this.shiroSecurityConfiguration = new WithLoginShiroSecurityConfiguration();
-        this.webAppAddress = "http://localhost:7777/demo-app";
+        this.webAppAddress = "http://localhost:7778/demo-app";
     }
 
     @Test
