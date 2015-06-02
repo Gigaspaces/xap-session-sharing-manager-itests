@@ -77,6 +77,7 @@ public class TomcatController extends ServerController {
         }
 
         Runner starter = new Runner(getTomcatHome(), Config.getEnvsWithJavaHome());
+        starter.setWaitForTermination(false);
 
 
         String path = getExecutionPath(getTomcatHome(), BIN_CATALINA);
@@ -125,12 +126,12 @@ public class TomcatController extends ServerController {
         commands.add(serverConfig.getAbsolutePath());
 */
 
-        stopper.or(new StringPredicate(DESTROYING_COMPLETED) {
+     /*   stopper.or(new StringPredicate(DESTROYING_COMPLETED) {
             @Override
             public boolean customTest(String input) {
                 return input.endsWith(match);
             }
-        });
+        });*/
 
         return stopper;
     }

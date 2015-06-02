@@ -46,6 +46,7 @@ public class ApacheLoadBalancerController extends ServerController {
         Runner starter = new Runner(Config.getApacheHome(), 10000, envs);
         starter.getCommands().add(APACHE_HOME + "/bin/apachectl");
         starter.getCommands().add("start");
+        starter.or(new StringContainsPredicate("Could not reliably determine the server's fully qualified domain name"));
         return starter;
     }
 
@@ -55,6 +56,7 @@ public class ApacheLoadBalancerController extends ServerController {
         Runner stopper = new Runner(Config.getApacheHome(), 10000, envs);
         stopper.getCommands().add(APACHE_HOME + "/bin/apachectl");
         stopper.getCommands().add("stop");
+        stopper.or(new StringContainsPredicate("Could not reliably determine the server's fully qualified domain name"));
         return stopper;
     }
 
@@ -89,7 +91,7 @@ public class ApacheLoadBalancerController extends ServerController {
         start();
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

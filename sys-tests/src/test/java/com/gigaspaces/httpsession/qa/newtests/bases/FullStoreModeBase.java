@@ -43,8 +43,8 @@ public class FullStoreModeBase extends StoreModeBase {
                 Object expectedValue = expectedForSession.get(key).getDatavalue();
                 Object actualValue = actual.get(key);
 
-                if (!actual.containsKey(key) && expectedValue != null) { // null=deleted
-                    Assert.fail("session does not have the key ["+key+"]");
+                if (actualValue == null && expectedValue != null) { // null=deleted
+                    Assert.fail("session in space does not have the key ["+key+"]");
                 } else if (expectedValue != null) { // not deleted
                     count++;
                 }

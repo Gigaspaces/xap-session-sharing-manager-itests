@@ -35,7 +35,8 @@ public class JettyController extends ServerController {
 
 	@Override
 	public Runner createStarter() {
-		Runner starter = new Runner(Config.getJettyHome(),10000, null);
+		Runner starter = new Runner(Config.getJettyHome(),10000, Config.getEnvsWithJavaHome());
+        starter.setWaitForTermination(false);
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
@@ -58,7 +59,6 @@ public class JettyController extends ServerController {
 				return input.contains(match);
 			}
 		});
-
 
 
 		return starter;
@@ -154,8 +154,10 @@ public class JettyController extends ServerController {
 
     @Override
 	public void undeploy(String appName) throws IOException {
+        System.out.println("Undeploying Jetty app ["+ this.appName +"]");
         File serverDir = new File(FilenameUtils.concat(JETTY_WEB_APPS, this.appName));
-        Assert.assertTrue("Failed to find server's directory [" + appName + "]", serverDir.exists());
+        Assert.assertTrue("Failed to find server's directory [" + this.appName+ "]", serverDir.exists());
         FileUtils.forceDelete(serverDir);
-	}	
+        System.out.println("File ["+serverDir.getAbsolutePath()+"] exists? "+serverDir.exists());
+    }
 }

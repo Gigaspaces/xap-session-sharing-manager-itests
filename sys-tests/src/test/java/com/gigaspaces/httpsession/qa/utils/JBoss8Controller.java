@@ -95,7 +95,7 @@ public class JBoss8Controller extends ServerController {
         }
 
         Runner starter = new Runner(Config.getJboss8Home(), Config.getEnvsWithJavaHome());
-
+        starter.setWaitForTermination(false);
         String path = getExecutionPath(Config.getJboss8Home(), BIN_STANDALONE);
 
         LOGGER.debug("JBOSS8 start script:" + path);

@@ -12,7 +12,6 @@ import org.junit.Test;
  * @since 10.2
  */
 
-@Ignore
 public class DeltaModeWithLoginTest extends AbstractLoadBalancerTest {
     @Override
     @Before

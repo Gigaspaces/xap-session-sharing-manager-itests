@@ -24,12 +24,12 @@ public class WebsphereHTTPSController extends WebsphereController {
     }
 
     @Override
-    public void start() {
+    public void createSite() {
         String path = FilenameUtils
                 .concat(Config.getWebsphereHome(), BIN_START);
 
 
-        Runner creator = new Runner(Config.getWebsphereHome(),10000, null);
+        Runner creator = new Runner(Config.getWebsphereHome(),10000, Config.getEnvsWithJavaHome());
         List<String> creatorCommands = creator.getCommands();
         creatorCommands.add(path);
         creatorCommands.add("create");
@@ -88,7 +88,5 @@ public class WebsphereHTTPSController extends WebsphereController {
             }
         }
 
-
-        super.startStarterRunner();
     }
 }

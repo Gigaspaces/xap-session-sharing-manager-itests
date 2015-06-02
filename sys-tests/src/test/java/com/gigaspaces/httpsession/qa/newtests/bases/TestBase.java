@@ -129,30 +129,39 @@ public abstract class TestBase {
         test(expectedTestResult);
     }
 
+    public void performLogin(HTTPUtils.HTTPSession session, String username, String password) {
+        if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
+            HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/login.jsp");
+            postRequest.withParameter("username", username)
+                    .withParameter("password", password);
+            HTTPUtils.HTTPResponse response = session.send(postRequest);
+            System.out.println(response.getStatusCode()+","+response.getCookies());
+            Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
+        } else if (shiroSecurityConfiguration instanceof WithLoginSpringSecurityConfiguration) {
+            HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/j_spring_security_check");
+            postRequest.withParameter("j_username", username)
+                    .withParameter("j_password", password);
+            HTTPUtils.HTTPResponse response = session.send(postRequest);
+            System.out.println(response.getStatusCode()+","+response.getCookies());
+            Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
+        }
+    }
+
+    public void login() {
+        if (!isLoggedIn) {
+            System.out.println("Performing Login");
+            for (int i = 0; i < sessions.size(); i++) {
+                performLogin(sessions.get(i), "user" + (i+1), "user" + (i+1));
+            }
+            isLoggedIn = true;
+            System.out.println("Finished Login Phase");
+        }
+    }
+
     public void test(ExpectedTestResult expectedTestResult) throws IOException {
         int iterations = 4;
         System.out.println("isLoggedIn? " + isLoggedIn);
-        if (!isLoggedIn) {
-            if (shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
-                for (int i = 0; i < sessions.size(); i++) {
-                    HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/login.jsp");
-                    postRequest.withParameter("username", "user" + (i + 1))
-                            .withParameter("password", "user" + (i + 1));
-                    HTTPUtils.HTTPResponse response = sessions.get(i).send(postRequest);
-                    Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
-                }
-                isLoggedIn = true;
-            } else if (shiroSecurityConfiguration instanceof WithLoginSpringSecurityConfiguration) {
-                for (int i = 0; i < sessions.size(); i++) {
-                    HTTPUtils.HTTPPostRequest postRequest = new HTTPUtils.HTTPPostRequest(getWebAppAddress() + "/j_spring_security_check");
-                    postRequest.withParameter("j_username", "user" + (i + 1))
-                            .withParameter("j_password", "user" + (i + 1));
-                    HTTPUtils.HTTPResponse response = sessions.get(i).send(postRequest);
-                    Assert.assertEquals("Unexpected status code", 302, response.getStatusCode());
-                }
-                isLoggedIn = true;
-            }
-        }
+        login();
 
         String requestsAddress = getWebAppAddress();
         //Write
@@ -161,13 +170,10 @@ public abstract class TestBase {
             for (int i = 0; i < sessions.size(); i++) {
                 HTTPUtils.HTTPSession session = sessions.get(i);
                 Map<String, DataUnit> data = DataGenerator.generateData();
-                HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(requestsAddress);
-                if (/*j == 0 &&*/ shiroSecurityConfiguration instanceof WithLoginShiroSecurityConfiguration) {
-                    //getRequest.auth("user" + (i + 1), "user" + (i + 1));
-                }
+                //HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(requestsAddress);
 
-                HTTPUtils.HTTPResponse response = session.send(getRequest);
-                System.out.println(response.getCookies() + "," + response.getStatusCode());
+                //HTTPUtils.HTTPResponse response = session.send(getRequest);
+                //System.out.println(response.getCookies() + "," + response.getStatusCode());
 
                 updateSession(session, data, requestsAddress, expectedTestResult);
                 String sessionid;
@@ -295,13 +301,15 @@ public abstract class TestBase {
 
     public void testOneWebServerOutOfManyFailover() throws IOException, JSONException {
         HTTPUtils.HTTPSession session = new HTTPUtils.HTTPSession();
+        performLogin(session, "user1", "user1");
 
         Map<String, DataUnit> data = DataGenerator.generateData(1);
         DataUnit attribute = data.values().iterator().next();
 
         HTTPUtils.HTTPResponse firstResponse = sendRequest(session, attribute, getWebAppAddress());
 
-        JSONObject firstResponseJSON = new JSONObject(firstResponse.getBody());
+        Assert.assertEquals("Unexpected status code. Body: "+firstResponse.getBody(), 200, firstResponse.getStatusCode());
+        JSONObject firstResponseJSON  = new JSONObject(firstResponse.getBody());
 
         int firstRequestPort = firstResponseJSON.getJSONObject("more").getInt("port");
 
@@ -322,6 +330,7 @@ public abstract class TestBase {
 
     public void testWebServersFailover() throws IOException, JSONException {
         HTTPUtils.HTTPSession session = new HTTPUtils.HTTPSession();
+        performLogin(session, "user1", "user1");
 
         Map<String, DataUnit> data = DataGenerator.generateData(1);
         DataUnit attribute = data.values().iterator().next();
@@ -425,7 +434,7 @@ public abstract class TestBase {
             }
 
             HTTPUtils.HTTPResponse response = sendRequest(session, expected.get(key), requestsAddress);
-
+            System.out.println(response.getStatusCode()+","+response.getCookies());
             if (response.getStatusCode() != expectedTestResult.getResponseCode()) {
                 System.out.println(response.getBody());
                 Assert.assertEquals("Unexpected status code. Response body: [" + response.getBody() + "]", expectedTestResult.getResponseCode(), response.getStatusCode());

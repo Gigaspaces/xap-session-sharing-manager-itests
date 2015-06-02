@@ -36,6 +36,7 @@ public abstract class ServerController {
 	protected int port = 8080;
 	protected boolean secured;
 	protected boolean springSecured;
+    protected ServerStatus serverStatus = ServerStatus.NOT_RUNNING;
 
     protected static final String START_INI = "sys-tests/src/test/resources/config/jetty/start.ini";
 
@@ -45,6 +46,7 @@ public abstract class ServerController {
 
     final static ExecutorService service = Executors.newCachedThreadPool();
 
+    private enum ServerStatus{NOT_RUNNING, RUNNING}
 
     public ServerController() {
 		init();
@@ -120,6 +122,11 @@ public abstract class ServerController {
 			throws IOException;
 
 	public void startStarterRunner() {
+        if (serverStatus.equals(ServerStatus.RUNNING)) {
+            System.out.println("Trying to start an already started server controller");
+            LOGGER.warn("Trying to start an already started server controller");
+            return;
+        }
         Future<?> future = service.submit(starter);
         try {
             future.get(40, TimeUnit.SECONDS);
@@ -128,6 +135,7 @@ public abstract class ServerController {
             Assert.fail("Failed to run server starter. " + e.getMessage());
         } finally {
             future.cancel(true);
+            serverStatus = ServerStatus.RUNNING;
         }
 /*		try {
 
@@ -143,6 +151,12 @@ public abstract class ServerController {
     }
 
 	public void stop() {
+        if (serverStatus.equals(ServerStatus.NOT_RUNNING)) {
+            System.out.println("Trying to stop a not running server controller");
+            LOGGER.warn("Trying to stop a not running controller");
+            return;
+        }
+
         Future<?> future = service.submit(stopper);
         try {
             future.get(10, TimeUnit.SECONDS);
@@ -151,6 +165,22 @@ public abstract class ServerController {
             Assert.fail("Failed to run server stopper. " + e.getMessage());
         } finally {
             future.cancel(true);
+            //serverStatus=ServerStatus.NOT_RUNNING;
+        }
+
+        Runner forceStop = new Runner("/tmp", null);
+        forceStop.getCommands().add("/bin/bash");
+        forceStop.getCommands().add(Config.getAbrolutePath("sys-tests/src/test/resources/config/tomcat/kkillScript.sh"));
+        forceStop.getCommands().add(""+starter.getPid());
+        Future<?> forceStopFuture = service.submit(forceStop);
+        try {
+            forceStopFuture.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Failed to run server stopper. " + e.getMessage());
+        } finally {
+            forceStopFuture.cancel(true);
+            serverStatus=ServerStatus.NOT_RUNNING;
         }
         /*try {
             // stopper.start();

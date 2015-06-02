@@ -16,11 +16,12 @@ public class JettyHTTPSController extends JettyController {
 
     @Override
 	public Runner createStarter() {
-		Runner starter = new Runner(Config.getJettyHome(),10000, null);
+		Runner starter = new Runner(Config.getJettyHome(),10000, Config.getEnvsWithJavaHome());
 
 		String path = FilenameUtils
 				.concat(Config.getJettyHome(), BIN_START_JAR);
 
+        starter.setWaitForTermination(false);
 		List<String> commands = starter.getCommands();
         commands.add(Config.getJava7Home()+"/bin/java");
 		commands.add("-jar");

@@ -66,7 +66,7 @@ public class MultipleWebServerController extends ServerController {
     @Override
     public void stopAll(boolean undeploy, boolean undeployOnce) throws IOException {
         for (ServerController serverController : serverControllers.values()) {
-            serverController.stopAll(undeploy, true);
+            serverController.stopAll(undeploy, undeployOnce);
         }
     }
 

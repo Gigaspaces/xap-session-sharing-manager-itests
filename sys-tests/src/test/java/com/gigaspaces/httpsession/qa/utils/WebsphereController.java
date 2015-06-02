@@ -141,7 +141,7 @@ public class WebsphereController extends ServerController {
             }
         });
 
-
+        System.out.println("Will create site"+instanceId);
         Future<?> future = service.submit(creator);
         try {
             future.get(10, TimeUnit.SECONDS);

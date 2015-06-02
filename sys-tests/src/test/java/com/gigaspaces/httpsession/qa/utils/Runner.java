@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,19 @@ public class Runner extends Thread {
 	protected BufferedReader stdInput;
 	private int timeout = 60000;
     private boolean isInterrupted = false;
+    private boolean waitForTermination = true;
+    private int pid;
 
+    public static int getPid(Process process) {
+        try {
+            Class<?> ProcessImpl = process.getClass();
+            Field field = ProcessImpl.getDeclaredField("pid");
+            field.setAccessible(true);
+            return field.getInt(process);
+        } catch (Exception e) {
+            return -1;
+        }
+    }
 	public Runner(String wc, Map<String, String> envs) {
 		setDaemon(true);
 
@@ -53,8 +66,10 @@ public class Runner extends Thread {
 	public void run() {
 
 		try {
-			process = builder.start();
-
+            boolean succeeded = false;
+            System.out.println("Running: "+builder.command());
+            process = builder.start();
+            pid = getPid(process);
 			stdInput = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
 			try {
@@ -65,7 +80,7 @@ public class Runner extends Thread {
 					LOGGER.debug(line);
 					System.out.println(line);
 
-					if (sunchronize(line)) {
+					if ((succeeded = sunchronize(line))) {
                         refresh();
                         break;
 					}
@@ -75,11 +90,20 @@ public class Runner extends Thread {
 			}
 
 			refresh();
+            if (waitForTermination && process.waitFor() != 0) {
+                throw new RuntimeException("Server Controller exited with code "+ process.exitValue());
+            }
+            if (predicates.size() !=0 && !succeeded) {
+                throw new RuntimeException("Failed to run!");
+            }
 		} catch (IOException e) {
             e.printStackTrace();
 			throw new AssertionError();
-		}
-	}
+		} catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new AssertionError();
+        }
+    }
 
 	private void refresh() {
 		synchronized (monitor) {
@@ -124,4 +148,12 @@ public class Runner extends Thread {
     public void or(Function predicate) {
 		this.predicates.add(predicate);
 	}
+
+    public void setWaitForTermination(boolean waitForTermination) {
+        this.waitForTermination = waitForTermination;
+    }
+
+    public int getPid() {
+        return pid;
+    }
 }

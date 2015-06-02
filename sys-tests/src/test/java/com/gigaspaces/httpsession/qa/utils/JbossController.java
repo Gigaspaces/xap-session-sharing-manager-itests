@@ -91,7 +91,7 @@ public class JbossController extends ServerController {
         }
 
 		Runner starter = new Runner(Config.getJbossHome(), null);
-
+        starter.setWaitForTermination(false);
 		String path = getExecutionPath(Config.getJbossHome(), BIN_STANDALONE);
 
 		LOGGER.debug("JBOSS start script:" + path);

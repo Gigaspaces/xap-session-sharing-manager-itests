@@ -32,6 +32,8 @@ cacheManager.storeMode = $storeMode
 
 # Serialization Service
 serializer = com.gigaspaces.httpsession.serialize.KryoSerializerImpl
+javaSerialization=com.esotericsoftware.kryo.serializers.JavaSerializer
+serializer.classSerializers=javax.security.auth.Subject:$javaSerialization,org.springframework.security.core.userdetails.User:$javaSerialization,org.springframework.security.core.context.SecurityContextImpl:$javaSerialization
 
 cacheManager.serializer = $serializer
 # Session Policy Service
