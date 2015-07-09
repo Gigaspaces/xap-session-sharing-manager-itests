@@ -1,6 +1,5 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import com.vladium.util.Files;
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -60,7 +59,7 @@ public class JbossController extends ServerController {
         try {
 			int currentInstance = instancesCount.getAndIncrement();
 			//TODO put these files in the tests directory
-			serverConfig = Files.createTempFile(new File(Config.getJbossHome() + File.separator + "standalone" + File.separator + "configuration"), "jboss-server" + currentInstance, ".xml");
+			serverConfig = File.createTempFile("jboss-server" + currentInstance, ".xml", new File(Config.getJbossHome() + File.separator + "standalone" + File.separator + "configuration"));
             fis = new FileInputStream(Config.getAbrolutePath(DEFAULT_SERVER_CONFIG));
             String content = IOUtils.toString(fis, "UTF-8");
             content = content.replaceAll("8080", "" + port);

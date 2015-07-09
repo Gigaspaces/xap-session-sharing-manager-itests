@@ -1,6 +1,5 @@
 package com.gigaspaces.httpsession.qa.utils;
 
-import com.vladium.util.Files;
 import junit.framework.Assert;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -71,7 +70,7 @@ public class TomcatController extends ServerController {
         try {
             currentInstance = instancesCount.getAndIncrement();
             //TODO put these files in the tests directory
-            serverConfig = Files.createTempFile(new File("/tmp/"), "tomcat-server", ".xml");
+            serverConfig = File.createTempFile("tomcat-server", ".xml", new File("/tmp/"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

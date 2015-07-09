@@ -41,7 +41,7 @@ public abstract class TestBase {
     private HashMap<String, Map<String, DataUnit>> expected;
     private ArrayList<HTTPUtils.HTTPSession> sessions;
     private int usersCount = 2;
-    private static ObjectMapper mapper = new ObjectMapper();
+    public static ObjectMapper mapper = new ObjectMapper();
 
     protected boolean isLoggedIn = false;
 
@@ -478,6 +478,55 @@ public abstract class TestBase {
         SoapUITestCaseRunner runner = new SoapUITestCaseRunner();
         runner.setProjectFile( "../soupui/REST-test-project.xml" );
         runner.run();
+    }
+
+
+    public void testMultiSessionsForSameUser() throws Exception{
+        //Login with user1 and add one attribute
+        HTTPUtils.HTTPSession session1 = new HTTPUtils.HTTPSession();
+        performLogin(session1, "user1", "user1");
+
+        Map<String, DataUnit> data = DataGenerator.generateData(2);
+        Iterator<DataUnit> iterator = data.values().iterator();
+        DataUnit attribute1 = iterator.next();
+        DataUnit attribute2 = iterator.next();
+
+        HTTPUtils.HTTPResponse firstResponse = sendRequest(session1, attribute1, getWebAppAddress());
+
+        Assert.assertEquals("Unexpected status code. Body: " + firstResponse.getBody(), 200, firstResponse.getStatusCode());
+        JSONObject firstResponseJSON  = new JSONObject(firstResponse.getBody());
+
+        //Check that there are 3 attributes for the first session
+        Assert.assertEquals("First session must have three attributes", 3, mapper.readValue(firstResponseJSON.getJSONObject("attributes").toString(), HashMap.class).size());
+
+
+        //Login with user1 (another session)
+        HTTPUtils.HTTPSession session2 = new HTTPUtils.HTTPSession();
+        performLogin(session2, "user1", "user1");
+
+        //Check that the attributes are still there...
+        HTTPUtils.HTTPGetRequest getRequest = new HTTPUtils.HTTPGetRequest(getWebAppAddress()+"/json/view");
+        HTTPUtils.HTTPResponse secondResponse = session2.send(getRequest);
+        System.out.println("Got: "+secondResponse.getBody());
+        JSONObject secondResponseJSON = new JSONObject(secondResponse.getBody());
+        Assert.assertEquals("Attributes should be the same after login", mapper.readValue(firstResponseJSON.getJSONObject("attributes").toString(), HashMap.class), mapper.readValue(secondResponseJSON.getJSONObject("attributes").toString(), HashMap.class));
+        Assert.assertEquals("Second session must have three attributes", 3, mapper.readValue(secondResponseJSON.getJSONObject("attributes").toString(), HashMap.class).size());
+        Assert.assertFalse("session id should not be the same", firstResponseJSON.getJSONObject("more").getString("sessionid").equals(secondResponseJSON.getJSONObject("more").getString("sessionid")));
+
+
+        //Add attribute via the second session and check that it is added to the first session
+        HTTPUtils.HTTPResponse thirdResponse = sendRequest(session2, attribute2, getWebAppAddress());
+        Assert.assertEquals("Unexpected status code. Body: " + thirdResponse.getBody(), 200, thirdResponse.getStatusCode());
+        JSONObject thirdResponseJSON  = new JSONObject(thirdResponse.getBody());
+        Assert.assertEquals("Second session must have four attributes", 4, mapper.readValue(thirdResponseJSON.getJSONObject("attributes").toString(), HashMap.class).size());
+
+        //Check first session
+        HTTPUtils.HTTPGetRequest fourthRequest = new HTTPUtils.HTTPGetRequest(getWebAppAddress()+"/json/view");
+        HTTPUtils.HTTPResponse fourthResponse = session1.send(fourthRequest);
+        JSONObject fourthResponseJSON = new JSONObject(fourthResponse.getBody());
+        Assert.assertEquals("First session must have four attributes", 4, mapper.readValue(fourthResponseJSON.getJSONObject("attributes").toString(), HashMap.class).size());
+
+        Assert.assertEquals("Attributes should be the same after adding new attribute", mapper.readValue(thirdResponseJSON.getJSONObject("attributes").toString(), HashMap.class), mapper.readValue(fourthResponseJSON.getJSONObject("attributes").toString(), HashMap.class));
     }
 
 }

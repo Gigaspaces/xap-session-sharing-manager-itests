@@ -37,5 +37,23 @@ public class DeltaModeWithLoginTest extends AbstractTestBase {
         super.testWebSphere();
     }
 
+    @Test
+    public void testTomcatMultiSessionsForSameUser() throws Exception {
+        super.testTomcatMultiSessionsForSameUser();
+    }
 
+    @Test
+    public void testJettyMultiSessionsForSameUser() throws Exception {
+        super.testJettyMultiSessionsForSameUser();
+    }
+
+    @Test
+    public void testWebsphereMultiSessionsForSameUser() throws Exception {
+        super.testWebsphereMultiSessionsForSameUser();
+    }
+
+    @Test
+    public void testJboss7MultiSessionsForSameUser() throws Exception {
+        super.testJboss7MultiSessionsForSameUser();
+    }
 }

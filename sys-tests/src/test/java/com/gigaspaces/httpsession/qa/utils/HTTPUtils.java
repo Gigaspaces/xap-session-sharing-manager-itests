@@ -20,10 +20,10 @@ import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.jboss.security.Base64Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -160,7 +160,7 @@ public class HTTPUtils {
             try {
                 //
                 if (auth != null) {
-                    httpPost.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
+                    httpPost.setHeader("Authorization", "Basic " + DatatypeConverter.printBase64Binary(this.auth.getBytes()));
                 }
                 //
 
@@ -245,7 +245,7 @@ public class HTTPUtils {
                 httpClient.setCookieStore(cookieStore);
                 HttpGet httpGet = new HttpGet(_urlAsString);
                 if (auth != null) {
-                    httpGet.setHeader("Authorization", "Basic " + Base64Encoder.encode(this.auth));
+                    httpGet.setHeader("Authorization", "Basic " + DatatypeConverter.printBase64Binary(this.auth.getBytes()));
                 }
 
 

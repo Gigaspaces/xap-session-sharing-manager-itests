@@ -64,4 +64,28 @@ public class AbstractTestBase extends TestBase {
         startWebServer(new TomcatHTTPSController(7778,true));
         test();
     }
+
+    /*
+    Here starts tests of multiple sessions for the same user
+     */
+
+    public void testTomcatMultiSessionsForSameUser() throws Exception {
+        startWebServer(new TomcatController(7778));
+        testMultiSessionsForSameUser();
+    }
+
+    public void testJettyMultiSessionsForSameUser() throws Exception {
+        startWebServer(new JettyController(7778));
+        testMultiSessionsForSameUser();
+    }
+
+    public void testWebsphereMultiSessionsForSameUser() throws Exception {
+        startWebServer(new WebsphereController(7778));
+        testMultiSessionsForSameUser();
+    }
+
+    public void testJboss7MultiSessionsForSameUser() throws Exception {
+        startWebServer(new JbossController(7778));
+        testMultiSessionsForSameUser();
+    }
 }
