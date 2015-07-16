@@ -61,7 +61,7 @@ public class RemoteSpaceController extends ServerController {
         envs.put("LOOKUPGROUPS", System.getProperty("group", System.getenv("LOOKUPGROUPS")));
 
  		starter = new Runner(Config.getGSHome(), 10000, envs);
-
+        starter.setWaitForTermination(false);
 		String path = FilenameUtils.concat(Config.getGSHome(), "bin/"
 				+ GS_AGENT);
 		starter.getCommands().add(path);

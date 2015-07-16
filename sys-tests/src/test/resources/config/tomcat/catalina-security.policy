@@ -92,6 +92,7 @@ grant {
 
     permission java.io.FilePermission "logs/gs-session-manager-demo-app.log", "read, write";
     permission java.io.FilePermission "logs/", "read, write";
+    permission java.io.FilePermission "gslicense.xml", "read";
     // Required for JNDI lookup of named JDBC DataSource's and
     // javamail named MimePart DataSource used to send mail
     permission java.util.PropertyPermission "java.home", "read";
@@ -161,6 +162,9 @@ grant {
 
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.coyote.http11";
     permission java.lang.RuntimePermission "accessClassInPackage.javax.security.auth.*";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.security.provider";
+    permission java.security.SecurityPermission "insertProvider.SUN";
+
 };
 
 // BIW Additions
