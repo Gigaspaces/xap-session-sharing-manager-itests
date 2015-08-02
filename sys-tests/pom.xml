@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.gigaspaces.http-session.qa</groupId>
 		<artifactId>xap-session-sharing-manager-itests</artifactId>
-		<version>10.2.0-SNAPSHOT</version>
+		<version>11.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>sys-tests</artifactId>
@@ -25,6 +25,12 @@
 		</repository>
 	</repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>github</id>
+            <url>https://github.com/yohanakh/mvn-repo/raw/master</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 	<dependencies>
         <dependency>
@@ -58,7 +64,6 @@
 		<dependency>
 			<groupId>com.gigaspaces.http-session</groupId>
 			<artifactId>gs-session-manager</artifactId>
-			<version>${gs.version}</version>
 		</dependency>
 
 		<dependency>
@@ -80,7 +85,7 @@
 		<dependency>
 			<groupId>com.gigaspaces.http-session.qa</groupId>
 			<artifactId>data-model</artifactId>
-			<version>${gs.version}</version>
+			<version>${gsVersion}</version>
 		</dependency>
 
 		<dependency>
@@ -122,7 +127,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
+                <version>2.17</version>
 				<executions>
 					<execution>
 						<goals>
@@ -131,8 +136,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
-                    <argLine>-Xmx3g -Xms3g</argLine>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <argLine>-Xmx2g -Xms2g -XX:MaxPermSize=512m</argLine>
 					<!--<includes>
 						<include>**/SystemTestSuite.java</include>
 					</includes>-->
@@ -162,6 +167,21 @@
                     <target>1.6</target>
                 </configuration>
                 <version>2.3.2</version>
+            </plugin>
+
+            <plugin>
+                <groupId>com.gigaspaces</groupId>
+                <artifactId>newman-test-generator</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <configuration>
+                    <type>httpsession</type>
+                    <outputFile>/tmp/lala.json</outputFile>
+                    <includeTests>true</includeTests>
+                    <scanner>com.gigaspaces.newman.testgenerator.scanner.JUnitScanner</scanner>
+                    <packages>
+                        <package>com.gigaspaces.httpsession.qa.newtests.withoutloadbalancer</package>
+                    </packages>
+                </configuration>
             </plugin>
 		</plugins>
 	</build>

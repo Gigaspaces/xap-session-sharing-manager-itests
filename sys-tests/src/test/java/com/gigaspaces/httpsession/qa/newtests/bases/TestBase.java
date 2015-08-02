@@ -90,6 +90,7 @@ public abstract class TestBase {
         System.out.println("Starting...");
         remoteSpaceController.start(isSecuredSpace);
         try {
+            System.out.println("Deploying space");
             remoteSpaceController.deploy("", isSecuredSpace);
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,15 +110,23 @@ public abstract class TestBase {
     }
 
     @After
-    public void after() throws IOException, InterruptedException {
+    public void teardownWebserver() throws IOException, InterruptedException {
         System.out.println("Tearing down...");
         System.out.println("Stopping web server");
         stopWebServer();
+    }
+
+    @After
+    public void teardownSpace() {
         System.out.println("Undeploying space");
-        remoteSpaceController.undeploy();
+        try {
+            remoteSpaceController.undeploy();
+        } catch (Exception e) {
+            System.out.println("Failed to undeploy!");
+            e.printStackTrace();
+        }
         System.out.println("Stopping spacecontroller");
         remoteSpaceController.stop();
-        Thread.sleep(5000);
     }
 
 

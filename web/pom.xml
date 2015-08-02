@@ -13,7 +13,7 @@
 		<groupId>com.gigaspaces.http-session.qa</groupId>
 		<artifactId>xap-session-sharing-manager-itests</artifactId>
 		<relativePath>../pom.xml</relativePath>
-		<version>10.2.0-SNAPSHOT</version>
+		<version>11.0.0-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -39,6 +39,24 @@
 				</configuration>
 				<version>2.3.2</version>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+                            <includeScope>system</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
@@ -85,17 +103,15 @@
 		<dependency>
 			<groupId>com.gigaspaces.http-session.qa</groupId>
 			<artifactId>data-model</artifactId>
-			<version>${gs.version}</version>
+			<version>${gsVersion}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.gigaspaces.http-session</groupId>
 			<artifactId>gs-session-manager</artifactId>
-			<scope>compile</scope>
-			<version>${gs.version}</version>
 		</dependency>
 
-		<dependency>
+        <dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-server</artifactId>
 			<version>1.9</version>

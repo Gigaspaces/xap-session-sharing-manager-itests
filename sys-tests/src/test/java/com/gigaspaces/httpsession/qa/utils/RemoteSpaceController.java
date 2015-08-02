@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminFactory;
 import org.openspaces.admin.gsa.GridServiceAgent;
+import org.openspaces.admin.gsm.GridServiceManager;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.space.Space;
 import org.openspaces.admin.space.SpaceDeployment;
@@ -31,7 +32,7 @@ public class RemoteSpaceController extends ServerController {
 			: "gs-agent.sh";
 
 	private static final String SPACE_USERS = "sys-tests/src/test/resources/config/security-users";
-	private Admin admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS"))).createAdmin();
+	private Admin admin;// = new AdminFactory().addGroup(Config.getLookupGroups()).createAdmin();
 
 	private Runner starter;
 	private ProcessingUnit pu;
@@ -58,9 +59,11 @@ public class RemoteSpaceController extends ServerController {
 	public Runner createStarter() {
         Map<String, String> envs = new HashMap<String, String>();
         envs.put("JAVA_HOME", Config.getJava7Home());
-        envs.put("LOOKUPGROUPS", System.getProperty("group", System.getenv("LOOKUPGROUPS")));
+        envs.put("LOOKUPGROUPS", Config.getLookupGroups());
+        envs.put("EXT_JAVA_OPTIONS", "-Xmx200m -Xms200");
 
- 		starter = new Runner(Config.getGSHome(), 10000, envs);
+        System.out.println("Will start with Groups = "+Config.getLookupGroups());
+        starter = new Runner(Config.getGSHome(), 10000, envs);
         starter.setWaitForTermination(false);
 		String path = FilenameUtils.concat(Config.getGSHome(), "bin/"
 				+ GS_AGENT);
@@ -94,16 +97,19 @@ public class RemoteSpaceController extends ServerController {
 		}
 
 		if(isSecuredSpace){
-			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
+			admin = new AdminFactory().addGroup(Config.getLookupGroups())
                     .useDaemonThreads(true)
                     .credentials("user1", "user1").createAdmin();
         }else{
-			admin = new AdminFactory().addGroup(System.getProperty("group", System.getenv("LOOKUPGROUPS")))
+            System.out.println("Creating admin...");
+            admin = new AdminFactory().addGroup(Config.getLookupGroups())
                     .useDaemonThreads(true)
                     .createAdmin();
 		}
 
-		admin.getGridServiceManagers().waitForAtLeastOne();
+        System.out.println("Waiting for one GSM");
+        GridServiceManager gsm = admin.getGridServiceManagers().waitForAtLeastOne(20, TimeUnit.SECONDS);
+        Assert.assertNotNull("Failed to find GSM", gsm);
 	}
 
 	@Override
