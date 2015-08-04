@@ -27,8 +27,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>github</id>
-            <url>https://github.com/yohanakh/mvn-repo/raw/master</url>
+            <id>org.openspaces</id>
+            <url>http://maven-repository.openspaces.org</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -171,7 +171,7 @@
 
             <plugin>
                 <groupId>com.gigaspaces</groupId>
-                <artifactId>newman-test-generator</artifactId>
+                <artifactId>newman-test-generator-plugin</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <executions>
                     <execution>
