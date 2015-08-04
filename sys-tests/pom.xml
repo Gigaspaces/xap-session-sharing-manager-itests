@@ -173,13 +173,21 @@
                 <groupId>com.gigaspaces</groupId>
                 <artifactId>newman-test-generator</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <type>httpsession</type>
-                    <outputFile>/tmp/lala.json</outputFile>
+                    <outputFile>${project.build.directory}/http-session-tests.json</outputFile>
                     <includeTests>true</includeTests>
                     <scanner>com.gigaspaces.newman.testgenerator.scanner.JUnitScanner</scanner>
                     <packages>
-                        <package>com.gigaspaces.httpsession.qa.newtests.withoutloadbalancer</package>
+                        <package>com.gigaspaces.httpsession.qa</package>
                     </packages>
                 </configuration>
             </plugin>
