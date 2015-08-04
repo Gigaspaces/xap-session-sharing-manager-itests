@@ -13,7 +13,6 @@ import java.io.IOException;
  * @author Kobi Kisos
  * @since 10.2
  */
-@Ignore
 public class DeltaModeWithoutLoginSecuredSpacePositiveTest extends AbstractLoadBalancerTest {
 
     @Override

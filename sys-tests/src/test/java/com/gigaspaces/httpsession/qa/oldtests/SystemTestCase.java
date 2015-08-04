@@ -69,7 +69,7 @@ public abstract class SystemTestCase {
 	 */
 	public void config(String file, Map<String, String> properties) {
 
-		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+System.getProperty("group", System.getenv("LOOKUPGROUPS")));
+		properties.put("main/connector.url", "jini://*/*/" + SESSION_SPACE + "?groups="+Config.getLookupGroups());
 
 		try {
 			server.deploy(APP_NAME);

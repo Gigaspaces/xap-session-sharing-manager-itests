@@ -11,7 +11,7 @@
 	<artifactId>xap-session-sharing-manager-itests</artifactId>
 	<groupId>com.gigaspaces.http-session.qa</groupId>
 	<name>xap-session-sharing-manager-itests</name>
-	<version>10.2.0-SNAPSHOT</version>
+	<version>11.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -25,11 +25,12 @@
 		<kryo.version>2.22</kryo.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<gs.version>10.2.0-SNAPSHOT</gs.version>
+		<gsVersion>11.0.0-SNAPSHOT</gsVersion>
         <compileSource>1.6</compileSource>
         <testCompileSource>1.6</testCompileSource>
         <compileJdkPath>/usr/lib/jvm/java-7-oracle</compileJdkPath>
         <testCompileJdkPath>/usr/lib/jvm/java-7-oracle</testCompileJdkPath>
+        <xap.home>${env.XAP_HOME}</xap.home>
     </properties>
 	<repositories>
 		<repository>
@@ -53,7 +54,7 @@
 			<dependency>
 				<groupId>com.gigaspaces.http-session</groupId>
 				<artifactId>xap-session-sharing-manager</artifactId>
-				<version>${gs.version}</version>
+				<version>${gsVersion}</version>
 				<!--<scope>import</scope>-->
 				<exclusions>
 					<exclusion>
@@ -82,9 +83,14 @@
 			<dependency>
 				<groupId>com.gigaspaces</groupId>
 				<artifactId>gs-openspaces</artifactId>
-				<version>${gs.version}</version>
-				<scope>test</scope>
+				<version>${gsVersion}</version>
 			</dependency>
+
+			<dependency>
+                <groupId>com.gigaspaces.http-session</groupId>
+                <artifactId>gs-session-manager</artifactId>
+                <version>${gsVersion}</version>
+            </dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -132,15 +138,60 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.14.1</version>
+                <version>2.17</version>
                 <configuration>
-                    <forkMode>once</forkMode>
                     <testFailureIgnore>true</testFailureIgnore>
                     <argLine>-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError</argLine>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>use-xap-jars</id>
+            <activation><activeByDefault>false</activeByDefault></activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.gigaspaces.http-session</groupId>
+                        <artifactId>gs-session-manager</artifactId>
+                        <version>${gsVersion}</version>
+                        <scope>system</scope>
+                        <systemPath>${xap.home}/lib/optional/httpsession/gs-session-manager.jar</systemPath>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.gigaspaces</groupId>
+                        <artifactId>gs-openspaces</artifactId>
+                        <version>${gsVersion}</version>
+                        <scope>system</scope>
+                        <systemPath>${xap.home}/lib/required/gs-openspaces.jar</systemPath>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.gigaspaces</groupId>
+                        <artifactId>gs-runtime</artifactId>
+                        <version>${gsVersion}</version>
+                        <scope>system</scope>
+                        <systemPath>${xap.home}/lib/required/gs-runtime.jar</systemPath>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>com.gigaspaces</groupId>
+                    <artifactId>gs-openspaces</artifactId>
+                    <version>${gsVersion}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.maven.surefire</groupId>
+                    <artifactId>surefire-junit4</artifactId>
+                    <version>2.17</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <!--    <build>
             <plugins>
                 <plugin>

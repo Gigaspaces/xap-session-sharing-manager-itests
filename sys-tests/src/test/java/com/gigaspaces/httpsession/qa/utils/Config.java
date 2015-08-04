@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 public class Config {
 	private static final String HOST = "HOST";
@@ -23,6 +24,8 @@ public class Config {
     private static final String APACHE_HOME = "APACHE_HOME";
     private static final String WEBSPHERE_HOME = "WEBSPHERE_HOME";
     private static final String JAVA7_HOME = "JAVA7_HOME";
+    private static final String LOOKUPGROUPS = "LOOKUPGROUPS";
+
     protected static final Logger LOGGER = LoggerFactory
             .getLogger(Config.class);
     private static Properties properties = new Properties();
@@ -31,11 +34,17 @@ public class Config {
 
 	static {
 		readConfig();
+        String prefix = System.getProperty("group", System.getenv("LOOKUPGROUPS"));
+        boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "false"));
+        String groups = (useExistingAgent ? prefix : prefix + UUID.randomUUID().toString());
+        properties.put(LOOKUPGROUPS, groups);
+
+        //Set global env variables
         envsWithJavaHome.put("JAVA_HOME", getJava7Home());
     }
 
 	public static String getProperty(String key) {
-		return properties.getProperty(key);
+		return System.getProperty(key, properties.getProperty(key));
 	}
 
 	private static void readConfig() {
@@ -70,7 +79,7 @@ public class Config {
 	
 	private static String getBasePath() {
 		
-		return properties.getProperty("project.basedir");
+		return getProperty("project.basedir");
 	}
 
 	public static String getJbossHome() {
@@ -116,6 +125,10 @@ public class Config {
 
     public static String getJava7Home() {
         return getProperty(JAVA7_HOME);
+    }
+
+    public static String getLookupGroups() {
+        return getProperty(LOOKUPGROUPS);
     }
 
     public static Map<String, String> getEnvsWithJavaHome() {

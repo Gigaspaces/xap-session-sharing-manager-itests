@@ -13,7 +13,7 @@
         <commons.codec.version>1.9</commons.codec.version>
         <spring.version>4.1.1.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
-        <gs.version>10.2.0-SNAPSHOT</gs.version>
+        <gsVersion>11.0.0-SNAPSHOT</gsVersion>
     </properties>
 
     <repositories>
@@ -97,7 +97,7 @@
             <groupId>com.gigaspaces.http-session</groupId>
             <artifactId>gs-session-manager</artifactId>
             <scope>compile</scope>
-            <version>${gs.version}</version>
+            <version>${gsVersion}</version>
         </dependency>
 
         <dependency>
