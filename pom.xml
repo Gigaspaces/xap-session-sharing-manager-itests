@@ -25,7 +25,7 @@
 		<kryo.version>2.22</kryo.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<gsVersion>11.0.0-SNAPSHOT</gsVersion>
+		<gsVersion>${project.version}</gsVersion>
         <compileSource>1.6</compileSource>
         <testCompileSource>1.6</testCompileSource>
         <compileJdkPath>/usr/lib/jvm/java-7-oracle</compileJdkPath>
