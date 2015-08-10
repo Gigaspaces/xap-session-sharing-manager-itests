@@ -53,7 +53,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.gigaspaces.http-session</groupId>
-				<artifactId>xap-session-sharing-manager</artifactId>
+				<artifactId>gs-session-manager</artifactId>
 				<version>${gsVersion}</version>
 				<!--<scope>import</scope>-->
 				<exclusions>
@@ -85,12 +85,6 @@
 				<artifactId>gs-openspaces</artifactId>
 				<version>${gsVersion}</version>
 			</dependency>
-
-			<dependency>
-                <groupId>com.gigaspaces.http-session</groupId>
-                <artifactId>gs-session-manager</artifactId>
-                <version>${gsVersion}</version>
-            </dependency>
 
 			<dependency>
 				<groupId>org.apache.commons</groupId>
