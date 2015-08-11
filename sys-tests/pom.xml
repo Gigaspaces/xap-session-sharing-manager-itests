@@ -187,7 +187,7 @@
                     <includeTests>true</includeTests>
                     <scanner>com.gigaspaces.newman.testgenerator.scanner.JUnitScanner</scanner>
                     <packages>
-                        <package>com.gigaspaces.httpsession.qa</package>
+                        <package>com.gigaspaces.httpsession.qa.newtests</package>
                     </packages>
                 </configuration>
             </plugin>
