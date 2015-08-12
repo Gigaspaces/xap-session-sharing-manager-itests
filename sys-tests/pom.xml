@@ -156,7 +156,6 @@
                     <systemProperties>
                         <group>${group}</group>
                     </systemProperties>
-                    <testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
             <plugin>
