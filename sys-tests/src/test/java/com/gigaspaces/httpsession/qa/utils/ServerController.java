@@ -129,7 +129,7 @@ public abstract class ServerController {
         }
         Future<?> future = service.submit(starter);
         try {
-            future.get(40, TimeUnit.SECONDS);
+            future.get(90, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to run server starter. " + e.getMessage());
@@ -159,7 +159,7 @@ public abstract class ServerController {
 
         Future<?> future = service.submit(stopper);
         try {
-            future.get(10, TimeUnit.SECONDS);
+            future.get(20, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Failed to run server stopper. " + e.getMessage());
