@@ -60,7 +60,7 @@ public class RemoteSpaceController extends ServerController {
         Map<String, String> envs = new HashMap<String, String>();
         envs.put("JAVA_HOME", Config.getJava7Home());
         envs.put("LOOKUPGROUPS", Config.getLookupGroups());
-        envs.put("EXT_JAVA_OPTIONS", "-Xmx200m -Xms200");
+        envs.put("EXT_JAVA_OPTIONS", "-Dcom.gigaspaces.logger.RollingFileHandler.filename-pattern.homedir=/output/");
 
         System.out.println("Will start with Groups = "+Config.getLookupGroups());
         starter = new Runner(Config.getGSHome(), 10000, envs);
