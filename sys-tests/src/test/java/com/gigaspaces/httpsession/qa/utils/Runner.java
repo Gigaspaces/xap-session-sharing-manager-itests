@@ -80,8 +80,8 @@ public class Runner extends Thread {
 
 				while (true) {
 					if ((line = stdInput.readLine()) != null && !isInterrupted) {
-						LOGGER.debug(line);
-						System.out.println(line);
+						LOGGER.debug("OUT "+line);
+						System.out.println("OUT "+line);
 
 						if ((succeeded = sunchronize(line))) {
 							refresh();
@@ -90,8 +90,8 @@ public class Runner extends Thread {
 					}
 
 					if ((line = stdErr.readLine()) != null && !isInterrupted) {
-						LOGGER.debug(line);
-						System.out.println(line);
+						LOGGER.debug("ERR "+line);
+						System.out.println("ERR "+line);
 					}
 				}
 			} finally {
