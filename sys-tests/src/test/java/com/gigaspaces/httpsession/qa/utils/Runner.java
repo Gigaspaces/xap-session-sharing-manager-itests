@@ -28,8 +28,9 @@ public class Runner extends Thread {
     private boolean isInterrupted = false;
     private boolean waitForTermination = true;
     private int pid;
+	private BufferedReader stdErr;
 
-    public static int getPid(Process process) {
+	public static int getPid(Process process) {
         try {
             Class<?> ProcessImpl = process.getClass();
             Field field = ProcessImpl.getDeclaredField("pid");
@@ -72,21 +73,30 @@ public class Runner extends Thread {
             pid = getPid(process);
 			stdInput = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
+			stdErr = new BufferedReader(new InputStreamReader(
+					process.getErrorStream()));
 			try {
 				String line;
 
-				while ((line = stdInput.readLine()) != null && !isInterrupted ) {
+				while (true) {
+					if ((line = stdInput.readLine()) != null && !isInterrupted) {
+						LOGGER.debug(line);
+						System.out.println(line);
 
-					LOGGER.debug(line);
-					System.out.println(line);
+						if ((succeeded = sunchronize(line))) {
+							refresh();
+							break;
+						}
+					}
 
-					if ((succeeded = sunchronize(line))) {
-                        refresh();
-                        break;
+					if ((line = stdErr.readLine()) != null && !isInterrupted) {
+						LOGGER.debug(line);
+						System.out.println(line);
 					}
 				}
 			} finally {
 				stdInput.close();
+				stdErr.close();
 			}
 
 			refresh();
