@@ -176,7 +176,7 @@ public class Runner extends Thread {
 				BufferedReader br = new BufferedReader(isr);
 				String line = null;
                 System.out.println("Printing stderr");
-                while (!this.isInterrupted() && (line = br.readLine()) != null) {
+                while ((line = br.readLine()) != null) {
                     System.out.println(type + "> " + line);
                     LOGGER.debug("ERR " + line);
                 }
