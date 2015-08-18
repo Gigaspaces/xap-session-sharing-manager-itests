@@ -78,8 +78,7 @@ public class Runner extends Thread {
 			try {
 				String line;
 
-				while (true) {
-					if ((line = stdInput.readLine()) != null && !isInterrupted) {
+					while ((line = stdInput.readLine()) != null && !isInterrupted) {
 						LOGGER.debug("OUT "+line);
 						System.out.println("OUT "+line);
 
@@ -89,10 +88,9 @@ public class Runner extends Thread {
 						}
 					}
 
-					if ((line = stdErr.readLine()) != null && !isInterrupted) {
-						LOGGER.debug("ERR "+line);
-						System.out.println("ERR "+line);
-					}
+				while ((line = stdErr.readLine()) != null && !isInterrupted) {
+					LOGGER.debug("ERR "+line);
+					System.out.println("ERR "+line);
 				}
 			} finally {
 				stdInput.close();
