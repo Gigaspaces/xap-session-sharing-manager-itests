@@ -76,8 +76,7 @@ public class Runner extends Thread {
 				errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
 				//errorGobbler.start();
                 System.out.println("Printing stdout");
-                while (true) {
-					if ((line = stdInput.readLine()) != null && !isInterrupted) {
+                while ((line = stdInput.readLine()) != null && !isInterrupted) {
 						LOGGER.debug("OUT "+line);
 						System.out.println("OUT2 "+line);
 
@@ -86,7 +85,6 @@ public class Runner extends Thread {
 							errorGobbler.interrupt();
 							break;
 						}
-					}
 				}
                 System.out.println("Finished printing stdout");
             } finally {
