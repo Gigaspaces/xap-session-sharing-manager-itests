@@ -44,7 +44,7 @@ public class Runner extends Thread {
         if(envs != null)
             env.putAll(envs);
 		this.builder.directory(new File(wc));
-		builder.redirectErrorStream(true);
+		//builder.redirectErrorStream(true);
 	}
 
 	public Runner(String wc, int timeout, Map<String, String> envs) {
