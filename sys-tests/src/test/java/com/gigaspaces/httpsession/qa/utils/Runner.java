@@ -180,7 +180,7 @@ public class Runner extends Thread {
                     System.out.println(type + "> " + line);
                     LOGGER.debug("ERR " + line);
                 }
-                System.out.println("Finished printing strerr");
+                System.out.println("Finished printing strerr"+this.isInterrupted());
                 isr.close();
 			}
 			catch (IOException ioe) {
