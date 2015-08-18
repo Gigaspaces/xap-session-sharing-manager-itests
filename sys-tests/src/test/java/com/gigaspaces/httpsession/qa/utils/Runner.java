@@ -25,8 +25,9 @@ public class Runner extends Thread {
     private boolean isInterrupted = false;
     private boolean waitForTermination = true;
     private int pid;
+    private StreamGobbler errorGobbler;
 
-	public static int getPid(Process process) {
+    public static int getPid(Process process) {
         try {
             Class<?> ProcessImpl = process.getClass();
             Field field = ProcessImpl.getDeclaredField("pid");
@@ -72,7 +73,7 @@ public class Runner extends Thread {
 			try {
 				String line;
 
-				StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
+				errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
 				errorGobbler.start();
                 System.out.println("Printing stdout");
                 while (true) {
@@ -89,6 +90,7 @@ public class Runner extends Thread {
 				}
                 System.out.println("Finished printing stdout");
             } finally {
+                errorGobbler.interrupt();
 				stdInput.close();
             }
 
@@ -143,6 +145,7 @@ public class Runner extends Thread {
     @Override
     public void interrupt() {
         LOGGER.info("Runner interrupted!");
+        errorGobbler.interrupt();
         isInterrupted = true;
         process.destroy();
         super.interrupt();
@@ -176,11 +179,11 @@ public class Runner extends Thread {
 				BufferedReader br = new BufferedReader(isr);
 				String line = null;
                 System.out.println("Printing stderr");
-                while ((line = br.readLine()) != null) {
+                while (!this.isInterrupted() && (line = br.readLine()) != null) {
                     System.out.println(type + "> " + line);
                     LOGGER.debug("ERR " + line);
                 }
-                System.out.println("Finished printing strerr"+this.isInterrupted());
+                System.out.println("Finished printing strerr");
                 isr.close();
 			}
 			catch (IOException ioe) {
