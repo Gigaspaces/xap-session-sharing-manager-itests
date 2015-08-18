@@ -3,10 +3,7 @@ package com.gigaspaces.httpsession.qa.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,6 @@ public class Runner extends Thread {
     private boolean isInterrupted = false;
     private boolean waitForTermination = true;
     private int pid;
-	private BufferedReader stdErr;
 
 	public static int getPid(Process process) {
         try {
@@ -73,11 +69,11 @@ public class Runner extends Thread {
             pid = getPid(process);
 			stdInput = new BufferedReader(new InputStreamReader(
 					process.getInputStream()));
-			stdErr = new BufferedReader(new InputStreamReader(
-					process.getErrorStream()));
 			try {
 				String line;
 
+				StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
+				errorGobbler.start();
 				while (true) {
 					if (stdInput.ready() && (line = stdInput.readLine()) != null && !isInterrupted) {
 						LOGGER.debug("OUT "+line);
@@ -85,19 +81,14 @@ public class Runner extends Thread {
 
 						if ((succeeded = sunchronize(line))) {
 							refresh();
+							errorGobbler.interrupt();
 							break;
 						}
-					}
-
-					if (stdErr.ready() && (line = stdErr.readLine()) != null && !isInterrupted) {
-						LOGGER.debug("ERR "+line);
-						System.out.println("ERR "+line);
 					}
 				}
 			} finally {
 				stdInput.close();
-				stdErr.close();
-			}
+            }
 
 			refresh();
             if (waitForTermination && process.waitFor() != 0) {
@@ -166,4 +157,28 @@ public class Runner extends Thread {
     public int getPid() {
         return pid;
     }
+
+	private class StreamGobbler extends Thread {
+		InputStream is;
+		String type;
+
+		private StreamGobbler(InputStream is, String type) {
+			this.is = is;
+			this.type = type;
+		}
+
+		@Override
+		public void run() {
+			try {
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				String line = null;
+				while (!this.isInterrupted() && (line = br.readLine()) != null)
+					System.out.println(type + "> " + line);
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		}
+	}
 }
