@@ -75,9 +75,9 @@ public class Runner extends Thread {
 				StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), "ERROR");
 				errorGobbler.start();
 				while (true) {
-					if (stdInput.ready() && (line = stdInput.readLine()) != null && !isInterrupted) {
+					if ((line = stdInput.readLine()) != null && !isInterrupted) {
 						LOGGER.debug("OUT "+line);
-						System.out.println("OUT "+line);
+						System.out.println("OUT2 "+line);
 
 						if ((succeeded = sunchronize(line))) {
 							refresh();
@@ -173,8 +173,13 @@ public class Runner extends Thread {
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				String line = null;
-				while (!this.isInterrupted() && (line = br.readLine()) != null)
-					System.out.println(type + "> " + line);
+                System.out.println("Printing stderr");
+                while (!this.isInterrupted() && (line = br.readLine()) != null) {
+                    System.out.println(type + "> " + line);
+                    LOGGER.debug("ERR " + line);
+                }
+                System.out.println("Finished printing strerr");
+                isr.close();
 			}
 			catch (IOException ioe) {
 				ioe.printStackTrace();
