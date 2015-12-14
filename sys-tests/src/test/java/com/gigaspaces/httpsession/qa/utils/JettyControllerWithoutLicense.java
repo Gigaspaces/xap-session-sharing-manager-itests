@@ -33,7 +33,7 @@ public class JettyControllerWithoutLicense extends JettyController {
         commands.add("-DSTOP.KEY=secret");
         commands.add("-Djetty.home=" + Config.getJettyHome());
 
-        starter.or(new StringPredicate("com.gigaspaces.license.LicenseException: Invalid License [] - This license does not permits GigaSpaces HTTP Session module. Please contact support for more details: http://www.gigaspaces.com/supportcenter") {
+        starter.or(new StringPredicate("com.gigaspaces.license.LicenseException: Invalid License [] - This license does not permit GigaSpaces HTTP_SESSION add-on. Please contact support for more details: http://www.gigaspaces.com/supportcenter") {
 
             @Override
             public boolean customTest(String input) {
