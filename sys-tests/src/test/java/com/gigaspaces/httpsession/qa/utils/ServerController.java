@@ -13,10 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public abstract class ServerController {
 
@@ -132,6 +129,7 @@ public abstract class ServerController {
             future.get(40, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
+            runPS();
             Assert.fail("Failed to run server starter. " + e.getMessage());
         } finally {
             future.cancel(true);
@@ -298,5 +296,26 @@ public abstract class ServerController {
 
         if(springSecured)
             FileUtils.copyFile(new File(Config.getAbrolutePath(SPRING_SECURITY_CONFIG)), new File(path));
+    }
+
+    private void runPS() {
+        System.out.println("Running ps aux");
+        Runner starter = new Runner("/",10000, null);
+        starter.setWaitForTermination(true);
+
+        List<String> commands = starter.getCommands();
+        commands.add("/bin/sh");
+        commands.add("-c");
+        commands.add("ps aux");
+
+        Future<?> future = service.submit(starter);
+        try {
+            future.get(4, TimeUnit.SECONDS);
+            System.out.println("Finished running ps aux");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Running ps aux failed!");
+        }
+
     }
 }
