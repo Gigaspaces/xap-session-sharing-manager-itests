@@ -229,4 +229,16 @@ public class JBoss8Controller extends ServerController {
         isDeployed = false;
         isUndeployed = false;
     }
+
+    @Override
+    public void dumpLogsToDir(File dir) {
+        File destination = new File(dir, "jboss8_" + port+".zip");
+        LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+        File[] files = new File[0];
+        try {
+            ZipUtils.zipDirectory(destination , new File(Config.getJboss8Home()+"/logs"), files, files, files,"");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

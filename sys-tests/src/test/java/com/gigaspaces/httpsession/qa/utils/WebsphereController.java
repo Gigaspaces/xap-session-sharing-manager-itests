@@ -101,7 +101,7 @@ public class WebsphereController extends ServerController {
 
 	@Override
 	public void deploy(String appName) throws IOException {
-        File target = new File(FilenameUtils.concat(WEBSPHERE_WEB_APPS, appName+".war"));
+        File target = new File(FilenameUtils.concat(WEBSPHERE_WEB_APPS, appName + ".war"));
         FileUtils.copyDirectory(new File(Config.getAbrolutePath(WEB_APP_SOURCE)), target);
 
 	}
@@ -227,4 +227,16 @@ public class WebsphereController extends ServerController {
         FileUtils.forceDelete(serverDir);
 
 	}
+
+    @Override
+    public void dumpLogsToDir(File dir) {
+        File destination = new File(dir, "websphere_" + port+".zip");
+        LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+        File[] files = new File[0];
+        try {
+            ZipUtils.zipDirectory(destination , new File(Config.getWebsphereHome()+"/usr/servers/site"+instanceId+"/logs"), files, files, files,"");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

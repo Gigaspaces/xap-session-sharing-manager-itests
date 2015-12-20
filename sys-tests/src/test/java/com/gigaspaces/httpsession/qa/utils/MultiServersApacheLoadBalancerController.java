@@ -133,4 +133,22 @@ public class MultiServersApacheLoadBalancerController extends ServerController {
         FileUtils.writeLines(new File(path), lines);
     }
 
+
+    @Override
+    public void dumpLogsToDir(File dir) {
+        File destination = new File(dir, "apacheloadbalancer.zip");
+        LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+        File[] files = new File[0];
+        try {
+            ZipUtils.zipDirectory(destination , new File(APACHE_HOME + "/logs"), files, files, files,"");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        for (ServerController serverController : serverControllers.values()) {
+            serverController.dumpLogsToDir(dir);
+        }
+    }
+
 }
