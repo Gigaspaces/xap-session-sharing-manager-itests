@@ -23,6 +23,7 @@ import org.openspaces.admin.Admin;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.pu.ProcessingUnitInstance;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -67,7 +68,8 @@ public abstract class TestBase {
     }
 
     protected void stopWebServer() throws IOException {
-        serverController.stopAll(true, false);
+        if (serverController != null)
+            serverController.stopAll(true, false);
     }
 
     @BeforeClass
@@ -113,6 +115,15 @@ public abstract class TestBase {
     public void teardownWebserver() throws IOException, InterruptedException {
         System.out.println("Tearing down...");
         System.out.println("Stopping web server");
+
+        if (getOutputDir() != null && serverController != null) {
+            try {
+                serverController.dumpLogsToDir(getOutputDir());
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+
         stopWebServer();
     }
 
@@ -126,7 +137,27 @@ public abstract class TestBase {
             e.printStackTrace();
         }
         System.out.println("Stopping spacecontroller");
+
+        if (getOutputDir() != null) {
+            System.out.println("Dumping XAP logs...");
+            try {
+                remoteSpaceController.dumpLogsToDir(getOutputDir());
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
+
+        System.out.println("Stopping XAP");
+
         remoteSpaceController.stop();
+    }
+
+    private File getOutputDir() {
+        String newmanTestDir = System.getProperty("newman.test.path");
+        if (newmanTestDir == null){
+            return null;
+        }
+        return new File(newmanTestDir);
     }
 
 

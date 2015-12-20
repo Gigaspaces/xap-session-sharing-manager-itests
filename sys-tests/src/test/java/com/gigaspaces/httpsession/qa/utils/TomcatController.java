@@ -227,6 +227,18 @@ public class TomcatController extends ServerController {
     }
 
     @Override
+    public void dumpLogsToDir(File dir) {
+        File destination = new File(dir, "tomcat" + currentInstance+".zip");
+        LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+        File[] files = new File[0];
+        try {
+            ZipUtils.zipDirectory(destination , new File(getTomcatHome()+"/logs"), files, files, files,"");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void undeploy(String appName) throws IOException {
         File serverDir = new File(FilenameUtils.concat(TOMCAT_WEB_APPS, appName));
         Assert.assertTrue("Failed to find server's directory [" + appName + "]", serverDir.exists());

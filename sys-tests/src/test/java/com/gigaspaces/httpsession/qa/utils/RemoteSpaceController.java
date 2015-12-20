@@ -1,9 +1,12 @@
 package com.gigaspaces.httpsession.qa.utils;
 
+import com.gigaspaces.internal.dump.log.LogDumpProcessor;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.Assert;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.AdminFactory;
+import org.openspaces.admin.dump.DumpResult;
 import org.openspaces.admin.gsa.GridServiceAgent;
 import org.openspaces.admin.gsm.GridServiceManager;
 import org.openspaces.admin.pu.ProcessingUnit;
@@ -14,6 +17,9 @@ import org.openspaces.core.space.UrlSpaceConfigurer;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,24 +124,64 @@ public class RemoteSpaceController extends ServerController {
 //		space.close();
 
         //((ISpaceProxy) space.getSpace()).close();
-        if (!useExistingAgent) {
-            admin.getGridServiceAgents().waitForAtLeastOne();
+        if (!useExistingAgent && admin != null) {
+            GridServiceAgent oneGSA = admin.getGridServiceAgents().waitForAtLeastOne(10, TimeUnit.SECONDS);
 
-            for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
-                gsa.shutdown();
+            if (oneGSA != null) {
+                LOGGER.info("Shutting down GSAs:");
+                for (GridServiceAgent gsa : admin.getGridServiceAgents()) {
+                    LOGGER.info("Shutting down GSA: " + gsa.getUid());
+                    gsa.shutdown();
+                }
+            } else {
+                LOGGER.error("Failed to find at least one GSA on stop");
             }
-
         }
-		admin.close();
-
-		admin = null;
+        if (admin != null) {
+            admin.close();
+            admin = null;
+        }
 
         //space = null;
 
 //		super.stop();
 	}
 
-	@Override
+    @Override
+    public void dumpLogsToDir(File dir) {
+        //System.getProperty("newman.test.path")
+        if (admin == null){
+            LOGGER.error("Cannot dump logs, admin is null!");
+            return;
+        }
+        DumpResult result = admin.generateDump(null, null, LogDumpProcessor.NAME);
+        Date date = new Date();
+        DateFormat date1 = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat hour = new SimpleDateFormat("HH-mm-ss.SSS");
+
+        File zipFile = new File(dir.getAbsolutePath() + "/" + date1.format(date) + "_" + hour.format(date) + "_" + "_dump.zip");
+
+        result.download(zipFile, null);
+        if (!zipFile.exists()) {
+            LOGGER.error(zipFile.getPath() + " cannot be found. Probably dump download failed.");
+        }
+
+        File testFolder = zipFile.getParentFile();
+        ZipUtils.unzipArchive(zipFile, testFolder);
+        try {
+            copyAllFilesToLogDir(testFolder, testFolder);
+        } catch (IOException e) {
+            LOGGER.error("Failed to copy all log files - caught " + e, e);
+        }
+
+        try {
+        zipFile.delete();
+        } catch (Throwable e) {
+            LOGGER.error("Failed to delete zip file ["+zipFile.getAbsolutePath()+"]", e);
+        }
+    }
+
+    @Override
 	public void deploy(String appName) throws IOException {
 		deploy(appName, false);
 	}
@@ -178,7 +224,9 @@ public class RemoteSpaceController extends ServerController {
 	@Override
 	public void undeploy(String appName) throws IOException {
         if (!useExistingSpace) {
-            pu.undeployAndWait();
+            if (pu != null) {
+                pu.undeployAndWait();
+            }
         }
         //pu.waitFor(instances * (backs + 1), 30, TimeUnit.SECONDS);
     }
@@ -197,4 +245,28 @@ public class RemoteSpaceController extends ServerController {
 		return admin;
 	}
 
+    private void copyAllFilesToLogDir(File node, File parent) throws IOException {
+        if (!node.getAbsoluteFile().equals(parent.getAbsoluteFile())
+                && node.isFile()
+                && !node.getParentFile().equals(parent)) {
+            String fileNamePrefix = node.getName().substring(0, node.getName().lastIndexOf('.'));
+            String fileNameSuffix = node.getName().substring(node.getName().lastIndexOf('.'));
+            String newFilePath = node.getParentFile().getAbsolutePath() + File.separator + fileNamePrefix.replace(".", "_") + fileNameSuffix;
+
+            File newNode = new File(newFilePath);
+            if (node.renameTo(newNode)) {
+                FileUtils.copyFileToDirectory(newNode, parent);
+            }
+        }
+        if (node.isDirectory()) {
+            String[] subNote = node.list();
+            for (String filename : subNote) {
+                copyAllFilesToLogDir(new File(node, filename), parent);
+            }
+            if (!node.equals(parent)) {
+                FileUtils.deleteDirectory(node);
+            }
+        }
+
+    }
 }
