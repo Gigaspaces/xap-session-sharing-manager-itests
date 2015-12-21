@@ -123,7 +123,7 @@ public abstract class ServerController {
         }
         Future<?> future = service.submit(starter);
         try {
-            future.get(40, TimeUnit.SECONDS);
+            future.get(120, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             runPS();
