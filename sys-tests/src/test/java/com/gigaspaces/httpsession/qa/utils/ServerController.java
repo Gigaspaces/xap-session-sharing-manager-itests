@@ -126,9 +126,9 @@ public abstract class ServerController {
             future.get(40, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
-            //runPS();
-            //runMemory();
-            //runTop();
+            runPS();
+            runMemory();
+            runTop();
             Assert.fail("Failed to run server starter. " + e.getMessage());
         } finally {
             future.cancel(true);
