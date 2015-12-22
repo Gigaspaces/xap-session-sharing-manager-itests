@@ -160,4 +160,16 @@ public class JettyController extends ServerController {
         FileUtils.forceDelete(serverDir);
         System.out.println("File ["+serverDir.getAbsolutePath()+"] exists? "+serverDir.exists());
     }
+
+    @Override
+    public void dumpLogsToDir(File dir) {
+        File destination = new File(dir, "jetty_" + port+".zip");
+        LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+        File[] files = new File[0];
+        try {
+            ZipUtils.zipDirectory(destination , new File(Config.getJettyHome()+"/logs"), files, files, files,"");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

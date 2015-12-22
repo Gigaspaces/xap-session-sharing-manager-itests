@@ -82,4 +82,11 @@ public class MultipleWebServerController extends ServerController {
     }
 
 
+    @Override
+    public void dumpLogsToDir(File dir) {
+        for (ServerController serverController : serverControllers.values()) {
+            serverController.dumpLogsToDir(dir);
+        }
+    }
+
 }

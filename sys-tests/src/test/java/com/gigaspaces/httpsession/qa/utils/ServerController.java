@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 public abstract class ServerController {
@@ -126,10 +123,12 @@ public abstract class ServerController {
         }
         Future<?> future = service.submit(starter);
         try {
-            future.get(40, TimeUnit.SECONDS);
+            future.get(120, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
             runPS();
+            runMemory();
+            runTop();
             Assert.fail("Failed to run server starter. " + e.getMessage());
         } finally {
             future.cancel(true);
@@ -200,11 +199,6 @@ public abstract class ServerController {
 		}
 
 		return FilenameUtils.normalize(path);
-	}
-
-	protected void log(Throwable e, String msg) throws AssertionError {
-		LOGGER.error(msg, e);
-		throw new AssertionError();
 	}
 
     public void startAll(String file, Map<String, String> properties){
@@ -317,5 +311,53 @@ public abstract class ServerController {
             System.out.println("Running ps aux failed!");
         }
 
+    }
+
+    private void runMemory() {
+        System.out.println("Running free -m");
+        Runner starter = new Runner("/",10000, null);
+        starter.setWaitForTermination(true);
+
+        List<String> commands = starter.getCommands();
+        commands.add("/bin/sh");
+        commands.add("-c");
+        commands.add("free -m");
+
+        Future<?> future = service.submit(starter);
+        try {
+            future.get(4, TimeUnit.SECONDS);
+            System.out.println("Finished running free -m");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Running free -m failed!");
+        }
+    }
+
+    private void runTop() {
+        System.out.println("Running top -n 1");
+
+        HashMap<String, String> env = new HashMap<String, String>();
+        env.put("TERM", "xterm");
+        Runner starter = new Runner("/",10000, env);
+        starter.setWaitForTermination(true);
+
+        List<String> commands = starter.getCommands();
+        commands.add("/bin/sh");
+        commands.add("-c");
+        commands.add("top -c -n 1 -b");
+
+        Future<?> future = service.submit(starter);
+        try {
+            future.get(4, TimeUnit.SECONDS);
+            System.out.println("Finished running top -n 1");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Running top -n 1 failed!");
+        }
+    }
+
+
+    public void dumpLogsToDir(File dir) {
+        throw new RuntimeException("WHY YOU NO OVERRIDE ME, HUMAN?" + this.getClass());
     }
 }

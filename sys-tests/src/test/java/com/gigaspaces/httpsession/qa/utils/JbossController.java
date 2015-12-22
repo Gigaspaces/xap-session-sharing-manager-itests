@@ -139,8 +139,8 @@ public class JbossController extends ServerController {
 
 		
 		FileUtils.copyDirectory(
-                new File(Config.getAbrolutePath(WEB_APP_SOURCE)),
-                new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war")));
+				new File(Config.getAbrolutePath(WEB_APP_SOURCE)),
+				new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS, appName + ".war")));
 
 		FileUtils.touch(new File(FilenameUtils.concat(JBOSS_DEPLOYMENTS,
 				appName + ".war.dodeploy")));
@@ -216,5 +216,17 @@ public class JbossController extends ServerController {
 	public void reset() {
 		isDeployed = false;
 		isUndeployed = false;
+	}
+
+	@Override
+	public void dumpLogsToDir(File dir) {
+		File destination = new File(dir, "jboss_" + port+".zip");
+		LOGGER.info("Dumping logs to " + destination.getAbsolutePath());
+		File[] files = new File[0];
+		try {
+			ZipUtils.zipDirectory(destination , new File(Config.getJbossHome()+"/logs"), files, files, files,"");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
