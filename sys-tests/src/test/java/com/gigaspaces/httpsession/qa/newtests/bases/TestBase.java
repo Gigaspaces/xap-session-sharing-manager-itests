@@ -22,6 +22,8 @@ import org.junit.BeforeClass;
 import org.openspaces.admin.Admin;
 import org.openspaces.admin.pu.ProcessingUnit;
 import org.openspaces.admin.pu.ProcessingUnitInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,8 @@ import java.util.concurrent.TimeUnit;
  * @since 10.1
  */
 public abstract class TestBase {
+    protected static final Logger LOGGER = LoggerFactory
+            .getLogger(TestBase.class);
     private static final String SESSION_SPACE = "sessionSpace";
     protected StoreModeBase storeModeBase;
     protected String webAppAddress;
@@ -89,14 +93,14 @@ public abstract class TestBase {
 
     @Before
     public void before() {
-        System.out.println("Starting...");
+        LOGGER.info("Starting...");
         remoteSpaceController.start(isSecuredSpace);
         try {
-            System.out.println("Deploying space");
+            LOGGER.info("Deploying space");
             remoteSpaceController.deploy("", isSecuredSpace);
         } catch (IOException e) {
             e.printStackTrace();
-            Assert.fail("TBD");
+            Assert.fail("Failed to deploy space");
         }
         expected = new HashMap<String, Map<String, DataUnit>>();
         createSessions();
@@ -113,41 +117,43 @@ public abstract class TestBase {
 
     @After
     public void teardownWebserver() throws IOException, InterruptedException {
-        System.out.println("Tearing down...");
-        System.out.println("Stopping web server");
+        LOGGER.info("Tearing down...");
 
         if (getOutputDir() != null && serverController != null) {
             try {
                 serverController.dumpLogsToDir(getOutputDir());
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
+                LOGGER.error("Failed to dump logs", throwable);
             }
         }
 
+        LOGGER.info("Stopping web server");
         stopWebServer();
     }
 
     @After
     public void teardownSpace() {
-        System.out.println("Undeploying space");
+        LOGGER.info("Undeploying space");
         try {
             remoteSpaceController.undeploy();
         } catch (Exception e) {
-            System.out.println("Failed to undeploy!");
-            e.printStackTrace();
+            LOGGER.error("Failed to undeploy!", e);
         }
-        System.out.println("Stopping spacecontroller");
+
+        LOGGER.info("Stopping spacecontroller");
 
         if (getOutputDir() != null) {
-            System.out.println("Dumping XAP logs...");
+            LOGGER.info("Dumping XAP logs...");
             try {
                 remoteSpaceController.dumpLogsToDir(getOutputDir());
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
+                LOGGER.error("Failed to dump XAP logs", throwable);
             }
         }
 
-        System.out.println("Stopping XAP");
+        LOGGER.info("Stopping XAP");
 
         remoteSpaceController.stop();
     }
