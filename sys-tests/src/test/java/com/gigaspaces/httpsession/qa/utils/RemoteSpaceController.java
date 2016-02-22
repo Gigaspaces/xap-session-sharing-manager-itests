@@ -65,7 +65,7 @@ public class RemoteSpaceController extends ServerController {
 	public Runner createStarter() {
         Map<String, String> envs = new HashMap<String, String>();
         envs.put("JAVA_HOME", Config.getJava7Home());
-        envs.put("LOOKUPGROUPS", Config.getLookupGroups());
+        envs.put("XAP_LOOKUP_GROUPS", Config.getLookupGroups());
         envs.put("EXT_JAVA_OPTIONS", "-Xmx200m -Xms200m");
 
         System.out.println("Will start with Groups = "+Config.getLookupGroups());

@@ -24,7 +24,7 @@ public class Config {
     private static final String APACHE_HOME = "APACHE_HOME";
     private static final String WEBSPHERE_HOME = "WEBSPHERE_HOME";
     private static final String JAVA7_HOME = "JAVA7_HOME";
-    private static final String LOOKUPGROUPS = "LOOKUPGROUPS";
+    private static final String XAP_LOOKUP_GROUPS = "XAP_LOOKUP_GROUPS";
 
     protected static final Logger LOGGER = LoggerFactory
             .getLogger(Config.class);
@@ -34,10 +34,10 @@ public class Config {
 
 	static {
 		readConfig();
-        String prefix = System.getProperty("group", System.getenv("LOOKUPGROUPS"));
+        String prefix = System.getProperty("group", System.getenv("XAP_LOOKUP_GROUPS"));
         boolean useExistingAgent = Boolean.valueOf(System.getProperty("useExistingAgent", "false"));
         String groups = (useExistingAgent ? prefix : prefix + UUID.randomUUID().toString());
-        properties.put(LOOKUPGROUPS, groups);
+        properties.put(XAP_LOOKUP_GROUPS, groups);
 
         //Set global env variables
         envsWithJavaHome.put("JAVA_HOME", getJava7Home());
@@ -128,7 +128,7 @@ public class Config {
     }
 
     public static String getLookupGroups() {
-        return getProperty(LOOKUPGROUPS);
+        return getProperty(XAP_LOOKUP_GROUPS);
     }
 
     public static Map<String, String> getEnvsWithJavaHome() {

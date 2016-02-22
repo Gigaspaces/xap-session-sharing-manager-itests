@@ -50,7 +50,7 @@ public class NewRemoteSpaceController extends ServerController {
 	@Override
 	public Runner createStarter() {
         Map<String, String> envs = new HashMap<String, String>();
-        envs.put("LOOKUPGROUPS", Config.getLookupGroups());
+        envs.put("XAP_LOOKUP_GROUPS", Config.getLookupGroups());
 
  		starter = new Runner(Config.getGSHome(), 10000, envs);
 
