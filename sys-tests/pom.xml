@@ -170,16 +170,8 @@
 
             <plugin>
                 <groupId>com.gigaspaces</groupId>
-                <artifactId>newman-test-generator-plugin</artifactId>
-                <version>1.0.1-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>xap-build-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
                 <configuration>
                     <type>httpsession</type>
                     <outputFile>${project.build.directory}/http-session-tests.json</outputFile>
