@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.gigaspaces.http-session.qa</groupId>
 		<artifactId>xap-session-sharing-manager-itests</artifactId>
-		<version>11.0.0-14800-RELEASE</version>
+		<version>11.0.0-14830-RELEASE</version>
 	</parent>
 
 	<artifactId>sys-tests</artifactId>
